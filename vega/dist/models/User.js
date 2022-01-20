@@ -12,6 +12,14 @@ const userSchema = new mongoose_1.Schema({
         lastOnline: String,
         private: Boolean,
         blockedIds: [String],
+        tokenVersion: {
+            type: Number,
+            default: 0,
+            validate: {
+                validator: Number.isInteger,
+                message: "{VALUE} is not an integer value",
+            },
+        },
         pro: Boolean,
     },
     profile: {

@@ -3,16 +3,23 @@ import NameGroup from "./micro/NameGroup";
 import TextButton from "./micro/TextButton";
 import ProfilePicture from "./micro/ProfilePicture";
 import Image from "next/image";
+import { useMyAccountMinProfileQuery } from "../hooks/backend/generated/graphql";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
-	const user = {
-		Username: "Maddyfrombur",
-		Tag: "maddyfrompittsburg",
-		Description: "Epic gamedev person and reactjs💖 developer. Worked with both Unity & Unreal Engine",
-		Badges: ["verified"],
-	};
-	const followers = "17.4k";
-	const following = "1.3k";
+	const { data, loading, error } = useMyAccountMinProfileQuery();
+	const path = useRouter().route;
+
+	if (loading && !data) {
+		return <div>loading...</div>;
+	}
+	if (error) {
+		return <div>An error has occured</div>;
+	}
+
+	const user = data.myAccount;
+	const link: string = process.env.NODE_ENV === "production" ? `https://www.deveelo.com${user.profile.pictureUrl}` : `http://localhost:3000${user.profile.pictureUrl}`;
+	console.log(link);
 
 	return (
 		<div className={sidebarStyles.sidebar}>
@@ -26,21 +33,21 @@ const Sidebar = () => {
 					{/*layout group with pfp & followers/ing*/}
 					<div className={sidebarStyles.p_chlayout15}>
 						<div className={sidebarStyles.p_stats}>
-							<p className={sidebarStyles.p_stats_num}>{following}</p>
+							<p className={sidebarStyles.p_stats_num}>{user.profile.followingIds.length}</p>
 							<p className={sidebarStyles.p_stats_label}>Following</p>
 						</div>
-						<ProfilePicture size="large" source="/user_content/p_pictures/maddy.jpg" />
+						<ProfilePicture size="large" source={link} />
 						<div className={sidebarStyles.p_stats}>
-							<p className={sidebarStyles.p_stats_num}>{followers}</p>
+							<p className={sidebarStyles.p_stats_num}>{user.profile.followerIds.length}</p>
 							<p className={sidebarStyles.p_stats_label}>Followers</p>
 						</div>
 					</div>
 					{/*name & badges*/}
-					<NameGroup username={user.Username} size={1} showBadges={true} badges={user.Badges} />
-					<p className={sidebarStyles.p_tag}>@{user.Tag}</p>
+					<NameGroup username={user.account.username} size={1} showBadges={true} badges={user.profile.badges} />
+					<p className={sidebarStyles.p_tag}>@{user.account.tag}</p>
 				</div>
 
-				<p className={sidebarStyles.p_description}>{user.Description}</p>
+				<p className={sidebarStyles.p_description}>{user.profile.description}</p>
 
 				<div className={sidebarStyles.buttonContainer}>
 					<TextButton colorKey="gold" text="Follow" />

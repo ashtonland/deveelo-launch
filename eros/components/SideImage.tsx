@@ -4,18 +4,18 @@ import sideStyles from "../styles/sideImage.module.css";
 
 const images = [
 	{
-		source: "/banners/cityStreet.jpg",
+		source: "/banners/smowin3.jpg",
 		link: (
-			<a className={sideStyles.credit} href="https://unsplash.com/@maxwbender?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">
-				Photo by Max Bender on Unsplash
+			<a className={sideStyles.credit} href="https://unsplash.com/@sixteenmilesout?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">
+				Photo by Sixteen Miles Out on Unsplash
 			</a>
 		),
 	},
 	{
-		source: "/banners/overlook.jpg",
+		source: "/banners/smowin2.jpg",
 		link: (
-			<a className={sideStyles.credit} href="https://unsplash.com/@jeetdhanoa?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">
-				Photo by Jeet Dhanoa on Unsplash
+			<a className={sideStyles.credit} href="https://unsplash.com/@sixteenmilesout?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">
+				Photo by Sixteen Miles Out on Unsplash
 			</a>
 		),
 	},

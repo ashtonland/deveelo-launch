@@ -1,0 +1,19 @@
+query myAccountMinProfile {
+	myAccount {
+		account {
+			username
+			tag
+			private
+		}
+		profile {
+			bannerUrl
+			pictureUrl
+			description
+			followingIds
+			followerIds
+			badges
+			linkedProfiles
+		}
+		status
+	}
+}

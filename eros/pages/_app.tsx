@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { OnNavBlacklist, OnSidebarBlacklist, OnActivityBlacklist, MatchName } from "../lib/routeBlacklists";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+import { useEffect, useState } from "react";
+import { setAccessToken } from "../accessToken";
 
 const twoColRoutes = ["/login", "/register"];
 
@@ -14,6 +16,26 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	const router = useRouter();
 	const currPage = router.pathname;
+
+	// Generate a new AccessToken on Reload
+	const [loading, setLoading] = useState(true);
+
+	//get the access token from the server (server will return it)
+	useEffect(() => {
+		fetch(process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/refresh_token" : "http://localhost:4000/refresh_token", {
+			method: "POST",
+			credentials: "include",
+			mode: "cors",
+		}).then(async (x) => {
+			const { accessToken } = await x.json();
+			setAccessToken(accessToken);
+			setLoading(false);
+		});
+	}, []);
+
+	if (loading) {
+		return <div>loading...</div>;
+	}
 
 	return (
 		<ApolloProvider client={apolloClient}>

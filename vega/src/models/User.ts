@@ -11,6 +11,14 @@ const userSchema = new Schema({
 		lastOnline: String,
 		private: Boolean,
 		blockedIds: [String],
+		tokenVersion: {
+			type: Number,
+			default: 0,
+			validate: {
+				validator: Number.isInteger,
+				message: "{VALUE} is not an integer value",
+			},
+		},
 		pro: Boolean,
 	},
 	profile: {
@@ -49,6 +57,7 @@ export interface UserType {
 		lastOnline: string;
 		private: boolean;
 		blockedIds: [string];
+		tokenVersion: number;
 		pro: boolean;
 	};
 	profile: {

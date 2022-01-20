@@ -1,9 +1,18 @@
 .largeContainer {
+    --form-text-col: #808C9D;
+    --form-label-col: #BBC8DB;
+    --form-border-col: #979FAA;
+
     position: relative;
-    width: 38.625em;
+    width: inherit;
     height: fit-content;
 
-    /* background-color: rgba(0, 255, 221, 0.294); */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+
+    /* background-color: rgba(195, 0, 255, 0.116); */
 }
 
 .largeContainerOffset {
@@ -12,6 +21,188 @@
     bottom: 1.96875em;
     width: 38.625em;
     height: fit-content;
+}
 
-    background-color: rgba(0, 255, 119, 0.294);
+.label {
+    height: 1.40625rem;
+    width: 100%;
+
+    font-family: "Heebo";
+    color: var(--form-text-col);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.3125rem;
+    line-height: 1.96875rem;
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Inside Auto Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 0px;
+
+    z-index: -1;
+    position: absolute;
+    transform: translateY(-2rem);
+    transform-origin: 0%;
+    transition: transform 400ms;
+}
+
+.field:focus-within .label,
+.input:not(:placeholder-shown) + .label {
+    line-height: 1.40625rem;
+    
+    transform: scale(0.714) translateY(-5rem);
+    color: var(--form-label-col);
+}
+
+.field {
+    position: relative;
+    margin: 1.40625rem auto 3.75rem;
+    width: 100%;
+
+    border-bottom: solid 0.75px var(--form-border-col);
+}
+
+.field::after {
+    content: "";
+    position: relative;
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);;
+    transform: scaleX(0);
+    transform-origin: 0%;
+    opacity: 0;
+    transition: all 200ms ease-out;
+    top: 1px;
+  }
+  .field:focus-within {
+    border-color: transparent;
+  }
+  .field:focus-within::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+.input {
+    z-index: 0;
+    outline: none;
+    border: none;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+
+    background: none;
+
+    height: 1.96875rem;
+    width: 100%;
+
+    font-family: "Heebo";
+    color: var(--form-text-col);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.3125rem;
+    line-height: 1.96875rem;
+
+    display: flex;
+    align-items: flex-end;
+}
+
+.togglePassword {
+    position: absolute;
+    cursor: help;
+    font-size: 0.8rem;
+    right: 0.25rem;
+    bottom: 0.1rem;
+
+}
+
+.toggledPassword {
+    position: absolute;
+    cursor: help;
+    font-size: 0.8rem;
+    right: 0.25rem;
+    bottom: 0.1rem;
+
+}
+
+.submitWrapper {
+    width: 100%;
+    height: 2.81rem;
+}
+
+.submit {
+    width: 100%;
+    height: 2.81rem;
+
+    font-family: "Heebo";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 2.81rem;
+    /* identical to box height */
+
+    letter-spacing: 0.03em;
+
+    color: #FFFFFF;
+
+    background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
+    box-shadow: 0px 4px 20px rgba(255, 177, 41, 0.43);
+    border-radius: 0.937rem;
+    outline: 0px solid #ffc43978;
+
+    cursor: pointer;
+}
+
+.submit:hover {
+    outline-color: #ffc43978;
+}
+
+.submit:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2.81rem;
+    background-color: rgba(255,255,255,0.4);
+    -webkit-transition: none;
+    -moz-transition: none;
+    transition: none;
+}
+.submit:hover:after {
+    width: 120%;
+    background-color: rgba(255,255,255,0);
+
+    -webkit-transition: all 500ms cubic-bezier(0.590, -0.010, 0.460, 0.995);
+    -moz-transition: all 500ms cubic-bezier(0.590, -0.010, 0.460, 0.995);
+    transition: all 500ms cubic-bezier(0.590, -0.010, 0.460, 0.995);
+}
+
+.error {
+    height: 1.734rem;
+    width: 100%;
+    top: 2.187rem;
+    left: 0px;
+
+    font-family: "Heebo";
+    color: var(--dnd);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.937rem;
+    line-height: 1.406rem;
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Inside Auto Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 0px 0px;
+
+    position: absolute;
 }

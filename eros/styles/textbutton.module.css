@@ -1,25 +1,3 @@
-.b_text {
-    width: 100%;
-    height: 1.69rem;
-    
-
-    color: white;
-    font-size: 1.13rem;
-    font-weight: 500;
-    font-style: normal;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 1.69rem;
-    letter-spacing: 0.045em;
-}
-
-.button {
-    width: 48.6%;
-    height: 100%;
-    margin: 0 0.3281em;
-    border-radius: 0.9375em;
-}
-
 .goldGrad {
     display: flex;
     justify-content: center;
@@ -27,11 +5,56 @@
     vertical-align: top;
 
     width: 100%;
-    height: inherit;
+    height: 100%;
+    border-radius: 0.9375em;
 
     background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
     box-shadow: 0 0.375em 1.875em rgba(255, 177, 41, 0.43);
+    transition: 0.3s ease;
+}
+
+.goldGrad::after, .goldGrad::before{
+    background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
+}
+
+.goldGrad::after, .goldGrad::before, .greenGrad::after, .greenGrad::before, .redGrad::after, .redGrad::before{
+    content: "";
+    position: absolute;
+    opacity: 0.3;
     border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: transform 0.3s ease;
+}
+
+/* Raise while being hovered */
+.goldGrad:hover, .greenGrad:hover, .redGrad:hover {
+    transform: translate(-.6rem, -.6rem);
+}
+
+.goldGrad:hover::after, .greenGrad:hover::after, .redGrad:hover::after {
+    transform: translate(.3rem, .3rem);
+}
+
+.goldGrad:hover::before, .greenGrad:hover::before, .redGrad:hover::before {
+    transform: translate(.6rem, .6rem);
+}
+
+/* Return no normal state on mouse down */
+.goldGrad:active, .greenGrad:active, .redGrad:active {
+    transform: translate(.3rem, .3rem);
+    background: linear-gradient(91.48deg, #FF6F89 0%, #FF3873 100%);
+}
+
+.goldGrad:active::after, .greenGrad:active::after, .redGrad:active::after {
+    transform: translate(0rem, 0rem);
+}
+
+.goldGrad:active::before, .greenGrad:active::before, .redGrad:active::before {
+    transform: translate(-.05rem, -.05rem);
 }
 
 .greenGrad {
@@ -41,11 +64,15 @@
     vertical-align: top;
 
     width: 100%;
-    height: inherit;
+    height: 100%;
+    border-radius: 0.9375em;
 
     background: linear-gradient(91.48deg, #2ED9A6 0%, #2CCD9D 100%);
     box-shadow: 0 0.375em 1.875em rgba(44, 205, 157, 0.43);
-    border-radius: inherit;
+}
+
+.greenGrad::after, .greenGrad::before{
+    background: linear-gradient(91.48deg, #2ED9A6 0%, #2CCD9D 100%);
 }
 
 .redGrad {
@@ -55,9 +82,13 @@
     vertical-align: top;
 
     width: 100%;
-    height: inherit;
+    height: 100%;
+    border-radius: 0.9375em;
 
-    background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
-    box-shadow: 0 0.375em 1.875em rgba(255, 177, 41, 0.43);
-    border-radius: inherit;
+    background: linear-gradient(91.48deg, #FF6F89 0%, #FF3873 100%);
+    box-shadow: 0px 4px 20px rgba(255, 56, 115, 0.43);
+}
+
+.redGrad::after, .redGrad::before{
+    background: linear-gradient(91.48deg, #FF6F89 0%, #FF3873 100%);
 }

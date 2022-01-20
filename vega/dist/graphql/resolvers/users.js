@@ -10,9 +10,7 @@ const validators_1 = __importDefault(require("../../util/validators"));
 const User_1 = __importDefault(require("../../models/User"));
 const auth_1 = require("../../util/auth");
 const successfulLoginHandler = (user, { res }) => {
-    res.cookie("lid", auth_1.createRefreshToken(user), {
-        httpOnly: true,
-    });
+    auth_1.sendRefreshToken(res, auth_1.createRefreshToken(user));
     return auth_1.createAccessToken(user);
 };
 const userResolvers = {
@@ -56,14 +54,14 @@ const userResolvers = {
                 if (isEmail) {
                     throw new apollo_server_errors_1.UserInputError("User not found", {
                         errors: {
-                            general: "no user is registered with this email",
+                            email: "no user is registered with this email",
                         },
                     });
                 }
                 else {
                     throw new apollo_server_errors_1.UserInputError("User not found", {
                         errors: {
-                            general: "no user is registered with this username",
+                            username: "no user is registered with this username",
                         },
                     });
                 }
@@ -72,15 +70,16 @@ const userResolvers = {
             if (!match) {
                 throw new apollo_server_errors_1.UserInputError("Wrong credentials", {
                     errors: {
-                        general: "incorrect password",
+                        password: "incorrect password",
                     },
                 });
             }
             return {
                 accessToken: successfulLoginHandler(user, context),
+                user,
             };
         },
-        async register(_, { registerInput: { password, email } }, context) {
+        async register(_, { email, password }, context) {
             email = String(email).trim();
             let { valid, errors } = validators_1.default(email, "email");
             if (!valid) {
@@ -144,7 +143,7 @@ const userResolvers = {
                 },
                 profile: {
                     bannerUrl: "default",
-                    pictureUrl: "default",
+                    pictureUrl: `/user_content/p_pictures/cup${Math.floor(Math.random() * 18)}.jpg`,
                     description: "I'm new to Deveelo!",
                     followingIds: [],
                     followerIds: [],
@@ -173,6 +172,7 @@ const userResolvers = {
             }
             return {
                 accessToken: successfulLoginHandler(newUser, context),
+                newUser,
             };
         },
     },

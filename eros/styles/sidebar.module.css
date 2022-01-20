@@ -45,9 +45,9 @@
 
     position: relative;
     top: -3.8437em;
-    height: 21.0937em;
+    /* height: 21.09375em; */
+    height: fit-content;
     width: inherit;
-    /*background-color: rgba(126, 252, 0, 0.479);*/
 }
 
 /* Centered Vertical Layout Group w/ zero spacing*/
@@ -84,7 +84,7 @@
     align-items: center;
 
     width: 3.2812em;
-    height: 3.0937em;
+    height: 2.9em;
 
     /*auto layout */
     flex: none;
@@ -162,4 +162,10 @@
     height: 2.8125em;
 
     display: flex;
+    column-gap: 0.65625rem;
+}
+
+.buttonContainer>button {
+    flex: 1;
+    flex-direction: row;
 }

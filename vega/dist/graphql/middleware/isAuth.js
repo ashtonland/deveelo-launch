@@ -13,7 +13,7 @@ const loggedInOnlyAuth = async (resolve, _parent, _args, context, _info) => {
         context.payload = payload;
     }
     catch (err) {
-        throw new Error("not authenticated");
+        throw new Error("not authenticated [fail]");
     }
     const result = await resolve(_parent, _args, context, _info);
     return result;

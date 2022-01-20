@@ -1,14 +1,42 @@
 import { useMemo } from "react";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, NormalizedCacheObject, from, HttpLink, ApolloLink } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import { getAccessToken } from "../accessToken";
 
-let apolloClient: any;
+/* Communication Links*/
+
+const requestLink = new ApolloLink((operation, forward) => {
+	const accessToken = getAccessToken();
+
+	if (accessToken) {
+		operation.setContext(({ headers }) => ({
+			headers: {
+				authorization: `bearer ${accessToken}`,
+				...headers,
+			},
+		}));
+	}
+	return forward(operation);
+});
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+	console.log(graphQLErrors);
+	console.log(networkError);
+});
+
+let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function createApolloClient() {
 	return new ApolloClient({
 		ssrMode: typeof window === "undefined", // automatically set to true for SSR (on per-oage basis)
-		link: new HttpLink({
-			uri: "http://localhost:4000/graphql",
-		}),
+		link: from([
+			errorLink,
+			requestLink,
+			new HttpLink({
+				uri: process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/graphql" : "http://localhost:4000/graphql",
+				credentials: "include",
+			}),
+		]),
 		cache: new InMemoryCache(),
 	});
 }

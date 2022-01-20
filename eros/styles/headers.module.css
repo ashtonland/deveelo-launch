@@ -1,5 +1,6 @@
 .headerLarge {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 4.5rem;
     height: 4.78rem;
     width: fit-content;
 
@@ -12,8 +13,6 @@
     align-items: flex-end;
 
     color: #121B2B;
-
-    background-color: rgba(0, 47, 255, 0.219);
 }
 
 .aboveHeader {
@@ -31,6 +30,4 @@
     align-items: flex-end;
 
     color: #121B2B;
-
-    background-color: rgba(0, 47, 255, 0.219);
 }

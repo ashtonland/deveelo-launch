@@ -6,27 +6,33 @@
 	"scripts": {
 		"watch": "tsc -w",
 		"start": "nodemon dist/index.js",
-		"start2": "nodemon --exec ./node_modules/.bin/babel-node dist/index.js"
+		"revoke": "node dist/hooks/revokeUserToken.js"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@types/jsonwebtoken": "^8.5.4",
-		"apollo-server": "^3.0.2",
-		"argon2": "^0.28.2",
+		"@types/cookie-parser": "^1.4.2",
+		"apollo-server": "^3.6.1",
+		"apollo-server-express": "^3.6.1",
+		"argon2": "^0.28.3",
+		"cookie-parser": "^1.4.5",
+		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
 		"graphql": "^15.5.1",
 		"graphql-middleware": "^6.0.10",
 		"graphql-tools": "^8.0.0",
 		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.13.3"
+		"mongoose": "^5.13.14"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.14.8",
 		"@babel/core": "^7.14.8",
 		"@babel/node": "^7.14.7",
 		"@babel/preset-env": "^7.14.8",
+		"@types/cors": "^2.8.12",
+		"@types/jsonwebtoken": "^8.5.4",
 		"nodemon": "^2.0.12"
 	}
 }

@@ -5,21 +5,13 @@ import { ObjectID } from "mongodb";
 import ValidateRegisterInput from "../../util/validators";
 import User, { UserType } from "../../models/User";
 import Context from "../../context";
-import { createAccessToken, createRefreshToken } from "../../util/auth";
+import { createAccessToken, createRefreshToken, sendRefreshToken } from "../../util/auth";
+import { Document } from "mongoose";
 
-interface registerParams {
-	registerInput: {
-		password: string;
-		email: string;
-	};
-}
+const successfulLoginHandler = (user: UserType | Document<any, any, any>, { res }: Context): string => {
+	sendRefreshToken(res, createRefreshToken(user as UserType));
 
-const successfulLoginHandler = (user: UserType, { res }: Context): string => {
-	res.cookie("lid", createRefreshToken(user), {
-		httpOnly: true, //  development  set domain & path
-	});
-
-	return createAccessToken(user);
+	return createAccessToken(user as UserType);
 };
 
 const userResolvers = {
@@ -71,13 +63,13 @@ const userResolvers = {
 				if (isEmail) {
 					throw new UserInputError("User not found", {
 						errors: {
-							general: "no user is registered with this email",
+							email: "no user is registered with this email",
 						},
 					});
 				} else {
 					throw new UserInputError("User not found", {
 						errors: {
-							general: "no user is registered with this username",
+							username: "no user is registered with this username",
 						},
 					});
 				}
@@ -87,17 +79,19 @@ const userResolvers = {
 			if (!match) {
 				throw new UserInputError("Wrong credentials", {
 					errors: {
-						general: "incorrect password",
+						password: "incorrect password",
 					},
 				});
 			}
 
 			// note  successful login
+
 			return {
 				accessToken: successfulLoginHandler(user, context),
+				user,
 			};
 		},
-		async register(_: any, { registerInput: { password, email } }: registerParams, context: Context) {
+		async register(_: any, { email, password }: { email: string; password: string }, context: Context) {
 			email = String(email).trim();
 
 			//#region Validate Input
@@ -187,7 +181,7 @@ const userResolvers = {
 				},
 				profile: {
 					bannerUrl: "default",
-					pictureUrl: "default",
+					pictureUrl: `/user_content/p_pictures/cup${Math.floor(Math.random() * 18)}.jpg`, //0-17
 					description: "I'm new to Deveelo!",
 					followingIds: [],
 					followerIds: [],
@@ -217,6 +211,7 @@ const userResolvers = {
 
 			return {
 				accessToken: successfulLoginHandler(newUser, context),
+				newUser,
 			};
 		},
 	},

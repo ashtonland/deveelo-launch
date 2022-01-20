@@ -1,40 +1,41 @@
 import buttonStyles from "../../styles/textbutton.module.css";
 
 interface buttonParams {
-	colorKey: string;
+	colorKey?: string;
 	text: string;
+	submit?: boolean;
 	action?: any;
 	disabled?: boolean;
 }
 
-const TextButton = ({ colorKey, text, action, disabled }: buttonParams) => {
+const TextButton = ({ colorKey, text, submit, action, disabled }: buttonParams) => {
 	let content: any = null;
 
 	switch (colorKey) {
 		case "gold":
 			content = (
-				<div className={buttonStyles.goldGrad}>
-					<p className={buttonStyles.b_text}>{text}</p>
-				</div>
+				<button className={buttonStyles.goldGrad} type={submit ? "submit" : undefined}>
+					{text}
+				</button>
 			);
 			break;
 		case "green":
 			content = (
-				<div className={buttonStyles.greenGrad}>
-					<p className={buttonStyles.b_text}>{text}</p>
-				</div>
+				<button className={buttonStyles.greenGrad} type={submit ? "submit" : undefined}>
+					{text}
+				</button>
 			);
 			break;
 		default:
 			content = (
-				<div className={buttonStyles.goldGrad}>
-					<p className={buttonStyles.b_text}>{text}</p>
-				</div>
+				<button className={buttonStyles.goldGrad} type={submit ? "submit" : undefined}>
+					{text}
+				</button>
 			);
 			break;
 	}
 
-	return <div className={buttonStyles.button}>{content}</div>;
+	return content;
 };
 
 export default TextButton;
