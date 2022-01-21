@@ -10,7 +10,7 @@
 
     background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
     box-shadow: 0 0.375em 1.875em rgba(255, 177, 41, 0.43);
-    transition: 0.3s ease;
+    transition: 0.2s ease;
 }
 
 .goldGrad::after, .goldGrad::before{
@@ -27,7 +27,7 @@
     left: 0;
     bottom: 0;
     z-index: -1;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
 /* Raise while being hovered */
@@ -69,6 +69,7 @@
 
     background: linear-gradient(91.48deg, #2ED9A6 0%, #2CCD9D 100%);
     box-shadow: 0 0.375em 1.875em rgba(44, 205, 157, 0.43);
+    transition: 0.2s ease;
 }
 
 .greenGrad::after, .greenGrad::before{
@@ -87,6 +88,7 @@
 
     background: linear-gradient(91.48deg, #FF6F89 0%, #FF3873 100%);
     box-shadow: 0px 4px 20px rgba(255, 56, 115, 0.43);
+    transition: 0.2s ease;
 }
 
 .redGrad::after, .redGrad::before{

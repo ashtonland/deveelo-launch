@@ -20,7 +20,7 @@ const Meta = ({ title, keywords, description }) => {
 			<title>{title}</title>
 			<meta property="og:image" content="https://deveelo.vercel.app/PurpleLargeLogo.jpg"></meta>
 			<meta property="og:title" content="Deveelo"></meta>
-			<meta property="og:url" content="deveelo.vercel.app"></meta>
+			<meta property="og:url" content="https://www.deveelo.com"></meta>
 			<meta property="og:description" content={description}></meta>
 		</Head>
 	);

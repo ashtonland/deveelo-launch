@@ -54,6 +54,7 @@ export type Query = {
   __typename?: 'Query';
   getPosts: Array<Maybe<Post>>;
   myAccount: User;
+  randomUser: User;
 };
 
 export type U_Account = {
@@ -125,6 +126,11 @@ export type MyAccountMinProfileQueryVariables = Exact<{ [key: string]: never; }>
 
 
 export type MyAccountMinProfileQuery = { __typename?: 'Query', myAccount: { __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } };
+
+export type RandomMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RandomMinProfileQuery = { __typename?: 'Query', randomUser: { __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } };
 
 export type RegisterMutationVariables = Exact<{
   registerEmail: Scalars['String'];
@@ -254,6 +260,54 @@ export function useMyAccountMinProfileLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type MyAccountMinProfileQueryHookResult = ReturnType<typeof useMyAccountMinProfileQuery>;
 export type MyAccountMinProfileLazyQueryHookResult = ReturnType<typeof useMyAccountMinProfileLazyQuery>;
 export type MyAccountMinProfileQueryResult = Apollo.QueryResult<MyAccountMinProfileQuery, MyAccountMinProfileQueryVariables>;
+export const RandomMinProfileDocument = gql`
+    query randomMinProfile {
+  randomUser {
+    account {
+      username
+      tag
+      private
+    }
+    profile {
+      bannerUrl
+      pictureUrl
+      description
+      followingIds
+      followerIds
+      badges
+      linkedProfiles
+    }
+    status
+  }
+}
+    `;
+
+/**
+ * __useRandomMinProfileQuery__
+ *
+ * To run a query within a React component, call `useRandomMinProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRandomMinProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRandomMinProfileQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRandomMinProfileQuery(baseOptions?: Apollo.QueryHookOptions<RandomMinProfileQuery, RandomMinProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RandomMinProfileQuery, RandomMinProfileQueryVariables>(RandomMinProfileDocument, options);
+      }
+export function useRandomMinProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RandomMinProfileQuery, RandomMinProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RandomMinProfileQuery, RandomMinProfileQueryVariables>(RandomMinProfileDocument, options);
+        }
+export type RandomMinProfileQueryHookResult = ReturnType<typeof useRandomMinProfileQuery>;
+export type RandomMinProfileLazyQueryHookResult = ReturnType<typeof useRandomMinProfileLazyQuery>;
+export type RandomMinProfileQueryResult = Apollo.QueryResult<RandomMinProfileQuery, RandomMinProfileQueryVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerEmail: String!, $registerPassword: String!) {
   register(email: $registerEmail, password: $registerPassword) {

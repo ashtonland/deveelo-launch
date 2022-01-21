@@ -1,0 +1,9 @@
+/dist
+/builds
+
+node_modules
+
+.exe
+out/
+
+.config.js

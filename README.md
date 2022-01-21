@@ -46,7 +46,7 @@
 A desktop app Deveelo app is available for Windows, Mac, and Linux. This application contains all the features of the website plus native keybinds and the **Deveelo Game Portal**, which allows you to install and play the games you have on your account. To get the desktop app:
 
 1. Download the installer for your platform from [here »](https://github.com/Treixatek/deveelo/releases/latest)
-2. Run the installer _(deveelo-installer.exe)_
+2. Run the installer _(deveelo-setup.exe)_
 
 ### 🤠 Usage
 | <img src="https://user-images.githubusercontent.com/65512990/149643306-226fc470-050b-4474-ad94-b1c423ce2c77.png" width="600"> | <img src="https://user-images.githubusercontent.com/65512990/149643285-156a9792-d3e5-423b-b08d-2a22e511a2ff.png" width="600"> | <img src="https://user-images.githubusercontent.com/65512990/149643295-a69ed9d0-9869-4ce1-945a-d8f35aa12561.png" width="600"> |
@@ -100,12 +100,12 @@ This project follows the [Semantic Versioning 2.0](https://semver.org/) standard
 - [x] Account creation
 - [x] Secure JWT authentication
 - [x] Loading user profile
-- [ ] Desktop app
+- [x] Desktop app
 - [ ] Profile pages
 - [ ] Navigation
 - [ ] Posting
 - [ ] Follow & friending
-<!-- - [ ] Populate sidebar -->
+<!-- - [ ] Populate Sidebar Discovery -->
 <!-- - [ ] Searchbar -->
 
 ### 📬 Contact

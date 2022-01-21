@@ -70,6 +70,7 @@ exports.typeDefs = graphql_tag_1.default `
 	type Query {
 		getPosts: [Post]!
 		myAccount: User!
+		randomUser: User!
 	}
 
 	# note  Mutations (read/write/updates)

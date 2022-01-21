@@ -13,6 +13,8 @@ import onConnectionError from "../hooks/popups/connectionError";
 import { getAccessToken } from "../accessToken";
 import { useState } from "react";
 const SideImage = dynamic(() => import("./SideImage"), { ssr: false });
+import isElectron from "../hooks/isElectron";
+import TitleMenu from "./minor/TitleMenu";
 
 interface layoutProps {
 	children?: any;
@@ -64,7 +66,6 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 			content = (
 				<>
 					{showNav && (showSidebar ? <Nav sidebarSpacing={true} /> : <Nav sidebarSpacing={false} />)}
-
 					{showSidebar && <DesktopSidebar />}
 
 					{showActivityBar && (showNav ? <FullActivityBar topSpacing={true} /> : <FullActivityBar topSpacing={false} />)}
@@ -72,6 +73,8 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 					{useWide && <SideImage route={route} />}
 					<div className={useWide ? styles.containerWide : styles.container}>
 						<main className={styles.main}>
+							<p>{isElectron() ? "yeah electron" : "no elecctron"}</p>
+							<a href="/login">login</a>
 							{/* <h2>Full</h2>
 							<p>Logged in user: {error && !loading ? error : text}</p> */}
 							{children}

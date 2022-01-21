@@ -3,23 +3,57 @@ import NameGroup from "./micro/NameGroup";
 import TextButton from "./micro/TextButton";
 import ProfilePicture from "./micro/ProfilePicture";
 import Image from "next/image";
-import { useMyAccountMinProfileQuery } from "../hooks/backend/generated/graphql";
-import { useRouter } from "next/router";
+
+import { useMyAccountMinProfileQuery, useRandomMinProfileQuery } from "../hooks/backend/generated/graphql";
+import { getAccessToken } from "../accessToken";
 
 const Sidebar = () => {
-	const { data, loading, error } = useMyAccountMinProfileQuery();
-	const path = useRouter().route;
+	const loggedIn: boolean = getAccessToken() !== "";
 
-	if (loading && !data) {
-		return <div>loading...</div>;
-	}
-	if (error) {
-		return <div>An error has occured</div>;
+	let user: any = null;
+
+	let buttons: any = null;
+	if (loggedIn) {
+		const { data, loading, error } = useMyAccountMinProfileQuery();
+		if (loading && !data) {
+			return <div>loading...</div>;
+		}
+		if (error) {
+			return <div>An error has occured</div>;
+		}
+
+		//after data fetch
+		user = data.myAccount;
+
+		// if(user.account.tag === mytag){
+
+		// }
+		buttons = (
+			<>
+				<TextButton colorKey="gold" text="Edit Profile" />
+			</>
+		);
+	} else {
+		const { data, loading, error } = useRandomMinProfileQuery();
+
+		if (loading && !data) {
+			return <div>loading...</div>;
+		}
+		if (error) {
+			return <div>An error has occured</div>;
+		}
+
+		//after data fetch
+		user = data.randomUser;
+		buttons = (
+			<>
+				<TextButton colorKey="gold" text="Follow" />
+				<TextButton colorKey="green" text="Friend" />
+			</>
+		);
 	}
 
-	const user = data.myAccount;
-	const link: string = process.env.NODE_ENV === "production" ? `https://www.deveelo.com${user.profile.pictureUrl}` : `http://localhost:3000${user.profile.pictureUrl}`;
-	console.log(link);
+	const link = process.env.NODE_ENV === "production" ? `https://www.deveelo.com${user.profile.pictureUrl}` : `http://localhost:3000${user.profile.pictureUrl}`;
 
 	return (
 		<div className={sidebarStyles.sidebar}>
@@ -49,10 +83,7 @@ const Sidebar = () => {
 
 				<p className={sidebarStyles.p_description}>{user.profile.description}</p>
 
-				<div className={sidebarStyles.buttonContainer}>
-					<TextButton colorKey="gold" text="Follow" />
-					<TextButton colorKey="green" text="Friend" />
-				</div>
+				<div className={sidebarStyles.buttonContainer}>{buttons}</div>
 			</div>
 		</div>
 	);

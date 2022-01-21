@@ -1,0 +1,58 @@
+{
+	"name": "deveelo-desktop",
+	"version": "1.0.0",
+	"description": "The desktop app for the Deveelo social platform",
+	"main": "main.js",
+	"repository": {
+		"url": "https://github.com/Treixatek/deveelo"
+	},
+	"scripts": {
+		"start": "electron .",
+		"test": "electron-forge start",
+		"package": "electron-forge package",
+		"make": "electron-forge make"
+	},
+	"author": "Deveelo LLC",
+	"license": "ISC",
+	"devDependencies": {
+		"@electron-forge/cli": "^6.0.0-beta.63",
+		"@electron-forge/maker-deb": "^6.0.0-beta.63",
+		"@electron-forge/maker-rpm": "^6.0.0-beta.63",
+		"@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+		"@electron-forge/maker-zip": "^6.0.0-beta.63",
+		"electron": "^16.0.7"
+	},
+	"dependencies": {
+		"electron-squirrel-startup": "^1.0.0",
+		"update-electron-app": "^2.0.1"
+	},
+	"config": {
+		"forge": {
+			"packagerConfig": {},
+			"makers": [
+				{
+					"name": "@electron-forge/maker-squirrel",
+					"config": {
+						"name": "Deveelo",
+						"exe": "DeveeloSetup",
+						"iconUrl": "https://www.deveelo.com/icon.ico"
+					}
+				},
+				{
+					"name": "@electron-forge/maker-zip",
+					"platforms": [
+						"darwin"
+					]
+				},
+				{
+					"name": "@electron-forge/maker-deb",
+					"config": {}
+				},
+				{
+					"name": "@electron-forge/maker-rpm",
+					"config": {}
+				}
+			]
+		}
+	}
+}

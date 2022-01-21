@@ -65,6 +65,7 @@ export const typeDefs = gql`
 	type Query {
 		getPosts: [Post]!
 		myAccount: User!
+		randomUser: User!
 	}
 
 	# note  Mutations (read/write/updates)

@@ -19,7 +19,7 @@ const initServer = async () => {
 	const app = express();
 	app.set("trust proxy", process.env.NODE_ENV !== "production");
 
-	const whitelist = process.env.NODE_ENV === "production" ? ["https://www.deveelo.com", "https://next.deveelo.com"] : ["http://localhost:3000"];
+	const whitelist = process.env.NODE_ENV === "production" ? ["https://www.deveelo.com", "https://next.deveelo.com", "https://deveelo.vercel.app"] : ["http://localhost:3000"];
 
 	app.use(
 		cors({

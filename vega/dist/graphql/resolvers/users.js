@@ -9,6 +9,7 @@ const mongodb_1 = require("mongodb");
 const validators_1 = __importDefault(require("../../util/validators"));
 const User_1 = __importDefault(require("../../models/User"));
 const auth_1 = require("../../util/auth");
+const sampleUsers_1 = require("../../hooks/sampleUsers");
 const successfulLoginHandler = (user, { res }) => {
     auth_1.sendRefreshToken(res, auth_1.createRefreshToken(user));
     return auth_1.createAccessToken(user);
@@ -19,6 +20,13 @@ const userResolvers = {
             const user = await User_1.default.findById(new mongodb_1.ObjectID(context.payload.id));
             if (!user) {
                 throw new Error("user not found");
+            }
+            return user;
+        },
+        async randomUser(_parent, _args, _context) {
+            const user = await sampleUsers_1.getRandomUser(false);
+            if (!user) {
+                throw new Error("error finding random user");
             }
             return user;
         },
