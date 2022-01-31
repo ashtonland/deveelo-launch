@@ -34,13 +34,13 @@
 | :------------------- | :------------------- |
 | [Dev](https://github.com/Treixatek/deveelo/tree/dev)       |      New and untested features or fixes, new commits go here       |
 | [Staging](https://github.com/Treixatek/deveelo/tree/staging) |     This is where completed features from the __dev branch__ are tested before entering __prod branch__      |
-| [Prod](https://github.com/Treixatek/deveelo/tree/prod) |     This is what is running in production, only tested versions in staging should be merged here      |
+| [Prod](https://github.com/Treixatek/deveelo/tree/prod) |     This is what is running in production, only tested versions of staging should be merged here      |
 
 | Folders             |      Description      |
 | :------------------- | :------------------- |
-| [Eros](https://github.com/Treixatek/deveelo/tree/staging/eros)       |      The nextjs frontend, running on the website. The frontend acts as the base for the __Pavo client__       |
+| [Eros](https://github.com/Treixatek/deveelo/tree/staging/eros)       |      The nextjs frontend, running on the website. The frontend acts as the base for the __Luna client__       |
 | [Vega](https://github.com/Treixatek/deveelo/tree/staging/vega) |     The apolloexpress-graphql backend      |
-| [Pavo](https://github.com/Treixatek/deveelo/tree/staging/pavo) |     The Electron wrapped native desktop app      |
+| [Luna](https://github.com/Treixatek/deveelo/tree/staging/luna) |     The Tauri wrapped native desktop app      |
 
 ### 🎀 Installation
 A desktop app Deveelo app is available for Windows, Mac, and Linux. This application contains all the features of the website plus native keybinds and the **Deveelo Game Portal**, which allows you to install and play the games you have on your account. To get the desktop app:
@@ -83,7 +83,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
  _always search [issues](https://github.com/Treixatek/deveelo/issues) first to ensure nobody is already working on the feature❗_
 ### 📦 Versioning
-This project follows the [Semantic Versioning 2.0](https://semver.org/) standard. Keep in mind that the desktop client [Pavo]() and the mobile apps are on different versions which can be found in their subdirectory's readme, the Pavo version is also under releases.
+This project follows the [Semantic Versioning 2.0](https://semver.org/) standard. Keep in mind that the desktop client [Luna](https://github.com/Treixatek/deveelo/tree/staging/luna) and the mobile apps are on different versions which can be found in their subdirectory's readme, the Luna version is also under releases.
 <details>
   <summary>More on Semantic Versioning</summary>
 	<p>Software using this versioning method follow a MAJOR.MINOR.PATCH-tag scheme as seen below:</p>
@@ -97,12 +97,14 @@ This project follows the [Semantic Versioning 2.0](https://semver.org/) standard
 </details>
 
 ### 🛤️ Roadmap
-- [x] Account creation
 - [x] Secure JWT authentication
 - [x] Loading user profile
 - [x] Desktop app
+- [x] Loading splashscreen
 - [ ] Profile pages
+- [x] Attempt #2 w/ Tauri
 - [ ] Navigation
+- [ ] Auto Updater
 - [ ] Posting
 - [ ] Follow & friending
 <!-- - [ ] Populate Sidebar Discovery -->

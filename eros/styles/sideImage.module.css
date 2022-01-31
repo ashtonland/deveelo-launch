@@ -6,6 +6,20 @@
     height: 100vh;
 
     background-color: rgba(0, 60, 255, 0.52);
+    border-radius: 15px 0 0 15px;
+    overflow: hidden;
+
+    z-index: 0;
+}
+
+.imageContainer_full {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 45em;
+    height: 100vh;
+
+    background-color: rgba(0, 60, 255, 0.52);
 
     z-index: 0;
 }

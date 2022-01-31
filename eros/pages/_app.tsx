@@ -3,11 +3,14 @@ import { useApollo } from "../lib/apolloClient";
 import { ApolloProvider } from "@apollo/client";
 import { useRouter } from "next/router";
 
-import { OnNavBlacklist, OnSidebarBlacklist, OnActivityBlacklist, MatchName } from "../lib/routeBlacklists";
+import Meta from "../components/micro/Meta";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+import navStyles from "../styles/nav.module.css";
+import { OnNavBlacklist, OnSidebarBlacklist, OnActivityBlacklist, MatchName } from "../lib/routeBlacklists";
 import { useEffect, useState } from "react";
 import { setAccessToken } from "../accessToken";
+import isLuna from "../hooks/isLuna";
 
 const twoColRoutes = ["/login", "/register"];
 
@@ -34,7 +37,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 	}, []);
 
 	if (loading) {
-		return <div>loading...</div>;
+		return (
+			<>
+				<Meta />
+				<div data-tauri-drag-region className={navStyles.dragBar}></div>
+
+				<div className="full_center">
+					<div className="loading"></div>
+					<h1 className="delayed">Deveelo</h1>
+				</div>
+			</>
+		);
 	}
 
 	return (

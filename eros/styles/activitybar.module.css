@@ -8,15 +8,20 @@
 
     background: #F6F7F9;
     box-shadow: inset 1.3125em -0.1875em 6em -5.15625em rgba(18, 27, 43, 0.5);
+
+    border-radius: 0 15px 15px 0;
 }
 
-.activityBarNoSpace {
+.activityBar_full {
     position: absolute;
     width: 19.125em;
     height: 100vh;
     right: 0px;
-    top: 0px;
+    top: 0;
+    padding-top: 7.125em;
 
     background: #F6F7F9;
     box-shadow: inset 1.3125em -0.1875em 6em -5.15625em rgba(18, 27, 43, 0.5);
+
+    border-radius: 0;
 }

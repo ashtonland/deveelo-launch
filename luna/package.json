@@ -1,0 +1,21 @@
+{
+	"name": "deveelo-luna",
+	"version": "1.0.0",
+	"description": "The desktop app for the Deveelo social platform",
+	"main": "index.js",
+	"repository": {
+		"url": "https://github.com/Treixatek/deveelo"
+	},
+	"scripts": {
+		"tauri": "tauri",
+		"test": "tauri dev"
+	},
+	"author": "Treixatek",
+	"license": "ISC",
+	"devDependencies": {
+		"@tauri-apps/cli": "^1.0.0-beta.10"
+	},
+	"dependencies": {
+		"@tauri-apps/api": "^1.0.0-beta.8"
+	}
+}

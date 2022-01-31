@@ -21,9 +21,9 @@ const images = [
 	},
 ];
 
-const SideImage = ({ route }: { route: string }) => {
+const SideImage = ({ route, hardEdge }: { route: string; hardEdge: boolean }) => {
 	return (
-		<div className={sideStyles.imageContainer}>
+		<div className={hardEdge ? sideStyles.imageContainer_full : sideStyles.imageContainer}>
 			{route === "/login" ? images[1].link : images[0].link}
 			<Image className={sideStyles.picture} src={route === "/login" ? images[1].source : images[0].source} alt="city street" layout="fill" objectFit="cover" priority={true} />
 		</div>

@@ -7,7 +7,22 @@
 
     background: #F9F9F9;
     box-shadow: inset -89px 0px 40px -80px rgba(30, 50, 90, 0.1);
-    border-radius: 0px;
+    border-radius: 15px 0 0 15px;
+    overflow: hidden;
+    z-index: 12;
+}
+
+.sidebar_full {
+    position: fixed;
+    width: 30.9375em;
+    left: 0px;
+    top: 0px;
+    height: 100vh;
+
+    background: #F9F9F9;
+    box-shadow: inset -89px 0px 40px -80px rgba(30, 50, 90, 0.1);
+    border-radius: 0;
+    overflow: hidden;
     z-index: 12;
 }
 

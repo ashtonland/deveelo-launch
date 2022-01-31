@@ -7,7 +7,13 @@ import Image from "next/image";
 import { useMyAccountMinProfileQuery, useRandomMinProfileQuery } from "../hooks/backend/generated/graphql";
 import { getAccessToken } from "../accessToken";
 
-const Sidebar = () => {
+interface sidebarProps {
+	hardEdge?: boolean;
+}
+
+const Sidebar = ({ hardEdge }: sidebarProps) => {
+	hardEdge ??= true;
+
 	const loggedIn: boolean = getAccessToken() !== "";
 
 	let user: any = null;
@@ -56,7 +62,7 @@ const Sidebar = () => {
 	const link = process.env.NODE_ENV === "production" ? `https://www.deveelo.com${user.profile.pictureUrl}` : `http://localhost:3000${user.profile.pictureUrl}`;
 
 	return (
-		<div className={sidebarStyles.sidebar}>
+		<div className={hardEdge ? sidebarStyles.sidebar_full : sidebarStyles.sidebar}>
 			{/*Banner*/}
 			<div className={sidebarStyles.banner}>
 				<Image className={sidebarStyles.bannerImage} alt="profile banner" src="/user_content/p_banners/pinkdunes.png" layout="fill" priority={true} objectFit="cover" />
