@@ -23,6 +23,13 @@ const userResolvers = {
             }
             return user;
         },
+        async findUserByTag(_parent, { tag }, _context) {
+            const user = await User_1.default.findOne({ "account.tag": tag });
+            if (!user) {
+                throw new Error("user not found");
+            }
+            return user;
+        },
         async randomUser(_parent, _args, _context) {
             const user = await sampleUsers_1.getRandomUser(false);
             if (!user) {

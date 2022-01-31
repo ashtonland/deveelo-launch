@@ -54,7 +54,13 @@ export type Query = {
   __typename?: 'Query';
   getPosts: Array<Maybe<Post>>;
   myAccount: User;
+  findUserByTag: User;
   randomUser: User;
+};
+
+
+export type QueryFindUserByTagArgs = {
+  tag: Scalars['String'];
 };
 
 export type U_Account = {
@@ -113,6 +119,13 @@ export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetPostsQuery = { __typename?: 'Query', getPosts: Array<Maybe<{ __typename?: 'Post', _id: string, body: string, createdAt: string, username: string }>> };
+
+export type FindMinProfileByTagQueryVariables = Exact<{
+  tagInput: Scalars['String'];
+}>;
+
+
+export type FindMinProfileByTagQuery = { __typename?: 'Query', findUserByTag: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } };
 
 export type LoginMutationVariables = Exact<{
   loginInput: Scalars['String'];
@@ -178,6 +191,56 @@ export function useGetPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetPostsQueryHookResult = ReturnType<typeof useGetPostsQuery>;
 export type GetPostsLazyQueryHookResult = ReturnType<typeof useGetPostsLazyQuery>;
 export type GetPostsQueryResult = Apollo.QueryResult<GetPostsQuery, GetPostsQueryVariables>;
+export const FindMinProfileByTagDocument = gql`
+    query findMinProfileByTag($tagInput: String!) {
+  findUserByTag(tag: $tagInput) {
+    _id
+    account {
+      username
+      tag
+      private
+    }
+    profile {
+      bannerUrl
+      pictureUrl
+      description
+      followingIds
+      followerIds
+      badges
+      linkedProfiles
+    }
+    status
+  }
+}
+    `;
+
+/**
+ * __useFindMinProfileByTagQuery__
+ *
+ * To run a query within a React component, call `useFindMinProfileByTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMinProfileByTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMinProfileByTagQuery({
+ *   variables: {
+ *      tagInput: // value for 'tagInput'
+ *   },
+ * });
+ */
+export function useFindMinProfileByTagQuery(baseOptions: Apollo.QueryHookOptions<FindMinProfileByTagQuery, FindMinProfileByTagQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindMinProfileByTagQuery, FindMinProfileByTagQueryVariables>(FindMinProfileByTagDocument, options);
+      }
+export function useFindMinProfileByTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMinProfileByTagQuery, FindMinProfileByTagQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindMinProfileByTagQuery, FindMinProfileByTagQueryVariables>(FindMinProfileByTagDocument, options);
+        }
+export type FindMinProfileByTagQueryHookResult = ReturnType<typeof useFindMinProfileByTagQuery>;
+export type FindMinProfileByTagLazyQueryHookResult = ReturnType<typeof useFindMinProfileByTagLazyQuery>;
+export type FindMinProfileByTagQueryResult = Apollo.QueryResult<FindMinProfileByTagQuery, FindMinProfileByTagQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($loginInput: String!, $loginPassword: String!) {
   login(input: $loginInput, password: $loginPassword) {

@@ -70,6 +70,7 @@ exports.typeDefs = graphql_tag_1.default `
 	type Query {
 		getPosts: [Post]!
 		myAccount: User!
+		findUserByTag(tag: String!): User!
 		randomUser: User!
 	}
 

@@ -1,0 +1,20 @@
+query findMinProfileByTag($tagInput: String!) {
+	findUserByTag(tag: $tagInput) {
+		_id
+		account {
+			username
+			tag
+			private
+		}
+		profile {
+			bannerUrl
+			pictureUrl
+			description
+			followingIds
+			followerIds
+			badges
+			linkedProfiles
+		}
+		status
+	}
+}

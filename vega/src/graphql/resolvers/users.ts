@@ -26,6 +26,15 @@ const userResolvers = {
 
 			return user;
 		},
+		async findUserByTag(_parent: any, { tag }: { tag: string }, _context: Context): Promise<UserType> {
+			const user: UserType = await User.findOne({ "account.tag": tag });
+
+			if (!user) {
+				throw new Error("user not found");
+			}
+
+			return user;
+		},
 		async randomUser(_parent: any, _args: any, _context: Context): Promise<UserType> {
 			const user = await getRandomUser(false);
 

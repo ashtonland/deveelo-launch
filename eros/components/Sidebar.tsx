@@ -3,8 +3,9 @@ import NameGroup from "./micro/NameGroup";
 import TextButton from "./micro/TextButton";
 import ProfilePicture from "./micro/ProfilePicture";
 import Image from "next/image";
+import jwt_decode, { JwtPayload } from "jwt-decode";
 
-import { useMyAccountMinProfileQuery, useRandomMinProfileQuery } from "../hooks/backend/generated/graphql";
+import { useFindMinProfileByTagQuery, useMyAccountMinProfileQuery, useRandomMinProfileQuery } from "../hooks/backend/generated/graphql";
 import { getAccessToken } from "../accessToken";
 
 interface sidebarProps {
@@ -13,13 +14,55 @@ interface sidebarProps {
 
 const Sidebar = ({ hardEdge }: sidebarProps) => {
 	hardEdge ??= true;
+	const token = getAccessToken();
 
-	const loggedIn: boolean = getAccessToken() !== "";
+	const loggedIn: boolean = token !== "";
 
 	let user: any = null;
 
+	const storage = window.localStorage;
+	const uTag = storage.getItem("side_prof");
+
 	let buttons: any = null;
-	if (loggedIn) {
+	if (uTag !== null && uTag !== "") {
+		const { data, loading, error } = useFindMinProfileByTagQuery({
+			variables: {
+				tagInput: uTag,
+			},
+		});
+
+		if (loading && !data) {
+			return <div>loading...</div>;
+		}
+		if (error) {
+			return (
+				<div className={hardEdge ? sidebarStyles.sidebar_full : sidebarStyles.sidebar}>
+					<p>{error.message}</p>
+				</div>
+			);
+		}
+
+		user = data.findUserByTag;
+
+		if (loggedIn) {
+			const payload: any = jwt_decode<JwtPayload>(token);
+
+			if (user._id === payload.id) {
+				buttons = (
+					<>
+						<TextButton colorKey="gold" text="Edit Profile" />
+					</>
+				);
+			}
+		}
+
+		buttons ??= (
+			<>
+				<TextButton colorKey="gold" text="Follow" />
+				<TextButton colorKey="green" text="Friend" />
+			</>
+		);
+	} else if (loggedIn) {
 		const { data, loading, error } = useMyAccountMinProfileQuery();
 		if (loading && !data) {
 			return <div>loading...</div>;

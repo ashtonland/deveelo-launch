@@ -65,6 +65,7 @@ export const typeDefs = gql`
 	type Query {
 		getPosts: [Post]!
 		myAccount: User!
+		findUserByTag(tag: String!): User!
 		randomUser: User!
 	}
 
