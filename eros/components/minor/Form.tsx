@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import formStyles from "../../styles/form.module.css";
 import TextButton from "../micro/TextButton";
-import { useLoginMutation, useRegisterMutation } from "../../hooks/backend/generated/graphql";
+import { MyAccountMinProfileDocument, MyAccountMinProfileQuery, MyNameAndPfpDocument, MyNameAndPfpQuery, useLoginMutation, useRegisterMutation } from "../../hooks/backend/generated/graphql";
 import { setAccessToken } from "../../accessToken";
 
 const Form = ({ type }: { type: string }) => {
@@ -60,6 +60,34 @@ const Form = ({ type }: { type: string }) => {
 								registerEmail: email,
 								registerPassword: password,
 							},
+							update: (store, { data }) => {
+								if (!data) {
+									return null;
+								}
+								//update cache for name&pfp query
+								store.writeQuery<MyNameAndPfpQuery>({
+									query: MyNameAndPfpDocument,
+									data: {
+										myAccount: {
+											_id: data.register.user._id,
+											account: {
+												username: data.register.user.account.username,
+												tag: data.register.user.account.tag,
+											},
+											profile: {
+												pictureUrl: data.register.user.profile.pictureUrl,
+											},
+										},
+									},
+								});
+								//update cache for minprofile query
+								store.writeQuery<MyAccountMinProfileQuery>({
+									query: MyAccountMinProfileDocument,
+									data: {
+										myAccount: data.register.user,
+									},
+								});
+							},
 						});
 
 						if (response && response.data) {
@@ -79,6 +107,34 @@ const Form = ({ type }: { type: string }) => {
 							variables: {
 								loginInput: email,
 								loginPassword: password,
+							},
+							update: (store, { data }) => {
+								if (!data) {
+									return null;
+								}
+								//update cache for name&pfp query
+								store.writeQuery<MyNameAndPfpQuery>({
+									query: MyNameAndPfpDocument,
+									data: {
+										myAccount: {
+											_id: data.login.user._id,
+											account: {
+												username: data.login.user.account.username,
+												tag: data.login.user.account.tag,
+											},
+											profile: {
+												pictureUrl: data.login.user.profile.pictureUrl,
+											},
+										},
+									},
+								});
+								//update cache for minprofile query
+								store.writeQuery<MyAccountMinProfileQuery>({
+									query: MyAccountMinProfileDocument,
+									data: {
+										myAccount: data.login.user,
+									},
+								});
 							},
 						});
 

@@ -5,8 +5,9 @@ const account = () => {
 	const { data, loading, error } = useMyAccountMinProfileQuery();
 
 	if (loading && !data) {
-		return <div>fetching data...</div>;
-	} else if (error) {
+		return <div className="loading">fetching data...</div>;
+	}
+	if (error) {
 		console.log("error is: " + error);
 		return <div>Error occured</div>;
 	}

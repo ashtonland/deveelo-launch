@@ -1,6 +1,7 @@
 :root {
   /*backgrounds & text*/
   --textBlack: #121B2B;
+  --textBlueish: #1E325A; /*username in nav bar*/
   --textNormalCol: #49566F; /*profile description*/
   --midFadeGray: #7688AB; /*profile tag*/
   --midLightGray: #99AAC3;
@@ -12,6 +13,7 @@
   --idle: #FFB129;
   --midpoint: #FF9059;
   --dnd: #FF6F89;
+  --offline: #BBC8DB;
 }
 
 /* ELEMENT STYLING */

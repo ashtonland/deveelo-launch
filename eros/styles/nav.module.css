@@ -1,3 +1,4 @@
+/* NAVBAR */
 .nav {
   position: absolute;
   padding-left: 30.9375em;
@@ -86,6 +87,7 @@
   width: fit-content;
 }
 
+/* LEFT: NAME TEXT AREA */
 
 .boldTitle {
   font-weight: 700;
@@ -106,9 +108,71 @@
   flex-direction: column;
   
   height: 60%;
-  width: 20rem;
+  width: fit-content;
   margin-left: 3rem;
 }
+
+/* RIGHT: MAIN CONTENT */
+
+.rightWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 100%;
+  height: inherit;
+
+  margin-left: 1.875rem;
+  padding-right: 2.141rem;
+
+  /* border: 2px solid rgb(0, 140, 255); */
+  border-radius: 8px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+
+  /* background-color: khaki; */
+
+  width: 16.984rem;
+  height: 3.75rem;
+}
+
+.name {
+  overflow: hidden;
+  width: 12.187rem;
+  height: 2.344rem;
+
+  font-family: Heebo;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.312rem;
+  line-height: 1.968rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+
+  color: var(--textBlueish);
+  margin: 0 1.087rem 0 0;
+}
+
+.pfpContainer {
+  width: fit-content;
+  height: inherit;
+}
+
+.buttonWrapper {
+  display: flex;
+
+  width: 11rem;
+  height: 3rem;
+}
+
+/* MENUBAR - LUNA ONLY */
 
 .menubar {
   position: relative;

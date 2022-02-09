@@ -44,6 +44,31 @@ const userResolvers = {
 
 			return user as UserType;
 		},
+		async allUsers(_parent: any, _args: any, _context: Context): Promise<UserType[]> {
+			try {
+				const results = await User.aggregate([
+					{
+						$match: { "account.private": { $eq: false } },
+					},
+					{
+						$project: {
+							_id: 0,
+							"account.password": 0,
+							"account.email": 0,
+							"account.blockedIds": 0,
+							"account.tokenVersion": 0,
+							"account.pro": 0,
+							"account.short": 0,
+							profile: 0,
+							social: 0,
+						},
+					},
+				]);
+				return results;
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
 	},
 	Mutation: {
 		async login(_: any, { input, password }: { input: string; password: string }, context: Context) {
@@ -104,6 +129,9 @@ const userResolvers = {
 			}
 
 			// note  successful login
+
+			//update status
+			await User.findByIdAndUpdate(user._id, { $set: { status: "online" } }, { useFindAndModify: false });
 
 			return {
 				accessToken: successfulLoginHandler(user, context),
@@ -232,6 +260,22 @@ const userResolvers = {
 				accessToken: successfulLoginHandler(newUser, context),
 				newUser,
 			};
+		},
+		async logout(_parent: any, _args: any, { res, payload }: Context) {
+			if (!payload) {
+				//payload is false
+				console.log(JSON.stringify(payload));
+
+				return false;
+			}
+			try {
+				await User.findByIdAndUpdate(payload.id, { $set: { status: "offline" } }, { useFindAndModify: false });
+				//clear to cookie by resending it, but as empty
+				sendRefreshToken(res, "");
+				return true;
+			} catch (error) {
+				throw new Error(error);
+			}
 		},
 	},
 };

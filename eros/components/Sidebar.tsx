@@ -20,6 +20,21 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 
 	let user: any = null;
 
+	const loadingSidebar = (
+		<div className={hardEdge ? sidebarStyles.sidebar_full : sidebarStyles.sidebar}>
+			{/*Banner*/}
+			<div className={sidebarStyles.banner} />
+			{/*User Profile*/}
+			<div className={sidebarStyles.profileContainer}>
+				<div className="loading" />
+			</div>
+		</div>
+	);
+
+	if (!window) {
+		return loadingSidebar;
+	}
+
 	const storage = window.localStorage;
 	const uTag = storage.getItem("side_prof");
 
@@ -32,7 +47,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 		});
 
 		if (loading && !data) {
-			return <div>loading...</div>;
+			return loadingSidebar;
 		}
 		if (error) {
 			return (
@@ -65,7 +80,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 	} else if (loggedIn) {
 		const { data, loading, error } = useMyAccountMinProfileQuery();
 		if (loading && !data) {
-			return <div>loading...</div>;
+			return loadingSidebar;
 		}
 		if (error) {
 			return <div>An error has occured</div>;
@@ -86,7 +101,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 		const { data, loading, error } = useRandomMinProfileQuery();
 
 		if (loading && !data) {
-			return <div>loading...</div>;
+			return loadingSidebar;
 		}
 		if (error) {
 			return <div>An error has occured</div>;
@@ -101,8 +116,6 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 			</>
 		);
 	}
-
-	const link = process.env.NODE_ENV === "production" ? `https://www.deveelo.com${user.profile.pictureUrl}` : `http://localhost:3000${user.profile.pictureUrl}`;
 
 	return (
 		<div className={hardEdge ? sidebarStyles.sidebar_full : sidebarStyles.sidebar}>
@@ -119,7 +132,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 							<p className={sidebarStyles.p_stats_num}>{user.profile.followingIds.length}</p>
 							<p className={sidebarStyles.p_stats_label}>Following</p>
 						</div>
-						<ProfilePicture size="large" source={link} />
+						<ProfilePicture size="large" source={user.profile.pictureUrl} status={user.status} />
 						<div className={sidebarStyles.p_stats}>
 							<p className={sidebarStyles.p_stats_num}>{user.profile.followerIds.length}</p>
 							<p className={sidebarStyles.p_stats_label}>Followers</p>

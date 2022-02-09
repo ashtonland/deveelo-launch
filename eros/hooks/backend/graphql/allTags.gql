@@ -1,0 +1,7 @@
+query AllTags {
+	allUsers {
+		account {
+			tag
+		}
+	}
+}

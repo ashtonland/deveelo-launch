@@ -1,6 +1,7 @@
 /*Profiles*/
-.indicatorLarge {
+.large {
     position: relative;
+    overflow: hidden;
     left: 4.6875em;
     top: 4.4062em;
 
@@ -8,8 +9,37 @@
 
     width: 1.875em;
     height: 1.875em;
-    border-radius: 100em;
-    border: 0.2812em solid var(--sidebarBackground);
-  
+    border-radius: 50%;
+}
+
+.online {
+    width: inherit;
+    height: inherit;
     background-color: var(--online);
+    border: 0.2812em solid var(--sidebarBackground);
+    border-radius: inherit;
+}
+
+.idle {
+    width: inherit;
+    height: inherit;
+    background-color: var(--idle);
+    border: 0.2812em solid var(--sidebarBackground);
+    border-radius: inherit;
+}
+
+.dnd {
+    width: inherit;
+    height: inherit;
+    background-color: var(--dnd);
+    border: 0.2812em solid var(--sidebarBackground);
+    border-radius: inherit;
+}
+
+.offline {
+    width: inherit;
+    height: inherit;
+    background-color: var(--offline);
+    border: 0.2812em solid var(--sidebarBackground);
+    border-radius: inherit;
 }

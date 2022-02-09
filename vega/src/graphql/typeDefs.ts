@@ -10,6 +10,7 @@ export const typeDefs = gql`
 	}
 	type LoginResponse {
 		accessToken: String!
+		user: User!
 	}
 	#user types
 	type U_Account {
@@ -64,14 +65,16 @@ export const typeDefs = gql`
 	# note  Queries (searches)
 	type Query {
 		getPosts: [Post]!
-		myAccount: User!
+		myAccount: User
 		findUserByTag(tag: String!): User!
 		randomUser: User!
+		allUsers: [User]!
 	}
 
 	# note  Mutations (read/write/updates)
 	type Mutation {
 		register(email: String!, password: String!): LoginResponse!
 		login(input: String!, password: String!): LoginResponse!
+		logout: Boolean!
 	}
 `;

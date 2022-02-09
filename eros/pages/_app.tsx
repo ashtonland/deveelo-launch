@@ -13,6 +13,8 @@ import { setAccessToken } from "../accessToken";
 import isLuna from "../hooks/isLuna";
 
 const twoColRoutes = ["/login", "/register"];
+//use no queries or fetches
+const dynamicRoutes = ["/settings/account"];
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const apolloClient = useApollo(pageProps.initialApolloState);
@@ -39,13 +41,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 	if (loading) {
 		return (
 			<>
-				<Meta />
 				<div data-tauri-drag-region className={navStyles.dragBar}></div>
 
 				<div className="full_center">
 					<div className="loading"></div>
 					<h1 className="delayed">Deveelo</h1>
 				</div>
+
+				{dynamicRoutes.includes(currPage) ? null : (
+					<ApolloProvider client={apolloClient}>
+						<Component {...pageProps} />
+					</ApolloProvider>
+				)}
 			</>
 		);
 	}

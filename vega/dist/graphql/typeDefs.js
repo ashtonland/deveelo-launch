@@ -15,6 +15,7 @@ exports.typeDefs = graphql_tag_1.default `
 	}
 	type LoginResponse {
 		accessToken: String!
+		user: User!
 	}
 	#user types
 	type U_Account {
@@ -69,15 +70,17 @@ exports.typeDefs = graphql_tag_1.default `
 	# note  Queries (searches)
 	type Query {
 		getPosts: [Post]!
-		myAccount: User!
+		myAccount: User
 		findUserByTag(tag: String!): User!
 		randomUser: User!
+		allUsers: [User]!
 	}
 
 	# note  Mutations (read/write/updates)
 	type Mutation {
 		register(email: String!, password: String!): LoginResponse!
 		login(input: String!, password: String!): LoginResponse!
+		logout: Boolean!
 	}
 `;
 //# sourceMappingURL=typeDefs.js.map

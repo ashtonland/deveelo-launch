@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const Meta = ({ title, keywords, description }) => {
+const Meta = ({ title, keywords, description, url, image }) => {
 	return (
 		<Head>
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,9 +18,9 @@ const Meta = ({ title, keywords, description }) => {
 			<meta name="theme-color" content="#0d154a"></meta>
 
 			<title>{title}</title>
-			<meta property="og:image" content="/embedlogo.png"></meta>
-			<meta property="og:title" content="Deveelo"></meta>
-			<meta property="og:url" content="https://www.deveelo.com"></meta>
+			<meta property="og:image" content={image}></meta>
+			<meta property="og:title" content={title}></meta>
+			<meta property="og:url" content={url}></meta>
 			<meta property="og:description" content={description}></meta>
 		</Head>
 	);
@@ -29,7 +29,9 @@ const Meta = ({ title, keywords, description }) => {
 Meta.defaultProps = {
 	title: "Deveelo",
 	keywords: "game development, devlogs, beta testing, gamedev, beta, videogames, posting, communities, groups, art",
-	description: "Live betas, groups with likeminded game devleopers and their latest updates in realtime - it can all be found here on Deveelo, the social platform for game developers and artists",
+	description: "Explore posts, groups, devlogs, and more on Deveelo, the social platform for game developers and artists",
+	url: "https://www.deveelo.com",
+	image: "/embedlogo.png",
 };
 
 export default Meta;

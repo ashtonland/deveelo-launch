@@ -1,5 +1,25 @@
 mutation Register($registerEmail: String!, $registerPassword: String!) {
 	register(email: $registerEmail, password: $registerPassword) {
 		accessToken
+		user {
+			_id
+			account {
+				username
+				tag
+				email
+				private
+				pro
+			}
+			profile {
+				bannerUrl
+				pictureUrl
+				description
+				followingIds
+				followerIds
+				badges
+				linkedProfiles
+			}
+			status
+		}
 	}
 }

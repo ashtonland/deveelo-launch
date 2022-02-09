@@ -1,5 +1,25 @@
 mutation Login($loginInput: String!, $loginPassword: String!) {
 	login(input: $loginInput, password: $loginPassword) {
 		accessToken
+		user {
+			_id
+			account {
+				username
+				tag
+				email
+				private
+				pro
+			}
+			profile {
+				bannerUrl
+				pictureUrl
+				description
+				followingIds
+				followerIds
+				badges
+				linkedProfiles
+			}
+			status
+		}
 	}
 }

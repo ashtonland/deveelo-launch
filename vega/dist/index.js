@@ -19,26 +19,156 @@ const User_1 = __importDefault(require("./models/User"));
 const auth_1 = require("./util/auth");
 const initServer = async () => {
     const app = express_1.default();
-    app.set("trust proxy", process.env.NODE_ENV !== "production");
     const whitelist = process.env.NODE_ENV === "production" ? ["https://www.deveelo.com", "https://next.deveelo.com", "https://deveelo.vercel.app"] : ["http://localhost:3000"];
-    app.use(cors_1.default({
-        origin: function (origin, callback) {
-            if (whitelist.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
-                callback(null, true);
-            }
-            else {
-                callback(new Error("Not allowed by CORS"));
-            }
-        },
-        credentials: true,
-    }));
+    const corsDefault = function (_req, callback) {
+        var corsOptions = {
+            origin: function (origin, callback) {
+                if (!origin) {
+                    callback(new Error("Not allowed by CORS"));
+                }
+                if (whitelist.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
+                    callback(null, true);
+                }
+                else {
+                    let ori = origin;
+                    if (ori.startsWith("https://deveelo-") && ori.endsWith("-treixatek.vercel.app")) {
+                        callback(null, true);
+                    }
+                    else {
+                        callback(new Error("Not allowed by CORS"));
+                    }
+                }
+            },
+            credentials: true,
+        };
+        callback(null, corsOptions);
+    };
+    const corsAllowUndefined = function (req, callback) {
+        var corsOptions;
+        if (req.header("Origin") === undefined) {
+            corsOptions = { origin: true };
+        }
+        else {
+            corsOptions = { origin: false };
+        }
+        callback(null, corsOptions);
+    };
     app.use(cookie_parser_1.default());
-    app.get("/", (_req, res) => res.send("hello"));
-    app.post("/refresh_token", async (req, res) => {
+    app.get("/", cors_1.default(corsDefault), (_req, res) => res.send("hello"));
+    app.get("/users", cors_1.default(corsAllowUndefined), async (_req, res) => {
+        try {
+            const results = await User_1.default.aggregate([
+                {
+                    $match: { "account.private": { $eq: false } },
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        "account.password": 0,
+                        "account.email": 0,
+                        "account.blockedIds": 0,
+                        "account.tokenVersion": 0,
+                        "account.pro": 0,
+                        "account.short": 0,
+                        profile: 0,
+                        social: 0,
+                    },
+                },
+            ]);
+            return res.send(results);
+        }
+        catch (error) {
+            console.error(error);
+            res.send([]);
+        }
+        return res.send([]);
+    });
+    app.get("/og", cors_1.default(corsAllowUndefined), async (req, res) => {
+        if (!req.query.tag) {
+            return res.send(null);
+        }
+        const tag = req.query.tag;
+        const user = await User_1.default.aggregate([
+            {
+                $match: { "account.tag": { $eq: tag } },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    "account.password": 0,
+                    "account.email": 0,
+                    "account.blockedIds": 0,
+                    "account.tokenVersion": 0,
+                    "account.pro": 0,
+                    "account.short": 0,
+                    "profile.friendIds": 0,
+                    "profile.friendRqIds": 0,
+                    "profile.badges": 0,
+                    "profile.linkedProfiles": 0,
+                    "social.groupIds": 0,
+                    "social.betaIds": 0,
+                    "social.chatIds": 0,
+                },
+            },
+        ]);
+        return res.send(user[0]);
+    });
+    app.get("/search", cors_1.default(corsAllowUndefined), async (req, res) => {
+        if (req.query.name) {
+            try {
+                const results = await User_1.default.aggregate([
+                    {
+                        $search: {
+                            index: "s_allusers",
+                            compound: {
+                                must: [
+                                    {
+                                        text: {
+                                            query: req.query.name,
+                                            path: {
+                                                wildcard: "*",
+                                            },
+                                            fuzzy: {
+                                                maxEdits: 1,
+                                            },
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    },
+                    {
+                        $limit: 6,
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            "account.password": 0,
+                            "account.email": 0,
+                            "account.blockedIds": 0,
+                            "account.tokenVersion": 0,
+                            "account.pro": 0,
+                            "account.short": 0,
+                            profile: 0,
+                            social: 0,
+                            score: { $meta: "searchScore" },
+                        },
+                    },
+                ]);
+                return res.send(results);
+            }
+            catch (error) {
+                console.error(error);
+                res.send([]);
+            }
+        }
+        return res.send([]);
+    });
+    app.all("/graphql", cors_1.default(corsDefault));
+    app.post("/refresh_token", cors_1.default(corsDefault), async (req, res) => {
         const token = req.cookies.lid;
         if (!token) {
             return res.send({ ok: false, accessToken: "" });
-            console.log("not signed in");
         }
         let payload = null;
         try {
@@ -46,6 +176,7 @@ const initServer = async () => {
         }
         catch (error) {
             console.log(error);
+            auth_1.sendRefreshToken(res, "");
             return res.send({ ok: false, accessToken: "" });
         }
         const user = await User_1.default.findById(payload.id);
@@ -53,6 +184,7 @@ const initServer = async () => {
             return res.send({ ok: false, accessToken: "" });
         }
         if (user.account.tokenVersion !== payload.tokenVersion) {
+            auth_1.sendRefreshToken(res, "");
             return res.send({ ok: false, accessToken: "" });
         }
         auth_1.sendRefreshToken(res, auth_1.createRefreshToken(user));

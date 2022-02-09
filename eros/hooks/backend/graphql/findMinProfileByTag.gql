@@ -15,6 +15,10 @@ query findMinProfileByTag($tagInput: String!) {
 			badges
 			linkedProfiles
 		}
+		social {
+			postIds
+			blogIds
+		}
 		status
 	}
 }

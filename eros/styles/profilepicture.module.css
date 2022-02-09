@@ -1,8 +1,9 @@
-.p_pictureWrapper {
+/* Sidebar pfps, for user's and groups */
+.w70 {
     position: relative;
     width: 6.5625em;
     height: 6.5625em;
-    border-radius: 9.09375em;
+    border-radius: 50%;
     box-shadow: 0 0 0 0.8em var(--sidebarBackground);
 
     flex: none;
@@ -12,11 +13,50 @@
     margin-right: 1.4062em;
 }
 
+/* pfps in create post & on blog cards */
+.w50 {
+    position: relative;
+    width: 4.688em;
+    height: 4.688em;
+    border-radius: 50%;
+}
+
+/* navbar pfp & sidebar following list pfps */
+.w40 {
+    position: relative;
+    width: 3.75em;
+    height: 3.75em;
+    border-radius: 50%;
+}
+
+/* Used as pfp on posts in main feed */
+.w36 {
+    position: relative;
+    width: 3.395em;
+    height: 3.395em;
+    border-radius: 50%;
+}
+
+/* Everywhere, profiles, activity bar, stories... */
+.w32 {
+    position: relative;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+}
+
+/* pfp next to chat bubble */
+.w28 {
+    position: relative;
+    width: 2.625em;
+    height: 2.625em;
+    border-radius: 50%;
+}
+
 .p_picture {
-    
     overflow: hidden;
     
-    border-radius: 9.09375em;
+    border-radius: 50%;
     background-color: #EEF0F4;
     image-rendering: -webkit-optimize-contrast; /*stops blur*/
 }
