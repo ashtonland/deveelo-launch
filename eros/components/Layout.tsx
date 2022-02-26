@@ -2,16 +2,13 @@ import { appWindow, PhysicalSize } from "@tauri-apps/api/window";
 import { useQuery, gql, NetworkStatus } from "@apollo/client";
 import router, { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
-import Meta from "./micro/Meta";
 import Nav from "./Nav";
 import FullActivityBar from "./ActivityBar";
 import TitlebarButtons from "./micro/TitlebarButtons";
 const DesktopSidebar = dynamic(() => import("./Sidebar"), { ssr: false });
 const SideImage = dynamic(() => import("./SideImage"), { ssr: false });
 import styles from "../styles/Layout.module.css";
-import navStyles from "../styles/nav.module.css";
 import useScreenType from "../hooks/useScreenType";
 import { useGetPostsQuery, useLogoutMutation } from "../hooks/backend/generated/graphql";
 import onConnectionError from "../hooks/popups/connectionError";

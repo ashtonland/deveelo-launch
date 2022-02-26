@@ -6,6 +6,5 @@ Disallow: /api/
 Disallow: /settings/
 Disallow: /settings
 Disallow: /register
-Disallow: /login
 
 Sitemap: https://www.deveelo.com/sitemap.xml

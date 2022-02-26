@@ -19,11 +19,12 @@ const User_1 = __importDefault(require("./models/User"));
 const auth_1 = require("./util/auth");
 const initServer = async () => {
     const app = express_1.default();
+    app.set("trust proxy", process.env.NODE_ENV !== "production");
     const whitelist = process.env.NODE_ENV === "production" ? ["https://www.deveelo.com", "https://next.deveelo.com", "https://deveelo.vercel.app"] : ["http://localhost:3000"];
     const corsDefault = function (_req, callback) {
         var corsOptions = {
             origin: function (origin, callback) {
-                if (!origin) {
+                if (!origin && process.env.NODE_ENV === "production") {
                     callback(new Error("Not allowed by CORS"));
                 }
                 if (whitelist.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
@@ -35,6 +36,7 @@ const initServer = async () => {
                         callback(null, true);
                     }
                     else {
+                        console.log("😡 Blocked origin " + origin);
                         callback(new Error("Not allowed by CORS"));
                     }
                 }
@@ -51,6 +53,10 @@ const initServer = async () => {
         else {
             corsOptions = { origin: false };
         }
+        callback(null, corsOptions);
+    };
+    const corsAllowAll = function (_req, callback) {
+        var corsOptions = { origin: true };
         callback(null, corsOptions);
     };
     app.use(cookie_parser_1.default());
@@ -113,7 +119,7 @@ const initServer = async () => {
         ]);
         return res.send(user[0]);
     });
-    app.get("/search", cors_1.default(corsAllowUndefined), async (req, res) => {
+    app.get("/search", cors_1.default(corsAllowAll), async (req, res) => {
         if (req.query.name) {
             try {
                 const results = await User_1.default.aggregate([
@@ -129,7 +135,7 @@ const initServer = async () => {
                                                 wildcard: "*",
                                             },
                                             fuzzy: {
-                                                maxEdits: 1,
+                                                maxEdits: 2,
                                             },
                                         },
                                     },
@@ -149,7 +155,13 @@ const initServer = async () => {
                             "account.tokenVersion": 0,
                             "account.pro": 0,
                             "account.short": 0,
-                            profile: 0,
+                            "profile.followingIds": 0,
+                            "profile.followerIds": 0,
+                            "profile.description": 0,
+                            "profile.friendIds": 0,
+                            "profile.friendRqIds": 0,
+                            "profile.linkedProfiles": 0,
+                            "profile.bannerUrl": 0,
                             social: 0,
                             score: { $meta: "searchScore" },
                         },

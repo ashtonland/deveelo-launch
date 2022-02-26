@@ -87,42 +87,30 @@
   width: fit-content;
 }
 
-/* LEFT: NAME TEXT AREA */
-
-.boldTitle {
-  font-weight: 700;
-  font-size: 2.34rem;
-  width: fit-content;
-  height: 2.3125rem;
-  display: flex;
-  align-items: center;
-  line-height: 2.3125rem;
-  margin-top: .2rem;
-}
+/* LEFT: LOGO AREA */
 
 .wrapper {
-  position: relative;
-  top: .3rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
   
   height: 60%;
   width: fit-content;
-  margin-left: 3rem;
+  margin-top: 3px;
+  margin-left: 1.968rem;
 }
 
 /* RIGHT: MAIN CONTENT */
 
 .rightWrapper {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-direction: row;
   width: 100%;
   height: inherit;
 
-  margin-left: 1.875rem;
+  margin-left: 3.75rem;
   padding-right: 2.141rem;
 
   /* border: 2px solid rgb(0, 140, 255); */
@@ -132,18 +120,21 @@
 .profile {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   flex-direction: row;
 
   /* background-color: khaki; */
+  padding: 1rem 0 1rem 0;
 
-  width: 16.984rem;
-  height: 3.75rem;
+  width: fit-content;
+  height: inherit;
 }
 
 .name {
   overflow: hidden;
-  width: 12.187rem;
+  width: fit-content;
+  min-width: 10.5rem;
+  max-width: 12rem;
   height: 2.344rem;
 
   font-family: Heebo;
@@ -162,14 +153,33 @@
 
 .pfpContainer {
   width: fit-content;
-  height: inherit;
+  height: fit-content;
 }
 
 .buttonWrapper {
   display: flex;
+  margin-left: 5rem;
+  flex-shrink: 0;
 
-  width: 11rem;
+  width: 10rem;
   height: 3rem;
+}
+
+/* outerbounds of icon hover effect & button */
+.iconsWrapper {
+  display: flex;
+  height: fit-content;
+  width: fit-content;
+  column-gap: 1.031em;
+  margin: 0 0 0 3.75rem;
+}
+
+/* centers icon buttons w/o affecting hover effect */
+.iconsPlacer {
+  height: inherit;
+  width: fit-content;
+  display: flex;
+  align-items: center;
 }
 
 /* MENUBAR - LUNA ONLY */

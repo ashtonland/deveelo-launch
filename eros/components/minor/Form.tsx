@@ -90,6 +90,8 @@ const Form = ({ type }: { type: string }) => {
 							},
 						});
 
+						console.log(response);
+
 						if (response && response.data) {
 							setAccessToken(response.data.register.accessToken);
 							router.push("/");
@@ -190,7 +192,7 @@ const Form = ({ type }: { type: string }) => {
 				</span>
 			</div>
 			<div className={formStyles.submitWrapper}>
-				<TextButton colorKey="gold" text={type == "register" ? "Register" : "Login"} submit={true} />
+				<TextButton colorKey="gold" text={type == "register" ? "Sign up" : "Login"} submit={true} />
 			</div>
 		</form>
 	);

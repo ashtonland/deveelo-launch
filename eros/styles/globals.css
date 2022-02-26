@@ -6,7 +6,8 @@
   --midFadeGray: #7688AB; /*profile tag*/
   --midLightGray: #99AAC3;
   --sidebarBackground: #F9F9F9; /*& main feed*/
-  --searchbarGray: #EDF1F8;
+  --searchbarGray: #EDF1F8; /* navbar */
+  --searchGray: #F8FAFC; /* background of searchbar */
 
   /*status indicators*/
   --online: #2ED9A6;
@@ -50,6 +51,42 @@ button {
   transition: .2s ease;
 }
 
+/* SIMPLE CLASSES */
+.rows {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* SIMPLE BUTTON */
+
+.simpleButton {
+  height: fit-content;
+  width: fit-content;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.simpleButton::before {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  background-color: rgba(4, 18, 51, 0);
+  border-radius: 50%;
+  transition: .25s ease-in-out;
+}
+
+.simpleButton:hover::before {
+  height: 100%;
+  width: 100%;
+  border-radius: 20%;
+  background-color: rgba(0, 23, 78, 0.082);;
+}
+
 @media screen and (max-width : 1600px) {
   html, body {
     padding: 0;
@@ -71,7 +108,7 @@ button {
   
     font-family: "Heebo";
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 1.13rem;
     line-height: 1.69rem;
     letter-spacing: 0.03em;
@@ -84,16 +121,6 @@ button {
   }
 }
 
-
-/* button:hover {
-  outline-width: 0.375rem;
-  transition: .15s ease-in-out;
-} */
-
-/* button:active {
-  transition: .2s ease-in-out;
-  transform: scaleX(.9) scaleY(.9);
-} */
 
 a {
   color: inherit;

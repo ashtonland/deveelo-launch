@@ -1,11 +1,11 @@
-import Link from "next/link";
-
-import TitleMenu from "./minor/TitleMenu";
 import ProfilePicture from "./micro/ProfilePicture";
 import TextButton from "./micro/TextButton";
+import IconButton from "./micro/IconButton";
+import Searchbar from "./minor/Searchbar";
 import navStyles from "../styles/nav.module.css";
 import isLuna from "../hooks/isLuna";
 import { useMyNameAndPfpQuery } from "../hooks/backend/generated/graphql";
+import sizeStyle from "../lib/sizeStyle";
 
 interface navProps {
 	sidebarSpacing: boolean;
@@ -19,8 +19,15 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 		// handle logged out users
 		profile = (
 			<div className={navStyles.rightWrapper}>
-				<div className={navStyles.buttonWrapper}>
-					<TextButton colorKey="gold" text="Login" action="/login" />
+				<Searchbar />
+				<div className={navStyles.iconsPlacer}>
+					<div className={navStyles.iconsWrapper}>
+						<IconButton src="/resources/moon.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
+						<IconButton src="/resources/bell.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
+					</div>
+					<div className={navStyles.buttonWrapper}>
+						<TextButton colorKey="gold" text="Login" action="/login" />
+					</div>
 				</div>
 			</div>
 		);
@@ -41,6 +48,14 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 		if (user) {
 			profile = (
 				<div className={navStyles.rightWrapper}>
+					{/* Theme & Notif Buttons */}
+					<Searchbar />
+					<div className={navStyles.iconsPlacer}>
+						<div className={navStyles.iconsWrapper}>
+							<IconButton src="/resources/moon.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
+							<IconButton src="/resources/bell.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
+						</div>
+					</div>
 					<div className={navStyles.profile}>
 						<p className={navStyles.name}>{user.account.username}</p>
 						<div className={navStyles.pfpContainer}>
@@ -56,12 +71,9 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 		<nav className={sidebarSpacing ? (isLuna() ? navStyles.nav : navStyles.nav_full) : isLuna() ? navStyles.navNoSpace : navStyles.navNoSpace_full}>
 			{/* the name & app version */}
 			<div className={navStyles.wrapper}>
-				{isLuna() ? <TitleMenu /> : null}
-				<ul>
-					<li className={navStyles.boldTitle}>
-						<Link href="/">Deveelo</Link>
-					</li>
-				</ul>
+				<a href="/">
+					<img style={sizeStyle(3.187, 3.187)} src="/resources/greylogo.svg" alt="Deveelo" />
+				</a>
 			</div>
 			{profile}
 		</nav>

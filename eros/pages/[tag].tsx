@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import { setSideBarByTag } from "../hooks/setSidebar";
 import Meta from "../components/micro/Meta";
 
-const ProfilePage = (props) => {
+interface propsType {
+	user: any;
+}
+
+const ProfilePage = (props: propsType) => {
 	const router = useRouter();
 	const { tag } = router.query;
 

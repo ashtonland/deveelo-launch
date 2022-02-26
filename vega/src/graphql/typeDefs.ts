@@ -68,6 +68,7 @@ export const typeDefs = gql`
 		myAccount: User
 		findUserByTag(tag: String!): User!
 		randomUser: User!
+		randomUsers(count: Int!): [User]!
 		allUsers: [User]!
 	}
 

@@ -18,3 +18,8 @@ export const getRandomUser = async (onlyId: boolean): Promise<string | UserType>
 		return user;
 	}
 };
+
+export const getRandomUsers = async (amount: number): Promise<UserType[]> => {
+	let sampled: UserType[] = await User.aggregate([{ $match: { "profile.description": { $ne: "I'm new to Deveelo!" } } }, { $sample: { size: amount } }]);
+	return sampled;
+};

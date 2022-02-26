@@ -7,7 +7,7 @@ import User, { UserType } from "../../models/User";
 import Context from "../../context";
 import { createAccessToken, createRefreshToken, sendRefreshToken } from "../../util/auth";
 import { Document } from "mongoose";
-import { getRandomUser } from "../../hooks/sampleUsers";
+import { getRandomUser, getRandomUsers } from "../../hooks/sampleUsers";
 
 const successfulLoginHandler = (user: UserType | Document<any, any, any>, { res }: Context): string => {
 	sendRefreshToken(res, createRefreshToken(user as UserType));
@@ -43,6 +43,15 @@ const userResolvers = {
 			}
 
 			return user as UserType;
+		},
+		async randomUsers(_parent: any, { count }: { count: number }, _context: Context): Promise<UserType[]> {
+			const users = await getRandomUsers(count);
+
+			if (!users) {
+				throw new Error("Error sampling users");
+			}
+
+			return users;
 		},
 		async allUsers(_parent: any, _args: any, _context: Context): Promise<UserType[]> {
 			try {
@@ -196,8 +205,8 @@ const userResolvers = {
 			await CheckAndGenerateUsername(max, tag, false, 0);
 
 			//check if user exists
-			const user: UserType = await User.findOne({ "account.email": email });
-			if (user) {
+			const muser: UserType = await User.findOne({ "account.email": email });
+			if (muser) {
 				throw new UserInputError("email taken", {
 					errors: {
 						email: "An account is already registered with email",
@@ -238,7 +247,7 @@ const userResolvers = {
 					linkedProfiles: [],
 				},
 				status: "online",
-				Social: {
+				social: {
 					postIds: [],
 					blogIds: [],
 					groupIds: [],
@@ -256,9 +265,11 @@ const userResolvers = {
 				throw new Error("Unable to save user to database");
 			}
 
+			const user: UserType = newUser as any;
+
 			return {
 				accessToken: successfulLoginHandler(newUser, context),
-				newUser,
+				user,
 			};
 		},
 		async logout(_parent: any, _args: any, { res, payload }: Context) {

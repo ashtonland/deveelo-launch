@@ -16,6 +16,10 @@ export default function Home() {
 	return (
 		<Meta
 			title={title}
-			description="Live betas, groups with likeminded game devleopers and their latest updates in realtime - it can all be found here on Deveelo, the social platform for game developers and artists"></Meta>
+			description="Live betas, groups with likeminded game devleopers and their latest updates in realtime - it can all be found here on Deveelo, the social platform for game developers and artists"
+			image="/banners/deveelobanner.png"
+			showBanner={true}
+			color="#f54278"
+		/>
 	);
 }

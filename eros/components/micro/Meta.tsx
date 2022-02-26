@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const Meta = ({ title, keywords, description, url, image }) => {
+const Meta = ({ title, keywords, description, url, image, showBanner, color }) => {
 	return (
 		<Head>
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,13 +15,14 @@ const Meta = ({ title, keywords, description, url, image }) => {
 			<link rel="manifest" href="/site.webmanifest"></link>
 			<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#f79f1b"></link>
 			<meta name="msapplication-TileColor" content="#20296b"></meta>
-			<meta name="theme-color" content="#0d154a"></meta>
 
 			<title>{title}</title>
 			<meta property="og:image" content={image}></meta>
 			<meta property="og:title" content={title}></meta>
 			<meta property="og:url" content={url}></meta>
 			<meta property="og:description" content={description}></meta>
+			<meta content={color} data-react-helmet="true" name="theme-color" />
+			{showBanner ? <meta name="twitter:card" content="summary_large_image" /> : null}
 		</Head>
 	);
 };
@@ -32,6 +33,8 @@ Meta.defaultProps = {
 	description: "Explore posts, groups, devlogs, and more on Deveelo, the social platform for game developers and artists",
 	url: "https://www.deveelo.com",
 	image: "/embedlogo.png",
+	showBanner: false,
+	color: "#f5ce42",
 };
 
 export default Meta;

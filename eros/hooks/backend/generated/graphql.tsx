@@ -58,12 +58,18 @@ export type Query = {
   myAccount?: Maybe<User>;
   findUserByTag: User;
   randomUser: User;
+  randomUsers: Array<Maybe<User>>;
   allUsers: Array<Maybe<User>>;
 };
 
 
 export type QueryFindUserByTagArgs = {
   tag: Scalars['String'];
+};
+
+
+export type QueryRandomUsersArgs = {
+  count: Scalars['Int'];
 };
 
 export type U_Account = {
@@ -170,6 +176,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, email: string, private: boolean, pro: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } } };
+
+export type SampleUsersQueryVariables = Exact<{
+  amount: Scalars['Int'];
+}>;
+
+
+export type SampleUsersQuery = { __typename?: 'Query', randomUsers: Array<Maybe<{ __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string } }>> };
 
 
 export const GetPostsDocument = gql`
@@ -574,3 +587,45 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const SampleUsersDocument = gql`
+    query sampleUsers($amount: Int!) {
+  randomUsers(count: $amount) {
+    account {
+      username
+      tag
+    }
+    profile {
+      pictureUrl
+    }
+    status
+  }
+}
+    `;
+
+/**
+ * __useSampleUsersQuery__
+ *
+ * To run a query within a React component, call `useSampleUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSampleUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSampleUsersQuery({
+ *   variables: {
+ *      amount: // value for 'amount'
+ *   },
+ * });
+ */
+export function useSampleUsersQuery(baseOptions: Apollo.QueryHookOptions<SampleUsersQuery, SampleUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SampleUsersQuery, SampleUsersQueryVariables>(SampleUsersDocument, options);
+      }
+export function useSampleUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SampleUsersQuery, SampleUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SampleUsersQuery, SampleUsersQueryVariables>(SampleUsersDocument, options);
+        }
+export type SampleUsersQueryHookResult = ReturnType<typeof useSampleUsersQuery>;
+export type SampleUsersLazyQueryHookResult = ReturnType<typeof useSampleUsersLazyQuery>;
+export type SampleUsersQueryResult = Apollo.QueryResult<SampleUsersQuery, SampleUsersQueryVariables>;

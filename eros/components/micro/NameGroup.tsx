@@ -21,12 +21,15 @@ const NameGroup = ({ username, size, showBadges, badges }: nameGroupParams) => {
 	switch (size) {
 		case 1:
 			//Profile name on sidebar
-			style = nameStyles.p_large;
 			fontStyle = nameStyles.p_largeText;
 			badgeStyle = nameStyles.v_largeBadge;
 			break;
+		case 6:
+			//Search results
+			fontStyle = nameStyles.p_searchText;
+			badgeStyle = nameStyles.v_largeBadge;
+			break;
 		default:
-			style = nameStyles;
 			fontStyle = nameStyles;
 			badgeStyle = nameStyles.v_largeBadge;
 			break;
@@ -34,7 +37,7 @@ const NameGroup = ({ username, size, showBadges, badges }: nameGroupParams) => {
 
 	let content = (
 		<>
-			<div className={style}>
+			<div className={nameStyles.p_container}>
 				{showBadges && badges.length > 0 ? <div className={nameStyles.largeSpacer}></div> : null}
 
 				<p className={fontStyle}>{username}</p>

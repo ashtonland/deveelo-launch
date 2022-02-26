@@ -73,6 +73,7 @@ exports.typeDefs = graphql_tag_1.default `
 		myAccount: User
 		findUserByTag(tag: String!): User!
 		randomUser: User!
+		randomUsers(count: Int!): [User]!
 		allUsers: [User]!
 	}
 

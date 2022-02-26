@@ -1,11 +1,11 @@
-.p_large {
+.p_container {
     /*auto layout*/
     display: flex;
     flex-direction: row;
     align-items: center;
 
     width: fit-content;
-    height: 2.25em;
+    height: fit-content;
 
     flex: none;
     order: 1;
@@ -25,16 +25,25 @@
     display: flex;
     align-items: flex-end;
 
-    flex: none;
-    flex-grow: 0;
+    margin: 0 0;
+}
+
+.p_searchText {
+    height: inherit;
+    width: fit-content;
+
+    color: var(--textNormalCol);
+    font-weight: 500;
+    font-size: 1.125rem;
+    line-height: 1.653rem;
+
+    display: flex;
+    align-items: flex-end;
+
     margin: 0 0;
 }
 
 .checkmark {
-    /*
-    position: relative;
-    top: .14em;
-    left: .14em;*/
     margin-top: .14em;
     margin-right: 0.0625em;
     width: 80%;
@@ -60,9 +69,6 @@
 }
 
 .shield {
-    /*position: relative;
-    top: .14em;
-    left: .14em;*/
     margin-top: .14em;
     margin-right: 0.0625em;
     width: 80%;

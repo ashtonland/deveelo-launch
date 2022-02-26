@@ -3,14 +3,12 @@ import { useApollo } from "../lib/apolloClient";
 import { ApolloProvider } from "@apollo/client";
 import { useRouter } from "next/router";
 
-import Meta from "../components/micro/Meta";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import navStyles from "../styles/nav.module.css";
 import { OnNavBlacklist, OnSidebarBlacklist, OnActivityBlacklist, MatchName } from "../lib/routeBlacklists";
 import { useEffect, useState } from "react";
 import { setAccessToken } from "../accessToken";
-import isLuna from "../hooks/isLuna";
 
 const twoColRoutes = ["/login", "/register"];
 //use no queries or fetches
