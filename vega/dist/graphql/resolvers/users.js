@@ -30,6 +30,20 @@ const userResolvers = {
             }
             return user;
         },
+        async findUsersById(_parent, { ids }, _context) {
+            let users = [];
+            for (let i = 0; i < ids.length; i++) {
+                const id = ids[i];
+                const user = await User_1.default.findById(new mongodb_1.ObjectID(id));
+                if (user !== null) {
+                    users.push(user);
+                }
+            }
+            if (users.length === 0) {
+                throw new Error("No users found w/ given id list");
+            }
+            return users;
+        },
         async randomUser(_parent, _args, _context) {
             const user = await sampleUsers_1.getRandomUser(false);
             if (!user) {
@@ -72,6 +86,32 @@ const userResolvers = {
         },
     },
     Mutation: {
+        async follow(_parent, { id }, context) {
+            const myID = context.payload.id;
+            try {
+                await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(myID), { $addToSet: { "profile.followingIds": id } }, { useFindAndModify: false });
+                await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(id), { $addToSet: { "profile.followerIds": myID } }, { useFindAndModify: false });
+                return {
+                    success: true,
+                };
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        },
+        async unfollow(_parent, { id }, context) {
+            const myID = context.payload.id;
+            try {
+                await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(myID), { $pull: { "profile.followingIds": id } }, { useFindAndModify: false });
+                await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(id), { $pull: { "profile.followerIds": myID } }, { useFindAndModify: false });
+                return {
+                    success: true,
+                };
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        },
         async login(_, { input, password }, context) {
             const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
             const isEmail = input.match(regEx);

@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-
 import { SearchUserType } from "../../lib/userTypes";
 import searchStyles from "../../styles/minor/search.module.css";
 import NameGroup from "./NameGroup";

@@ -26,7 +26,7 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 						<IconButton src="/resources/bell.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
 					</div>
 					<div className={navStyles.buttonWrapper}>
-						<TextButton colorKey="gold" text="Login" action="/login" />
+						<TextButton colorKey="gold" text="Login" action="/login" large={true} />
 					</div>
 				</div>
 			</div>

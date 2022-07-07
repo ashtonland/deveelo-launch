@@ -30,6 +30,8 @@ export type Mutation = {
   register: LoginResponse;
   login: LoginResponse;
   logout: Scalars['Boolean'];
+  follow?: Maybe<BoolRes>;
+  unfollow?: Maybe<BoolRes>;
 };
 
 
@@ -42,6 +44,16 @@ export type MutationRegisterArgs = {
 export type MutationLoginArgs = {
   input: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationFollowArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationUnfollowArgs = {
+  id: Scalars['String'];
 };
 
 export type Post = {
@@ -57,6 +69,7 @@ export type Query = {
   getPosts: Array<Maybe<Post>>;
   myAccount?: Maybe<User>;
   findUserByTag: User;
+  findUsersById: Array<Maybe<User>>;
   randomUser: User;
   randomUsers: Array<Maybe<User>>;
   allUsers: Array<Maybe<User>>;
@@ -65,6 +78,11 @@ export type Query = {
 
 export type QueryFindUserByTagArgs = {
   tag: Scalars['String'];
+};
+
+
+export type QueryFindUsersByIdArgs = {
+  ids: Array<Scalars['String']>;
 };
 
 
@@ -134,12 +152,26 @@ export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllTagsQuery = { __typename?: 'Query', allUsers: Array<Maybe<{ __typename?: 'User', account: { __typename?: 'U_Account', tag: string } }>> };
 
+export type FindCardUsersByIdsQueryVariables = Exact<{
+  idList: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type FindCardUsersByIdsQuery = { __typename?: 'Query', findUsersById: Array<Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string, badges: Array<Maybe<string>> } }>> };
+
 export type FindMinProfileByTagQueryVariables = Exact<{
   tagInput: Scalars['String'];
 }>;
 
 
 export type FindMinProfileByTagQuery = { __typename?: 'Query', findUserByTag: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } } };
+
+export type FollowMutationVariables = Exact<{
+  targetId: Scalars['String'];
+}>;
+
+
+export type FollowMutation = { __typename?: 'Mutation', follow?: Maybe<{ __typename?: 'BoolRes', success: boolean }> };
 
 export type LoginMutationVariables = Exact<{
   loginInput: Scalars['String'];
@@ -167,7 +199,7 @@ export type MyNameAndPfpQuery = { __typename?: 'Query', myAccount?: Maybe<{ __ty
 export type RandomMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RandomMinProfileQuery = { __typename?: 'Query', randomUser: { __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } };
+export type RandomMinProfileQuery = { __typename?: 'Query', randomUser: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } };
 
 export type RegisterMutationVariables = Exact<{
   registerEmail: Scalars['String'];
@@ -183,6 +215,13 @@ export type SampleUsersQueryVariables = Exact<{
 
 
 export type SampleUsersQuery = { __typename?: 'Query', randomUsers: Array<Maybe<{ __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string } }>> };
+
+export type UnfollowMutationVariables = Exact<{
+  targetId: Scalars['String'];
+}>;
+
+
+export type UnfollowMutation = { __typename?: 'Mutation', unfollow?: Maybe<{ __typename?: 'BoolRes', success: boolean }> };
 
 
 export const GetPostsDocument = gql`
@@ -258,6 +297,50 @@ export function useAllTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Al
 export type AllTagsQueryHookResult = ReturnType<typeof useAllTagsQuery>;
 export type AllTagsLazyQueryHookResult = ReturnType<typeof useAllTagsLazyQuery>;
 export type AllTagsQueryResult = Apollo.QueryResult<AllTagsQuery, AllTagsQueryVariables>;
+export const FindCardUsersByIdsDocument = gql`
+    query findCardUsersByIds($idList: [String!]!) {
+  findUsersById(ids: $idList) {
+    _id
+    account {
+      username
+      tag
+    }
+    profile {
+      pictureUrl
+      badges
+    }
+    status
+  }
+}
+    `;
+
+/**
+ * __useFindCardUsersByIdsQuery__
+ *
+ * To run a query within a React component, call `useFindCardUsersByIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindCardUsersByIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindCardUsersByIdsQuery({
+ *   variables: {
+ *      idList: // value for 'idList'
+ *   },
+ * });
+ */
+export function useFindCardUsersByIdsQuery(baseOptions: Apollo.QueryHookOptions<FindCardUsersByIdsQuery, FindCardUsersByIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindCardUsersByIdsQuery, FindCardUsersByIdsQueryVariables>(FindCardUsersByIdsDocument, options);
+      }
+export function useFindCardUsersByIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCardUsersByIdsQuery, FindCardUsersByIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindCardUsersByIdsQuery, FindCardUsersByIdsQueryVariables>(FindCardUsersByIdsDocument, options);
+        }
+export type FindCardUsersByIdsQueryHookResult = ReturnType<typeof useFindCardUsersByIdsQuery>;
+export type FindCardUsersByIdsLazyQueryHookResult = ReturnType<typeof useFindCardUsersByIdsLazyQuery>;
+export type FindCardUsersByIdsQueryResult = Apollo.QueryResult<FindCardUsersByIdsQuery, FindCardUsersByIdsQueryVariables>;
 export const FindMinProfileByTagDocument = gql`
     query findMinProfileByTag($tagInput: String!) {
   findUserByTag(tag: $tagInput) {
@@ -312,6 +395,39 @@ export function useFindMinProfileByTagLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type FindMinProfileByTagQueryHookResult = ReturnType<typeof useFindMinProfileByTagQuery>;
 export type FindMinProfileByTagLazyQueryHookResult = ReturnType<typeof useFindMinProfileByTagLazyQuery>;
 export type FindMinProfileByTagQueryResult = Apollo.QueryResult<FindMinProfileByTagQuery, FindMinProfileByTagQueryVariables>;
+export const FollowDocument = gql`
+    mutation follow($targetId: String!) {
+  follow(id: $targetId) {
+    success
+  }
+}
+    `;
+export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
+
+/**
+ * __useFollowMutation__
+ *
+ * To run a mutation, you first call `useFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followMutation, { data, loading, error }] = useFollowMutation({
+ *   variables: {
+ *      targetId: // value for 'targetId'
+ *   },
+ * });
+ */
+export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
+      }
+export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
+export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($loginInput: String!, $loginPassword: String!) {
   login(input: $loginInput, password: $loginPassword) {
@@ -488,6 +604,7 @@ export type MyNameAndPfpQueryResult = Apollo.QueryResult<MyNameAndPfpQuery, MyNa
 export const RandomMinProfileDocument = gql`
     query randomMinProfile {
   randomUser {
+    _id
     account {
       username
       tag
@@ -629,3 +746,36 @@ export function useSampleUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type SampleUsersQueryHookResult = ReturnType<typeof useSampleUsersQuery>;
 export type SampleUsersLazyQueryHookResult = ReturnType<typeof useSampleUsersLazyQuery>;
 export type SampleUsersQueryResult = Apollo.QueryResult<SampleUsersQuery, SampleUsersQueryVariables>;
+export const UnfollowDocument = gql`
+    mutation unfollow($targetId: String!) {
+  unfollow(id: $targetId) {
+    success
+  }
+}
+    `;
+export type UnfollowMutationFn = Apollo.MutationFunction<UnfollowMutation, UnfollowMutationVariables>;
+
+/**
+ * __useUnfollowMutation__
+ *
+ * To run a mutation, you first call `useUnfollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfollowMutation, { data, loading, error }] = useUnfollowMutation({
+ *   variables: {
+ *      targetId: // value for 'targetId'
+ *   },
+ * });
+ */
+export function useUnfollowMutation(baseOptions?: Apollo.MutationHookOptions<UnfollowMutation, UnfollowMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UnfollowMutation, UnfollowMutationVariables>(UnfollowDocument, options);
+      }
+export type UnfollowMutationHookResult = ReturnType<typeof useUnfollowMutation>;
+export type UnfollowMutationResult = Apollo.MutationResult<UnfollowMutation>;
+export type UnfollowMutationOptions = Apollo.BaseMutationOptions<UnfollowMutation, UnfollowMutationVariables>;

@@ -110,9 +110,10 @@ This project follows the [Semantic Versioning 2.0](https://semver.org/) standard
 - [ ] Auto Updater
 - [ ] Luna v1-alpha Release
 - [ ] Posting
-- [ ] Follow & friending
+- [ ] Following
+- [ ] Notifications
 <!-- - [ ] Populate Sidebar Discovery -->
-<!-- - [ ] Searchbar -->
+<!-- - [ ] Friending -->
 
 ### 📬 Contact
 - hello@deveelo.com for general inqueries, introducing yourself 😘 and everything else.

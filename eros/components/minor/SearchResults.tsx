@@ -52,17 +52,17 @@ const SearchResults = ({ users, devlogs, groups, betas, fadeout }: ResultProps) 
 					</div>
 					<div className={searchStyles.section}>
 						<p className={searchStyles.headerR}>Devlogs</p>
-						{showRes ? usersDis.map((user) => <Result account={user.account} profile={user.profile} status={user.status} />) : null}
+						{false ? usersDis.map((user) => <Result account={user.account} profile={user.profile} status={user.status} />) : null}
 					</div>
 				</div>
 				<div className={searchStyles.row}>
 					<div className={searchStyles.section}>
 						<p className={searchStyles.headerG}>Groups</p>
-						{showRes ? usersDis.map((user) => <Result account={user.account} profile={user.profile} status={user.status} />) : null}
+						{false ? usersDis.map((user) => <Result account={user.account} profile={user.profile} status={user.status} />) : null}
 					</div>
 					<div className={searchStyles.section}>
 						<p className={searchStyles.headerB}>Betas</p>
-						{showRes ? usersDis.map((user) => <Result account={user.account} profile={user.profile} status={user.status} />) : null}
+						{false ? usersDis.map((user) => <Result account={user.account} profile={user.profile} status={user.status} />) : null}
 					</div>
 				</div>
 			</div>

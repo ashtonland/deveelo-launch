@@ -10,8 +10,10 @@ import { OnNavBlacklist, OnSidebarBlacklist, OnActivityBlacklist, MatchName } fr
 import { useEffect, useState } from "react";
 import { setAccessToken } from "../accessToken";
 
+//alt page layout: show large banner image on left and page content on the right
 const twoColRoutes = ["/login", "/register"];
-//use no queries or fetches
+
+//use no queries or fetches for faster loading & remove sidebar in future
 const dynamicRoutes = ["/settings/account"];
 
 function MyApp({ Component, pageProps }: AppProps) {

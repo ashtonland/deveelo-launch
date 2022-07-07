@@ -27,6 +27,7 @@
     width: 3.75em;
     height: 3.75em;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 /* Used as pfp on posts in main feed */
@@ -51,6 +52,7 @@
     width: 2.625em;
     height: 2.625em;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .p_picture {
@@ -58,5 +60,6 @@
     
     border-radius: 50%;
     background-color: #EEF0F4;
+    flex-shrink: 0;
     image-rendering: -webkit-optimize-contrast; /*stops blur*/
 }

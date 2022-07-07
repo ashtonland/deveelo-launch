@@ -51,42 +51,6 @@ button {
   transition: .2s ease;
 }
 
-/* SIMPLE CLASSES */
-.rows {
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* SIMPLE BUTTON */
-
-.simpleButton {
-  height: fit-content;
-  width: fit-content;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-.simpleButton::before {
-  content: "";
-  position: absolute;
-  height: 0;
-  width: 0;
-  background-color: rgba(4, 18, 51, 0);
-  border-radius: 50%;
-  transition: .25s ease-in-out;
-}
-
-.simpleButton:hover::before {
-  height: 100%;
-  width: 100%;
-  border-radius: 20%;
-  background-color: rgba(0, 23, 78, 0.082);;
-}
-
 @media screen and (max-width : 1600px) {
   html, body {
     padding: 0;
@@ -120,6 +84,137 @@ button {
     transition: .2s ease;
   }
 }
+/* SIMPLE CLASSES */
+.fillfit {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: fit-content;
+}
+
+.fitfill {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  width: 100%;
+}
+
+.purefitfill {
+  height: fit-content;
+  width: 100%;
+}
+
+.fitfillcol {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: 100%;
+}
+
+.fitfillcenter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: fit-content;
+  width: 100%;
+}
+
+.fillfill {
+  height: 100%;
+  width: 100%;
+}
+
+.fitfit {
+  height: fit-content;
+  width: fit-content;
+}
+
+.fillfillcentercenter {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fillfillcenterright {
+  height: inherit;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.rows {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Scrollbar */
+.simplebar-scrollbar::before, .simplebar-visible::before {
+  background-color: var(--midLightGray) !important;
+}
+
+.simplebar-hover::before {
+  background-color: var(--midFadeGray) !important;
+}
+
+.simplebar-content {
+  display: flex;
+  flex-direction: column;
+
+  height: fit-content;
+  width: 100%;
+}
+
+/* SIMPLE BUTTON */
+
+.simpleButton {
+  height: fit-content;
+  width: fit-content;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.simpleButton::before {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 0;
+  background-color: rgba(4, 18, 51, 0);
+  border-radius: 50%;
+  transition: .25s ease-in-out;
+}
+
+.simpleButton:hover::before {
+  height: 100%;
+  width: 100%;
+  border-radius: 20%;
+  background-color: rgba(0, 23, 78, 0.082);;
+}
+
+/* Text Standards */
+.textFade {
+  width: inherit;
+  height: 3rem;
+  margin: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  font-size: 1rem;
+  color: var(--midFadeGray);
+}
+
 
 
 a {
@@ -283,5 +378,50 @@ input[type="password"]::-ms-clear {
   src: url("/fonts/Pacifico/Pacifico-Regular.ttf");
   font-style: normal;
   font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM/DMSans-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM/DMSans-Italic.ttf");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM/DMSans-Medium.ttf");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM/DMSans-MediumItalic.ttf");
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM/DMSans-Bold.ttf");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM/DMSans-BoldItalic.ttf");
+  font-style: italic;
+  font-weight: 700;
   font-display: swap;
 }

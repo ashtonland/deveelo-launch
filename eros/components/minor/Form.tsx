@@ -192,7 +192,7 @@ const Form = ({ type }: { type: string }) => {
 				</span>
 			</div>
 			<div className={formStyles.submitWrapper}>
-				<TextButton colorKey="gold" text={type == "register" ? "Sign up" : "Login"} submit={true} />
+				<TextButton colorKey="gold" text={type == "register" ? "Sign up" : "Login"} submit={true} large={true} />
 			</div>
 		</form>
 	);

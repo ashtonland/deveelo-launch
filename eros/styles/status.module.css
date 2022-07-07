@@ -13,6 +13,20 @@
     border: 0.2812rem solid var(--sidebarBackground);
 }
 
+.w40 {
+    position: relative;
+    overflow: hidden;
+    left: 2.531em;
+    top: 2.531em;
+
+    z-index: 10;
+
+    width: 1.406em;
+    height: 1.406em;
+    border-radius: 50%;
+    border: 0.188rem solid var(--sidebarBackground);
+}
+
 .w28 {
     position: relative;
     overflow: hidden;

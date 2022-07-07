@@ -16,11 +16,10 @@ const ValidateRegisterInput = (input, type) => {
                 String(input).includes("'") ||
                 String(input).includes(`"`) ||
                 String(input).includes("|") ||
-                String(input).includes("^") ||
                 String(input).includes("*") ||
                 String(input).includes("\\") ||
                 String(input).includes("/")) {
-                errors.email = "only _ {} () + = ? - ! # are allowed";
+                errors.email = "only _ {} () ^ + = ? - ! # are allowed";
             }
             else {
                 const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
@@ -50,12 +49,11 @@ const ValidateRegisterInput = (input, type) => {
                 String(input).includes("'") ||
                 String(input).includes(`"`) ||
                 String(input).includes("|") ||
-                String(input).includes("^") ||
                 String(input).includes("*") ||
                 String(input).includes("\\") ||
                 String(input).includes("/") ||
                 String(input).includes("@")) {
-                errors.username = "only _ {} () + = ? - ! # are allowed";
+                errors.username = "only _ {} () ^ + = ? - ! # are allowed";
             }
             break;
         default:

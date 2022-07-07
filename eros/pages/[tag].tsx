@@ -50,7 +50,8 @@ export async function getServerSideProps({ req, _res }) {
 	const tag = req.url.substring(1);
 
 	try {
-		const request = await fetch(`https://vega-deployment.herokuapp.com/og?tag=${tag}`, { mode: "cors" });
+		const link = process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/og?tag=" : "http://localhost:4000/og?tag=";
+		const request = await fetch(link + tag, { mode: "cors" });
 		const user = await request.json();
 
 		return {

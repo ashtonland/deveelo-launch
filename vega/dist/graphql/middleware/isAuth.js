@@ -32,6 +32,8 @@ exports.isAuth = {
     },
     Mutation: {
         logout: loggedInOnlyAuth,
+        follow: loggedInOnlyAuth,
+        unfollow: loggedInOnlyAuth,
     },
 };
 //# sourceMappingURL=isAuth.js.map

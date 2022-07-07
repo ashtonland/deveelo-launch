@@ -96,7 +96,7 @@
     align-items: flex-start;
     padding: 1.4rem .938rem .469rem;
 
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.66));
+    background: rgba(255, 255, 255, 0.66);
     box-shadow: 0 .375rem 1.875rem rgba(30, 50, 90, 0.08);
     backdrop-filter: blur(59px);
     -webkit-backdrop-filter: blur(59px);

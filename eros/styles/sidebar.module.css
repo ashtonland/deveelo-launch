@@ -14,6 +14,8 @@
 
 .sidebar_full {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     width: 30.9375em;
     left: 0px;
     top: 0px;
@@ -28,6 +30,7 @@
 
 .banner {
     position: relative;
+    flex-shrink: 0;
     width: 30.9375em;
     height: 21.0937em;
 }
@@ -61,6 +64,7 @@
 
     position: relative;
     top: -3.8437em;
+    bottom: 0;
     /* height: 21.09375em; */
     height: fit-content;
     width: inherit;
@@ -175,10 +179,20 @@
 
 .buttonContainer {
     width: 24.4687em;
-    height: 2.8125em;
+    height: 2.8rem;
 
     display: flex;
     column-gap: 0.65625rem;
+}
+
+@media screen and (max-width : 1600px) {
+    .buttonContainer {
+        width: 24.4687em;
+        height: 3em;
+    
+        display: flex;
+        column-gap: 0.65625rem;
+    }
 }
 
 .buttonContainer>button {

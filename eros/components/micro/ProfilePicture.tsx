@@ -50,7 +50,7 @@ const ProfilePicture = ({ size, source, status }: profilePicParams) => {
 			content = (
 				<div className={pictureStyles.w40}>
 					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
-					{status ? <div className={statusStyles.large}>{circle}</div> : null}
+					{status ? <div className={statusStyles.w40}>{circle}</div> : null}
 				</div>
 			);
 			break;

@@ -37,5 +37,7 @@ export const isAuth = {
 	},
 	Mutation: {
 		logout: loggedInOnlyAuth,
+		follow: loggedInOnlyAuth,
+		unfollow: loggedInOnlyAuth,
 	},
 };

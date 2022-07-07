@@ -22,12 +22,11 @@ const ValidateRegisterInput = (input: string, type: string) => {
 				String(input).includes("'") ||
 				String(input).includes(`"`) ||
 				String(input).includes("|") ||
-				String(input).includes("^") ||
 				String(input).includes("*") ||
 				String(input).includes("\\") ||
 				String(input).includes("/")
 			) {
-				errors.email = "only _ {} () + = ? - ! # are allowed";
+				errors.email = "only _ {} () ^ + = ? - ! # are allowed";
 			}
 			//format of an email address
 			else {
@@ -58,13 +57,12 @@ const ValidateRegisterInput = (input: string, type: string) => {
 				String(input).includes("'") ||
 				String(input).includes(`"`) ||
 				String(input).includes("|") ||
-				String(input).includes("^") ||
 				String(input).includes("*") ||
 				String(input).includes("\\") ||
 				String(input).includes("/") ||
 				String(input).includes("@")
 			) {
-				errors.username = "only _ {} () + = ? - ! # are allowed";
+				errors.username = "only _ {} () ^ + = ? - ! # are allowed";
 			}
 			break;
 		default:

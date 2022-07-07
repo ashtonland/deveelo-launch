@@ -29,7 +29,7 @@ export const createRefreshToken = (user: UserType): string => {
 export const sendRefreshToken = (res: Response, token: string) => {
 	res.cookie("lid", token, {
 		path: "/refresh_token",
-		httpOnly: true, //  development  set domain & path
+		httpOnly: true,
 		sameSite: "none",
 		secure: true,
 	});
