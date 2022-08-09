@@ -12,11 +12,19 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Upload: any;
 };
 
 export type BoolRes = {
   __typename?: 'BoolRes';
   success: Scalars['Boolean'];
+};
+
+export type File = {
+  __typename?: 'File';
+  encoding: Scalars['String'];
+  filename: Scalars['String'];
+  mimetype: Scalars['String'];
 };
 
 export type LoginResponse = {
@@ -27,17 +35,18 @@ export type LoginResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  register: LoginResponse;
+  follow?: Maybe<BoolRes>;
   login: LoginResponse;
   logout: Scalars['Boolean'];
-  follow?: Maybe<BoolRes>;
+  register: LoginResponse;
+  singleUpload: UploadResult;
   unfollow?: Maybe<BoolRes>;
+  updateProfile: User;
 };
 
 
-export type MutationRegisterArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+export type MutationFollowArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -47,13 +56,47 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationFollowArgs = {
-  id: Scalars['String'];
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationSingleUploadArgs = {
+  file: Scalars['Upload'];
+  type: Scalars['String'];
 };
 
 
 export type MutationUnfollowArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationUpdateProfileArgs = {
+  description?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  tag?: Maybe<Scalars['String']>;
+};
+
+export type PAccount = {
+  __typename?: 'PAccount';
+  tag: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type PProfile = {
+  __typename?: 'PProfile';
+  bannerUrl: Scalars['String'];
+  description: Scalars['String'];
+  pictureUrl: Scalars['String'];
+};
+
+export type PUser = {
+  __typename?: 'PUser';
+  _id: Scalars['ID'];
+  account: PAccount;
+  profile: PProfile;
 };
 
 export type Post = {
@@ -66,13 +109,13 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
-  getPosts: Array<Maybe<Post>>;
-  myAccount?: Maybe<User>;
+  allUsers: Array<Maybe<User>>;
   findUserByTag: User;
   findUsersById: Array<Maybe<User>>;
+  getPosts: Array<Maybe<Post>>;
+  myAccount?: Maybe<User>;
   randomUser: User;
   randomUsers: Array<Maybe<User>>;
-  allUsers: Array<Maybe<User>>;
 };
 
 
@@ -92,17 +135,17 @@ export type QueryRandomUsersArgs = {
 
 export type U_Account = {
   __typename?: 'U_Account';
-  username: Scalars['String'];
-  tag: Scalars['String'];
-  short: Scalars['String'];
-  password: Scalars['String'];
-  email: Scalars['String'];
-  createdAt: Scalars['String'];
-  lastOnline: Scalars['String'];
-  private: Scalars['Boolean'];
   blockedIds: Array<Maybe<Scalars['String']>>;
-  tokenVersion: Scalars['Int'];
+  createdAt: Scalars['String'];
+  email: Scalars['String'];
+  lastOnline: Scalars['String'];
+  password: Scalars['String'];
+  private: Scalars['Boolean'];
   pro: Scalars['Boolean'];
+  short: Scalars['String'];
+  tag: Scalars['String'];
+  tokenVersion: Scalars['Int'];
+  username: Scalars['String'];
 };
 
 export type U_BetaIds = {
@@ -113,24 +156,31 @@ export type U_BetaIds = {
 
 export type U_Profile = {
   __typename?: 'U_Profile';
+  badges: Array<Maybe<Scalars['String']>>;
   bannerUrl: Scalars['String'];
-  pictureUrl: Scalars['String'];
   description: Scalars['String'];
-  followingIds: Array<Maybe<Scalars['String']>>;
   followerIds: Array<Maybe<Scalars['String']>>;
+  followingIds: Array<Maybe<Scalars['String']>>;
   friendIds: Array<Maybe<Scalars['String']>>;
   friendRqIds: Array<Maybe<Scalars['String']>>;
-  badges: Array<Maybe<Scalars['String']>>;
   linkedProfiles: Array<Maybe<Scalars['String']>>;
+  pictureUrl: Scalars['String'];
 };
 
 export type U_Social = {
   __typename?: 'U_Social';
-  postIds: Array<Maybe<Scalars['String']>>;
-  blogIds: Array<Maybe<Scalars['String']>>;
-  groupIds: Array<Maybe<Scalars['String']>>;
   betaIds: U_BetaIds;
+  blogIds: Array<Maybe<Scalars['String']>>;
   chatIds: Array<Maybe<Scalars['String']>>;
+  groupIds: Array<Maybe<Scalars['String']>>;
+  postIds: Array<Maybe<Scalars['String']>>;
+};
+
+
+export type UploadResult = {
+  __typename?: 'UploadResult';
+  file: File;
+  user: User;
 };
 
 export type User = {
@@ -138,8 +188,8 @@ export type User = {
   _id: Scalars['ID'];
   account: U_Account;
   profile: U_Profile;
-  status: Scalars['String'];
   social: U_Social;
+  status: Scalars['String'];
 };
 
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -189,7 +239,7 @@ export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 export type MyAccountMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyAccountMinProfileQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } }> };
+export type MyAccountMinProfileQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } }> };
 
 export type MyNameAndPfpQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -222,6 +272,23 @@ export type UnfollowMutationVariables = Exact<{
 
 
 export type UnfollowMutation = { __typename?: 'Mutation', unfollow?: Maybe<{ __typename?: 'BoolRes', success: boolean }> };
+
+export type UpdateProfileMutationVariables = Exact<{
+  newname?: Maybe<Scalars['String']>;
+  newtag?: Maybe<Scalars['String']>;
+  newdes?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } } };
+
+export type UploadSingleMutationVariables = Exact<{
+  file: Scalars['Upload'];
+  type: Scalars['String'];
+}>;
+
+
+export type UploadSingleMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadResult', user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> } }, file: { __typename?: 'File', filename: string } } };
 
 
 export const GetPostsDocument = gql`
@@ -515,6 +582,7 @@ export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, L
 export const MyAccountMinProfileDocument = gql`
     query myAccountMinProfile {
   myAccount {
+    _id
     account {
       username
       tag
@@ -779,3 +847,107 @@ export function useUnfollowMutation(baseOptions?: Apollo.MutationHookOptions<Unf
 export type UnfollowMutationHookResult = ReturnType<typeof useUnfollowMutation>;
 export type UnfollowMutationResult = Apollo.MutationResult<UnfollowMutation>;
 export type UnfollowMutationOptions = Apollo.BaseMutationOptions<UnfollowMutation, UnfollowMutationVariables>;
+export const UpdateProfileDocument = gql`
+    mutation updateProfile($newname: String, $newtag: String, $newdes: String) {
+  updateProfile(name: $newname, tag: $newtag, description: $newdes) {
+    _id
+    account {
+      username
+      tag
+      private
+    }
+    profile {
+      bannerUrl
+      pictureUrl
+      description
+      followingIds
+      followerIds
+      badges
+      linkedProfiles
+    }
+    status
+  }
+}
+    `;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      newname: // value for 'newname'
+ *      newtag: // value for 'newtag'
+ *      newdes: // value for 'newdes'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, options);
+      }
+export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
+export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const UploadSingleDocument = gql`
+    mutation uploadSingle($file: Upload!, $type: String!) {
+  singleUpload(file: $file, type: $type) {
+    user {
+      _id
+      account {
+        username
+        tag
+        private
+      }
+      profile {
+        bannerUrl
+        pictureUrl
+        description
+        followingIds
+        followerIds
+        badges
+        linkedProfiles
+      }
+      status
+    }
+    file {
+      filename
+    }
+  }
+}
+    `;
+export type UploadSingleMutationFn = Apollo.MutationFunction<UploadSingleMutation, UploadSingleMutationVariables>;
+
+/**
+ * __useUploadSingleMutation__
+ *
+ * To run a mutation, you first call `useUploadSingleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadSingleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadSingleMutation, { data, loading, error }] = useUploadSingleMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useUploadSingleMutation(baseOptions?: Apollo.MutationHookOptions<UploadSingleMutation, UploadSingleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadSingleMutation, UploadSingleMutationVariables>(UploadSingleDocument, options);
+      }
+export type UploadSingleMutationHookResult = ReturnType<typeof useUploadSingleMutation>;
+export type UploadSingleMutationResult = Apollo.MutationResult<UploadSingleMutation>;
+export type UploadSingleMutationOptions = Apollo.BaseMutationOptions<UploadSingleMutation, UploadSingleMutationVariables>;

@@ -1,0 +1,73 @@
+.fillOverlay {
+    height: 100%;
+    width: 100%;
+
+    background-color: rgba(18, 22, 40, 1);
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1;
+}
+
+.subtitle {
+    width: fit-content;
+    height: 1.594rem;
+
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.219rem;
+    line-height: 1.594rem;
+    letter-spacing: -0.02em;
+
+    color: #C4C4C4;
+    margin: .938rem 0 0 0;
+}
+
+.icon {
+    width: "2.53rem";
+    height: "2.53rem";
+}
+
+.errorIcon {
+    width: "2.53rem";
+    height: "2.53rem";
+    /* user css filter to turn the svg to red */
+    /* the brightness 0 and saturate 100 turn icon black before operation */
+    /* calculated using this codepen: https://codepen.io/sosuke/pen/Pjoqqp */
+    filter: brightness(0) saturate(100%) invert(38%) sepia(16%) saturate(6676%) hue-rotate(327deg) brightness(129%) contrast(116%);
+}
+
+.error {
+    width: fit-content;
+    height: 1.594rem;
+
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.219rem;
+    line-height: 1.594rem;
+    letter-spacing: -0.02em;
+
+    color: #FF5070;
+    margin: .938rem 0 0 0;
+}
+
+.imageOffsetWrapper {
+    height: fit-content;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-left: .375rem;
+}

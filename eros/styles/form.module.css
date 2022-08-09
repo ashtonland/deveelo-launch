@@ -2,6 +2,9 @@
     --form-text-col: #808C9D;
     --form-label-col: #BBC8DB;
     --form-border-col: #979FAA;
+    --input-size: 1.3125rem;
+    --label-height: 1.40625rem;
+    --label-active-offset: -5rem;
 
     position: relative;
     width: inherit;
@@ -24,7 +27,7 @@
 }
 
 .label {
-    height: 1.40625rem;
+    height: var(--label-height);
     width: 100%;
 
     font-family: "Heebo";
@@ -50,11 +53,11 @@
     transition: transform 400ms;
 }
 
-.field:focus-within .label,
+.field:focus-within .label, .fieldThin:focus-within .label,
 .input:not(:placeholder-shown) + .label {
     line-height: 1.40625rem;
     
-    transform: scale(0.714) translateY(-5rem);
+    transform: scale(0.714) translateY(var(--label-active-offset));
     color: var(--form-label-col);
 }
 
@@ -66,7 +69,7 @@
     border-bottom: solid 0.75px var(--form-border-col);
 }
 
-.field::after {
+.field::after, .fieldThin::after, .fieldArea::after {
     content: "";
     position: relative;
     display: block;
@@ -79,10 +82,10 @@
     transition: all 200ms ease-out;
     top: 1px;
   }
-  .field:focus-within {
+  .field:focus-within, .fieldThin:focus-within, .fieldArea:focus-within {
     border-color: transparent;
   }
-  .field:focus-within::after {
+  .field:focus-within::after, .fieldThin:focus-within::after, .fieldArea:focus-within::after {
     transform: scaleX(1);
     opacity: 1;
   }
@@ -104,7 +107,7 @@
     color: var(--form-text-col);
     font-style: normal;
     font-weight: normal;
-    font-size: 1.3125rem;
+    font-size: var(--input-size);
     line-height: 1.96875rem;
 
     display: flex;
@@ -205,4 +208,85 @@
     margin: 0px 0px;
 
     position: absolute;
+}
+
+/* NOTE  PROFILE EDIT FORM */
+
+.pFormContainer {
+    --form-text-col: #5d697b;
+    --form-label-col: #a5b5cb;
+    --form-border-col: #979FAA;
+    --input-size: 1.15rem;
+    --label-height: 1.80625rem;
+    --label-area-height: 4.5rem;
+    --label-active-offset: -5rem;
+    --label-active-area-offset: -5.5rem;
+    
+    position: relative;
+    width: 24.4687em;
+    height: fit-content;
+    bottom: 2em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+}
+
+/* just a field without so much margin beneath (like the login fields) */
+.fieldThin {
+    position: relative;
+    margin: .40625rem auto 2rem;
+    width: 100%;
+
+    border-bottom: solid 0.75px var(--form-border-col);
+}
+
+.inputarea {
+    z-index: 0;
+    outline: none;
+    border: none;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+
+    background: none;
+
+    height: 5.5rem;
+    width: 100%;
+
+    font-family: "Heebo";
+    color: var(--form-text-col);
+    font-style: normal;
+    font-weight: normal;
+    font-size: var(--input-size);
+    line-height: 1.96875rem;
+
+    display: flex;
+    align-items: flex-start;
+
+    /* get ride of ugly resize drag on box */
+    resize: none;
+}
+
+.fieldArea:focus-within .label,
+.inputarea:not(:placeholder-shown) + .label {
+    line-height: 1.40625rem;
+    
+    transform: scale(0.714) translateY(var(--label-active-area-offset));
+    color: var(--form-label-col);
+}
+
+.inputarea + .label {
+    height: var(--label-area-height);
+    bottom: 1rem;
+}
+
+.fieldArea {
+
+    position: relative;
+    margin: 1.40625rem auto 3.75rem;
+    width: 100%;
+
+    border-bottom: solid 0.75px var(--form-border-col);
 }

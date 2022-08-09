@@ -6,13 +6,32 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.typeDefs = void 0;
 const graphql_tag_1 = __importDefault(require("graphql-tag"));
 exports.typeDefs = graphql_tag_1.default `
-	# note  Types
+	# The implementation for this scalar is provided by the
+	# 'GraphQLUpload' export from the 'graphql-upload' package
+	# in the resolver map in resolvers/index.ts
+	scalar Upload
+
+	#  note  Types
+	#file uploads
+	type File {
+		filename: String!
+		mimetype: String!
+		encoding: String!
+	}
+	type UploadResult {
+		user: User!
+		file: File!
+	}
+
+	#posting
 	type Post {
 		_id: ID!
 		body: String!
 		createdAt: String!
 		username: String!
 	}
+
+	#general
 	type LoginResponse {
 		accessToken: String!
 		user: User!
@@ -54,7 +73,25 @@ exports.typeDefs = graphql_tag_1.default `
 		joinedIds: [String]!
 	}
 
-	#all types
+	# stripped for profile edit
+	type PUser {
+		_id: ID!
+		account: PAccount!
+		profile: PProfile!
+	}
+
+	type PAccount {
+		username: String!
+		tag: String!
+	}
+
+	type PProfile {
+		bannerUrl: String!
+		pictureUrl: String!
+		description: String!
+	}
+
+	# all types
 	type User {
 		_id: ID!
 		account: U_Account!
@@ -85,6 +122,8 @@ exports.typeDefs = graphql_tag_1.default `
 		logout: Boolean!
 		follow(id: String!): BoolRes
 		unfollow(id: String!): BoolRes
+		updateProfile(name: String, tag: String, description: String): User!
+		singleUpload(file: Upload!, type: String!): UploadResult!
 	}
 `;
 //# sourceMappingURL=typeDefs.js.map

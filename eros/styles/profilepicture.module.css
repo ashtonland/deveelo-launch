@@ -4,6 +4,7 @@
     width: 6.5625em;
     height: 6.5625em;
     border-radius: 50%;
+    
     box-shadow: 0 0 0 0.8em var(--sidebarBackground);
 
     flex: none;
@@ -61,5 +62,34 @@
     border-radius: 50%;
     background-color: #EEF0F4;
     flex-shrink: 0;
-    image-rendering: -webkit-optimize-contrast; /*stops blur*/
+}
+
+.p_pictureEdit {
+    overflow: hidden;
+    
+    border-radius: 50%;
+    background-color: #EEF0F4;
+    flex-shrink: 0;
+
+    opacity: .31;
+}
+
+.w70Clip span {
+    pointer-events: none;
+}
+
+.w70Clip {
+    position: relative;
+    width: 6.5625em;
+    height: 6.5625em;
+    overflow: hidden;
+    border-radius: 50%;
+    
+    box-shadow: 0 0 0 0.8em var(--sidebarBackground);
+
+    flex: none;
+    flex-grow: 0;
+    margin-bottom: 0.9375em;
+    margin-left: 1.4062em;
+    margin-right: 1.4062em;
 }

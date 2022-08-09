@@ -33,15 +33,30 @@
     flex-shrink: 0;
     width: 30.9375em;
     height: 21.0937em;
+    border-radius: 0 0 3.1875em 3.1875em;
+    overflow: hidden;
 }
 
 .bannerImage {
     width: inherit;
     height: inherit;
-    border-radius: 0 0 3.1875em 3.1875em;
+    background: #EEF0F4;
+    /*image-rendering: -webkit-optimize-contrast; stops blur*/
+}
+
+.bannerImageEdit {
+    width: inherit;
+    height: inherit;
     background: #EEF0F4;
     
+    opacity: .31;
     /*image-rendering: -webkit-optimize-contrast; stops blur*/
+    /* Click through to upload panel */
+    pointer-events: none;
+}
+
+.banner span {
+    pointer-events: none;
 }
 
 .linkedProfiles {

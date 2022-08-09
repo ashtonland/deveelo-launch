@@ -2,13 +2,18 @@ import pictureStyles from "../../styles/profilepicture.module.css";
 import statusStyles from "../../styles/status.module.css";
 import Image from "next/image";
 
+import { bannerLoader } from "../../hooks/loaders";
+import { FileSelectArea } from "./FileSelect";
+
 interface profilePicParams {
 	size: string;
 	source: string;
 	status?: string;
+	editing?: boolean;
+	renderSeed?: number; //used to pas rerender events from sidebar down to pfp
 }
 
-const ProfilePicture = ({ size, source, status }: profilePicParams) => {
+const ProfilePicture = ({ size, source, status, editing, renderSeed }: profilePicParams) => {
 	let content = null;
 	let circle = null;
 
@@ -32,16 +37,18 @@ const ProfilePicture = ({ size, source, status }: profilePicParams) => {
 	switch (size) {
 		case "large":
 			content = (
-				<div className={pictureStyles.w70}>
-					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
-					{status ? <div className={statusStyles.large}>{circle}</div> : null}
+				//if editting, we clip it so that the darken overlay is a circle (status is hidden when editting so no conflicts)
+				<div className={editing ? pictureStyles.w70Clip : pictureStyles.w70}>
+					{editing ? <FileSelectArea maxSize="2mb" type="pfp" /> : null}
+					<Image loader={bannerLoader} className={editing ? pictureStyles.p_pictureEdit : pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
+					{status && !editing ? <div className={statusStyles.large}>{circle}</div> : null}
 				</div>
 			);
 			break;
 		case "w50":
 			content = (
 				<div className={pictureStyles.w50}>
-					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
+					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 					{status ? <div className={statusStyles.large}>{circle}</div> : null}
 				</div>
 			);
@@ -49,7 +56,7 @@ const ProfilePicture = ({ size, source, status }: profilePicParams) => {
 		case "w40":
 			content = (
 				<div className={pictureStyles.w40}>
-					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
+					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 					{status ? <div className={statusStyles.w40}>{circle}</div> : null}
 				</div>
 			);
@@ -57,7 +64,7 @@ const ProfilePicture = ({ size, source, status }: profilePicParams) => {
 		case "w36":
 			content = (
 				<div className={pictureStyles.w36}>
-					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
+					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 					{status ? <div className={statusStyles.large}>{circle}</div> : null}
 				</div>
 			);
@@ -65,7 +72,7 @@ const ProfilePicture = ({ size, source, status }: profilePicParams) => {
 		case "w32":
 			content = (
 				<div className={pictureStyles.w32}>
-					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
+					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 					{status ? <div className={statusStyles.large}>{circle}</div> : null}
 				</div>
 			);
@@ -73,7 +80,7 @@ const ProfilePicture = ({ size, source, status }: profilePicParams) => {
 		case "w28":
 			content = (
 				<div className={pictureStyles.w28}>
-					<Image className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
+					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 					{status ? <div className={statusStyles.w28}>{circle}</div> : null}
 				</div>
 			);

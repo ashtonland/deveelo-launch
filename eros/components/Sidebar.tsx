@@ -8,12 +8,15 @@ import NameGroup from "./micro/NameGroup";
 import TextButton from "./micro/TextButton";
 import ProfilePicture from "./micro/ProfilePicture";
 import SocialList from "./minor/SocialList";
+import ProfileEditForm from "./minor/ProfEditForm";
 
 import { useFindMinProfileByTagQuery, useFollowMutation, useMyAccountMinProfileQuery, useRandomMinProfileQuery, useUnfollowMutation } from "../hooks/backend/generated/graphql";
 import { getPayload } from "../accessToken";
 import { updateSidebar } from "../hooks/socialhooks";
 import { MinProfUserType } from "../lib/userTypes";
 import { Fmod } from "../hooks/setSidebar";
+import { bannerLoader } from "../hooks/loaders";
+import { FileSelectArea } from "./micro/FileSelect";
 
 /* todo 
 	+  Switch to unfollow button
@@ -59,6 +62,8 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 	const storage = window.localStorage;
 	const [uTag, setSideProf] = useState(storage.getItem("side_prof"));
 	const [rerender, setRerender] = useState(0);
+	//rerender to load in edit profile form
+	const [showEditForm, setShowEditForm] = useState(false);
 
 	//used to increase change button on new follow
 	const [followMod, setFollowMod] = useState(0);
@@ -103,6 +108,8 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 				uses the current second and millisecond to generate
 				a new number to set that new state int value
 				*/
+				console.log("rerendering");
+
 				const date = new Date();
 				let randomSeed = date.getSeconds() + date.getMilliseconds();
 				setRerender(randomSeed);
@@ -140,6 +147,9 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 				setFMod((dif - 1).toString());
 				//trigger a rerender and change to follow button
 				setFollowMod(-1);
+			} else if (e.detail === "edittoggle") {
+				//sent by the form submit button in the sidebar profile edit form
+				setShowEditForm(false);
 			} else {
 				//reset fmod in local storage
 				//setLastFMod("");
@@ -149,6 +159,11 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 				}
 				//update to change the profile shown without link change
 				setSideProf(e.detail);
+				//we just switched to showing a different user's profile,
+				//(possibly with our profile's edit form still open), so
+				//remove the edit form and show that user's data normally
+				setShowEditForm(false);
+				//*yes, the 2 above both rerender, but both are still run!
 			}
 		};
 		setTimeout(() => {
@@ -174,8 +189,9 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 
 	//the following ifesle will determine buttons loaded
 	let buttons: any = null;
-	if (uTag !== null && uTag !== "") {
-		//possibly logged in, possibly showing other profile
+
+	if (uTag !== null && uTag !== "" && uTag !== payload?.tag) {
+		//possibly logged in, possibly showing other profile (100% not ours)
 		const { data, loading, error } = useFindMinProfileByTagQuery({
 			variables: {
 				tagInput: uTag,
@@ -183,6 +199,41 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 		});
 
 		if (loading && !data) {
+			return loadingSidebar;
+		}
+		if (!data) {
+			//we cant check the findUserByTag if data does not exist, this causes site to
+			//flicker as it constantly reloads and crashes, user has most likely changed their
+			//tag in this situation, but the sideprof localstore contains old one
+			setTimeout(() => {
+				storage.setItem("side_prof", "");
+				setSideProf("");
+			}, 5000);
+
+			return (
+				<div className={hardEdge ? sidebarStyles.sidebar_full : sidebarStyles.sidebar}>
+					<p
+						className="fillfillcentercenter"
+						style={{
+							padding: "0 2em 0 2em",
+							textAlign: "center",
+							margin: "1em 0 1em 0",
+						}}>{`User @${uTag} has not been found, they have most likely changed their account name.`}</p>
+					<p
+						className="fillfillcentercenter"
+						style={{
+							padding: "0 2em 0 2em",
+							textAlign: "center",
+							margin: "0 0 0 0",
+						}}>
+						Switching display in 5 seconds...
+					</p>
+				</div>
+			);
+		}
+		if (!data.findUserByTag) {
+			//fix site crashing bc above condition passes when the data is still ull
+			//we have to wait a little bit more so that a user is returned
 			return loadingSidebar;
 		}
 		if (error) {
@@ -196,110 +247,97 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 		user = data.findUserByTag;
 
 		if (loggedIn) {
-			//the id of the current logged in user
-			const myId = payload.id;
+			const handleFollow = async (id: string) => {
+				//when user clicks the follow button, increase the
+				//follower number of the current user bc it will
+				//not realize the new follow until next page reload
 
-			if (user._id === myId) {
-				buttons = (
-					<>
-						<TextButton colorKey="gold" text="Edit Profile" />
-					</>
-				);
-			} else {
-				//we are logged in but the profile is not ours, open following abilities
-				//these actions are called on click, and update the sidebar via socialhooks.ts
-				const handleFollow = async (id: string) => {
-					//when user clicks the follow button, increase the
-					//follower number of the current user bc it will
-					//not realize the new follow until next page reload
+				try {
+					const response = await followUser({
+						variables: {
+							targetId: id,
+						},
+					});
 
-					try {
-						const response = await followUser({
-							variables: {
-								targetId: id,
-							},
-						});
-
-						if (response && response.data) {
-							//check if the operation went through w/o errors
-							if (response.data.follow.success) {
-								//when user clicks the follow button, increase
-								//the follower number of the current user bc it
-								//will not realize the new follow until next reload
-								updateSidebar("newfollow");
-								return;
-							}
+					if (response && response.data) {
+						//check if the operation went through w/o errors
+						if (response.data.follow.success) {
+							//when user clicks the follow button, increase
+							//the follower number of the current user bc it
+							//will not realize the new follow until next reload
+							updateSidebar("newfollow");
+							return;
 						}
-					} catch (error) {
-						console.log(error);
 					}
-					return;
-				};
+				} catch (error) {
+					console.log(error);
+				}
+				return;
+			};
 
-				const handleUnfollow = async (id: string) => {
-					//when user clicks the follow button, increase the
-					//follower number of the current user bc it will
-					//not realize the new follow until next page reload
-					//DO this first so bc the waiting for the mutation breaks lastfmod reset
+			const handleUnfollow = async (id: string) => {
+				//when user clicks the follow button, increase the
+				//follower number of the current user bc it will
+				//not realize the new follow until next page reload
+				//DO this first so bc the waiting for the mutation breaks lastfmod reset
 
-					try {
-						const response = await unfollowUser({
-							variables: {
-								targetId: id,
-							},
-						});
+				try {
+					const response = await unfollowUser({
+						variables: {
+							targetId: id,
+						},
+					});
 
-						if (response && response.data) {
-							//check if the operation went through w/o errors
-							if (response.data.unfollow.success) {
-								//when user clicks the follow button, increase
-								//the follower number of the current user bc it
-								//will not realize the new follow until next reload
-								updateSidebar("newunfollow");
-							}
+					if (response && response.data) {
+						//check if the operation went through w/o errors
+						if (response.data.unfollow.success) {
+							//when user clicks the follow button, increase
+							//the follower number of the current user bc it
+							//will not realize the new follow until next reload
+							updateSidebar("newunfollow");
 						}
-					} catch (error) {
-						console.log(error);
 					}
-
-					return;
-				};
-
-				//transfer the user to one with the type def, so we
-				//get intellisense for this next operation.
-				const userWtypes: MinProfUserType = user;
-				const userFollowerList = userWtypes.profile.followerIds;
-
-				//use this to show the unfollow button instead of the follow
-				let showUnfollow: boolean;
-
-				switch (followMod) {
-					case 1:
-						//just clicked follow, change to unfollow button
-						showUnfollow = true;
-						break;
-					case -1:
-						//just unfollowed, change to follow button
-						showUnfollow = false;
-						break;
-					default:
-						//Following status has not changed, just persist the current status:
-						//Check if we follow the displayed user (if we are among their followers)
-						showUnfollow = userFollowerList.includes(myId);
-						break;
+				} catch (error) {
+					console.log(error);
 				}
 
-				buttons ??= (
-					<>
-						{showUnfollow ? (
-							<TextButton colorKey="red" text="Unfollow" action={() => handleUnfollow(user._id)} />
-						) : (
-							<TextButton colorKey="gold" text="Follow" action={() => handleFollow(user._id)} />
-						)}
-						<TextButton colorKey="green" text="Friend" />
-					</>
-				);
+				return;
+			};
+
+			//transfer the user to one with the type def, so we
+			//get intellisense for this next operation.
+			const userWtypes: MinProfUserType = user;
+			const userFollowerList = userWtypes.profile.followerIds;
+
+			//use this to show the unfollow button instead of the follow
+			let showUnfollow: boolean;
+
+			switch (followMod) {
+				case 1:
+					//just clicked follow, change to unfollow button
+					showUnfollow = true;
+					break;
+				case -1:
+					//just unfollowed, change to follow button
+					showUnfollow = false;
+					break;
+				default:
+					//Following status has not changed, just persist the current status:
+					//Check if we follow the displayed user (if we are among their followers)
+					showUnfollow = userFollowerList.includes(payload.id);
+					break;
 			}
+
+			buttons ??= (
+				<>
+					{showUnfollow ? (
+						<TextButton colorKey="red" text="Unfollow" action={() => handleUnfollow(user._id)} />
+					) : (
+						<TextButton colorKey="gold" text="Follow" action={() => handleFollow(user._id)} />
+					)}
+					<TextButton colorKey="green" text="Friend" />
+				</>
+			);
 		} else {
 			//we are not logged in, show buttons w/o actions
 			buttons ??= (
@@ -310,7 +348,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 			);
 		}
 	} else if (loggedIn) {
-		//logged in, no selected, so show self
+		//logged in, no selected, so show self ORwe searched for ourselves
 		const { data, loading, error } = useMyAccountMinProfileQuery();
 		if (loading && !data) {
 			return loadingSidebar;
@@ -324,7 +362,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 
 		buttons = (
 			<>
-				<TextButton colorKey="gold" text="Edit Profile" />
+				<TextButton colorKey="gold" text="Edit Profile" action={() => setShowEditForm(true)} />
 			</>
 		);
 	} else {
@@ -366,7 +404,16 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 			<SimpleBar className="fillfill">
 				{/*Banner*/}
 				<div className={sidebarStyles.banner}>
-					<Image className={sidebarStyles.bannerImage} alt="profile banner" src="/user_content/p_banners/pinkdunes.png" layout="fill" priority={true} objectFit="cover" />
+					{showEditForm ? <FileSelectArea type="banner" maxSize="5mb" text="Upload a new banner" /> : null}
+					<Image
+						loader={bannerLoader}
+						className={showEditForm ? sidebarStyles.bannerImageEdit : sidebarStyles.bannerImage}
+						alt="profile banner"
+						src={user.profile.bannerUrl}
+						layout="fill"
+						priority={true}
+						objectFit="cover"
+					/>
 				</div>
 				{/*User Profile*/}
 				<div className={sidebarStyles.profileContainer}>
@@ -377,7 +424,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 								<p className={sidebarStyles.p_stats_num}>{user.profile.followingIds.length}</p>
 								<p className={sidebarStyles.p_stats_label}>Following</p>
 							</div>
-							<ProfilePicture size="large" source={user.profile.pictureUrl} status={user.status} />
+							<ProfilePicture size="large" source={user.profile.pictureUrl} status={user.status} editing={showEditForm} renderSeed={rerender} />
 							{/* FOLLOWER COUNT */}
 							<div className={sidebarStyles.p_stats}>
 								<p className={sidebarStyles.p_stats_num}>{user.profile.followerIds.length + fcountAddition}</p>
@@ -385,13 +432,22 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 							</div>
 						</div>
 						{/*name & badges*/}
-						<NameGroup username={user.account.username} size={1} showBadges={true} badges={user.profile.badges} />
-						<p className={sidebarStyles.p_tag}>@{user.account.tag}</p>
+						{showEditForm ? null : (
+							<>
+								<NameGroup username={user.account.username} size={1} showBadges={true} badges={user.profile.badges} />
+								<p className={sidebarStyles.p_tag}>@{user.account.tag}</p>
+							</>
+						)}
 					</div>
 
-					<p className={sidebarStyles.p_description}>{user.profile.description}</p>
-
-					<div className={sidebarStyles.buttonContainer}>{buttons}</div>
+					{showEditForm ? (
+						<ProfileEditForm name={user.account.username} tag={user.account.tag} description={user.profile.description} />
+					) : (
+						<>
+							<p className={sidebarStyles.p_description}>{user.profile.description}</p>
+							<div className={sidebarStyles.buttonContainer}>{buttons}</div>
+						</>
+					)}
 
 					{/* Following/Friend List */}
 					<SocialList followingIds={user.profile.followingIds} friendIds={user.profile.friendIds} />

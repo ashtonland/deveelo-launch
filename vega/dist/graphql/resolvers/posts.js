@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Post_1 = __importDefault(require("../../models/Post"));
 const postsResolvers = {
     Query: {
-        async getPosts() {
+        getPosts: async () => {
             try {
                 const posts = await Post_1.default.find();
                 return posts;
@@ -14,8 +14,8 @@ const postsResolvers = {
             catch (err) {
                 throw new Error(err);
             }
-        }
-    }
+        },
+    },
 };
 exports.default = postsResolvers;
 //# sourceMappingURL=posts.js.map

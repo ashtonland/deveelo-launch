@@ -1,5 +1,6 @@
 query myAccountMinProfile {
 	myAccount {
+		_id
 		account {
 			username
 			tag

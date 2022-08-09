@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isAuth = void 0;
+exports.loggedInOnlyAuth = void 0;
 const jsonwebtoken_1 = require("jsonwebtoken");
 const auth_1 = require("../../util/auth");
-const loggedInOnlyAuth = async (resolve, _parent, _args, context, _info) => {
+const loggedInOnlyAuth = () => (next) => async (parent, args, context, info) => {
     try {
         const authorization = context.req.headers["authorization"];
         if (!authorization) {
@@ -19,21 +19,12 @@ const loggedInOnlyAuth = async (resolve, _parent, _args, context, _info) => {
             auth_1.sendRefreshToken(context.res, "");
             throw new Error("not authenticated [fail]");
         }
-        const result = await resolve(_parent, _args, context, _info);
+        const result = await next(parent, args, context, info);
         return result;
     }
     catch (error) {
         return null;
     }
 };
-exports.isAuth = {
-    Query: {
-        myAccount: loggedInOnlyAuth,
-    },
-    Mutation: {
-        logout: loggedInOnlyAuth,
-        follow: loggedInOnlyAuth,
-        unfollow: loggedInOnlyAuth,
-    },
-};
+exports.loggedInOnlyAuth = loggedInOnlyAuth;
 //# sourceMappingURL=isAuth.js.map

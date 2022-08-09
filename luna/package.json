@@ -8,7 +8,8 @@
 	},
 	"scripts": {
 		"tauri": "tauri",
-		"test": "tauri dev"
+		"test": "tauri dev",
+		"build": "echo 'build script executed'"
 	},
 	"author": "Treixatek",
 	"license": "ISC",

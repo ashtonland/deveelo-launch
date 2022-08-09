@@ -2,9 +2,13 @@ import { useMemo } from "react";
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, from, HttpLink, ApolloLink } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
+import { createUploadLink } from "apollo-upload-client";
 import jwtDecode, { JwtPayload } from "jwt-decode";
 
 import { getAccessToken, setAccessToken } from "../accessToken";
+
+/* Vars */
+const serverUrl = process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/graphql" : "http://localhost:4000/graphql";
 
 /* Communication Links*/
 
@@ -75,10 +79,15 @@ function createApolloClient() {
 			}),
 			errorLink,
 			requestLink,
-			new HttpLink({
-				uri: process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/graphql" : "http://localhost:4000/graphql",
+			//@ts-ignore
+			createUploadLink({
+				uri: serverUrl,
 				credentials: "include",
 			}),
+			// new HttpLink({
+			// 	uri: serverUrl,
+			// 	credentials: "include",
+			// }),
 		]),
 		cache: new InMemoryCache({
 			typePolicies: {

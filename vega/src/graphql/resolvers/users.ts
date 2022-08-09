@@ -1,11 +1,13 @@
 import argon2 from "argon2";
-import { UserInputError } from "apollo-server-errors";
+import { UserInputError } from "apollo-server-express";
 import { ObjectID } from "mongodb";
 
 import ValidateRegisterInput from "../../util/validators";
-import User, { UserType } from "../../models/User";
-import Context from "../../context";
 import { createAccessToken, createRefreshToken, sendRefreshToken } from "../../util/auth";
+import { removeSpaces } from "../../util/input";
+import User, { UserType } from "../../models/User";
+import { EditProfInput } from "../resolverTypes";
+import Context from "../../context";
 import { Document } from "mongoose";
 import { getRandomUser, getRandomUsers } from "../../hooks/sampleUsers";
 
@@ -17,7 +19,7 @@ const successfulLoginHandler = (user: UserType | Document<any, any, any>, { res 
 
 const userResolvers = {
 	Query: {
-		async myAccount(_parent: any, _args: any, context: Context): Promise<UserType> {
+		myAccount: async (_parent: any, _args: any, context: Context): Promise<UserType> => {
 			const user: UserType = await User.findById(new ObjectID(context.payload!.id));
 
 			if (!user) {
@@ -26,7 +28,7 @@ const userResolvers = {
 
 			return user;
 		},
-		async findUserByTag(_parent: any, { tag }: { tag: string }, _context: Context): Promise<UserType> {
+		findUserByTag: async (_parent: any, { tag }: { tag: string }, _context: Context): Promise<UserType> => {
 			const user: UserType = await User.findOne({ "account.tag": tag });
 
 			if (!user) {
@@ -35,7 +37,7 @@ const userResolvers = {
 
 			return user;
 		},
-		async findUsersById(_parent: any, { ids }: { ids: string[] }, _context: Context): Promise<UserType[]> {
+		findUsersById: async (_parent: any, { ids }: { ids: string[] }, _context: Context): Promise<UserType[]> => {
 			let users: UserType[] = [];
 
 			//for each id in the array [2]
@@ -56,7 +58,7 @@ const userResolvers = {
 
 			return users;
 		},
-		async randomUser(_parent: any, _args: any, _context: Context): Promise<UserType> {
+		randomUser: async (_parent: any, _args: any, _context: Context): Promise<UserType> => {
 			const user = await getRandomUser(false);
 
 			if (!user) {
@@ -65,7 +67,7 @@ const userResolvers = {
 
 			return user as UserType;
 		},
-		async randomUsers(_parent: any, { count }: { count: number }, _context: Context): Promise<UserType[]> {
+		randomUsers: async (_parent: any, { count }: { count: number }, _context: Context): Promise<UserType[]> => {
 			const users = await getRandomUsers(count);
 
 			if (!users) {
@@ -74,7 +76,7 @@ const userResolvers = {
 
 			return users;
 		},
-		async allUsers(_parent: any, _args: any, _context: Context): Promise<UserType[]> {
+		allUsers: async (_parent: any, _args: any, _context: Context): Promise<UserType[]> => {
 			try {
 				const results = await User.aggregate([
 					{
@@ -101,7 +103,7 @@ const userResolvers = {
 		},
 	},
 	Mutation: {
-		async follow(_parent: any, { id }: { id: string }, context: Context) {
+		follow: async (_parent: any, { id }: { id: string }, context: Context) => {
 			const myID = context.payload!.id;
 
 			try {
@@ -118,7 +120,7 @@ const userResolvers = {
 				throw new Error(error);
 			}
 		},
-		async unfollow(_parent: any, { id }: { id: string }, context: Context) {
+		unfollow: async (_parent: any, { id }: { id: string }, context: Context) => {
 			const myID = context.payload!.id;
 
 			try {
@@ -135,7 +137,52 @@ const userResolvers = {
 				throw new Error(error);
 			}
 		},
-		async login(_: any, { input, password }: { input: string; password: string }, context: Context) {
+		updateProfile: async (_parent: any, { name, tag, description }: EditProfInput, context: Context) => {
+			//get the user so we can set the defaults to what they currently are (no change)
+			let user: UserType = await User.findById(new ObjectID(context.payload!.id));
+
+			//check n case this account has been deleted somehow... on another device maybe?
+			if (!user) {
+				throw new Error("account not found");
+			}
+
+			//if no input is given, default to the current, otherwise use the input
+			const newName = name === null ? user.account.username : name;
+			const newTag = tag === null ? user.account.tag : tag;
+			const newDes = description === null ? user.profile.description : description;
+			// todo
+			const newBanner = user.profile.bannerUrl;
+			const newPfp = user.profile.pictureUrl;
+
+			try {
+				await User.findByIdAndUpdate(
+					new ObjectID(context.payload!.id),
+					{
+						$set: {
+							"account.username": newName,
+							"account.tag": removeSpaces(newTag),
+							"profile.description": newDes,
+							"profile.bannerUrl": newBanner,
+							"profile.pictureUrl": newPfp,
+						},
+					},
+					{ useFindAndModify: false }
+				);
+
+				//manually update our local version, so we can return the new
+				//user without sending another req to the database
+				user.account.username = newName;
+				user.account.tag = newTag;
+				user.profile.description = newDes;
+				user.profile.bannerUrl = newBanner;
+				user.profile.pictureUrl = newPfp;
+
+				return user;
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
+		login: async (_: any, { input, password }: { input: string; password: string }, context: Context) => {
 			//check if email or username [tag]
 			const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
 			const isEmail = input.match(regEx);
@@ -202,7 +249,7 @@ const userResolvers = {
 				user,
 			};
 		},
-		async register(_: any, { email, password }: { email: string; password: string }, context: Context) {
+		register: async (_: any, { email, password }: { email: string; password: string }, context: Context) => {
 			email = String(email).trim();
 
 			//#region Validate Input
@@ -291,7 +338,7 @@ const userResolvers = {
 					pro: false,
 				},
 				profile: {
-					bannerUrl: "default",
+					bannerUrl: `/banners/image_${Math.floor(Math.random() * 4)}.webp`, //0-3
 					pictureUrl: `/user_content/p_pictures/cup${Math.floor(Math.random() * 18)}.jpg`, //0-17
 					description: "I'm new to Deveelo!",
 					followingIds: [],
@@ -327,7 +374,7 @@ const userResolvers = {
 				user,
 			};
 		},
-		async logout(_parent: any, _args: any, { res, payload }: Context) {
+		logout: async (_parent: any, _args: any, { res, payload }: Context) => {
 			if (!payload) {
 				//payload is false
 				console.log(JSON.stringify(payload));

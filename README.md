@@ -11,11 +11,11 @@
     <img alt="" src="https://img.shields.io/website?down_color=ff3d4a&down_message=down&up_color=38d166&up_message=up&url=https%3A%2F%2Fwww.deveelo.com&style=for-the-badge&labelColor=1b202e">
   </a>
 	<a aria-label="issues" href="https://github.com/Treixatek/deveelo/issues">
-    <img alt="" src="https://img.shields.io/github/issues/Treixatek/deveelo?color=3fa9eb&style=for-the-badge&labelColor=1b202e">
+    <img alt="" src="https://img.shields.io/github/issues-raw/deveelo/deveelo?color=3fa9eb&label=issues&style=for-the-badge&labelColor=1b202e">
   </a>
-<!--   <a aria-label="contributions" href="https://www.deveelo.com">
-    <img alt="" src="https://img.shields.io/badge/Contributions-welcome-3fa9eb?style=for-the-badge&labelColor=1b202e">
-  </a> -->
+  <a aria-label="open prs" href="https://www.deveelo.com">
+    <img alt="" src="https://img.shields.io/github/issues-pr-raw/deveelo/deveelo?color=%237d4fe8&label=pull%20reqs&style=for-the-badge&labelColor=1b202e">
+  </a>
 </p>
 
 <br />
@@ -35,8 +35,8 @@
 ### 📚 Structure
 | Branches             |      Description      |
 | :------------------- | :------------------- |
-| [Dev](https://github.com/Treixatek/deveelo/tree/dev)       |      New and untested features or fixes, new commits go here       |
-| [Staging](https://github.com/Treixatek/deveelo/tree/staging) |     This is where completed features from the __dev branch__ are tested before entering __prod branch__      |
+| feat/fix      |      New and untested features or fixes, will be merged into staging upon completion       |
+| [Staging](https://github.com/Treixatek/deveelo/tree/staging) |     This is where completed features from the __dev branch__ are tested before entering __prod__      |
 | [Prod](https://github.com/Treixatek/deveelo/tree/prod) |     This is what is running in production, only tested versions of staging should be merged here      |
 
 | Folders             |      Description      |
@@ -101,19 +101,16 @@ This project follows the [Semantic Versioning 2.0](https://semver.org/) standard
 
 ### 🛤️ Roadmap
 - [x] Desktop app
-- [x] Loading splashscreen
 - [x] Profile pages
-- [x] Attempt #2 w/ Tauri
-- [x] Navigation
 - [x] Searchbar
 - [x] Handle token expiration & logouts
-- [ ] Auto Updater
-- [ ] Luna v1-alpha Release
+- [x] Following
+- [ ] Friending (next)
+- [x] Update profile information (polishing)
+- [ ] Support file uploads (in progress)
 - [ ] Posting
-- [ ] Following
 - [ ] Notifications
-<!-- - [ ] Populate Sidebar Discovery -->
-<!-- - [ ] Friending -->
+- [ ] Luna v1-alpha Release
 
 ### 📬 Contact
 - hello@deveelo.com for general inqueries, introducing yourself 😘 and everything else.

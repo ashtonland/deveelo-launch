@@ -1,0 +1,20 @@
+mutation updateProfile($newname: String, $newtag: String, $newdes: String) {
+	updateProfile(name: $newname, tag: $newtag, description: $newdes) {
+		_id
+		account {
+			username
+			tag
+			private
+		}
+		profile {
+			bannerUrl
+			pictureUrl
+			description
+			followingIds
+			followerIds
+			badges
+			linkedProfiles
+		}
+		status
+	}
+}

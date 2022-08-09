@@ -5,6 +5,9 @@ import "dotenv/config";
 import { UserType } from "../models/User";
 
 export const createAccessToken = (user: UserType): string => {
+	//encode the user id and tag into the token. Since this token is accessable on the frontend,
+	//and we can decode it their, we will have the unique identifiers on the front to query the
+	//database and fetch all the data for the logged in user
 	return sign(
 		{
 			id: user._id,

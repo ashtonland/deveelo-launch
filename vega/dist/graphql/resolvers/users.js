@@ -4,11 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const argon2_1 = __importDefault(require("argon2"));
-const apollo_server_errors_1 = require("apollo-server-errors");
+const apollo_server_express_1 = require("apollo-server-express");
 const mongodb_1 = require("mongodb");
 const validators_1 = __importDefault(require("../../util/validators"));
-const User_1 = __importDefault(require("../../models/User"));
 const auth_1 = require("../../util/auth");
+const input_1 = require("../../util/input");
+const User_1 = __importDefault(require("../../models/User"));
 const sampleUsers_1 = require("../../hooks/sampleUsers");
 const successfulLoginHandler = (user, { res }) => {
     auth_1.sendRefreshToken(res, auth_1.createRefreshToken(user));
@@ -16,21 +17,21 @@ const successfulLoginHandler = (user, { res }) => {
 };
 const userResolvers = {
     Query: {
-        async myAccount(_parent, _args, context) {
+        myAccount: async (_parent, _args, context) => {
             const user = await User_1.default.findById(new mongodb_1.ObjectID(context.payload.id));
             if (!user) {
                 throw new Error("user not found");
             }
             return user;
         },
-        async findUserByTag(_parent, { tag }, _context) {
+        findUserByTag: async (_parent, { tag }, _context) => {
             const user = await User_1.default.findOne({ "account.tag": tag });
             if (!user) {
                 throw new Error("user not found");
             }
             return user;
         },
-        async findUsersById(_parent, { ids }, _context) {
+        findUsersById: async (_parent, { ids }, _context) => {
             let users = [];
             for (let i = 0; i < ids.length; i++) {
                 const id = ids[i];
@@ -44,21 +45,21 @@ const userResolvers = {
             }
             return users;
         },
-        async randomUser(_parent, _args, _context) {
+        randomUser: async (_parent, _args, _context) => {
             const user = await sampleUsers_1.getRandomUser(false);
             if (!user) {
                 throw new Error("error finding random user");
             }
             return user;
         },
-        async randomUsers(_parent, { count }, _context) {
+        randomUsers: async (_parent, { count }, _context) => {
             const users = await sampleUsers_1.getRandomUsers(count);
             if (!users) {
                 throw new Error("Error sampling users");
             }
             return users;
         },
-        async allUsers(_parent, _args, _context) {
+        allUsers: async (_parent, _args, _context) => {
             try {
                 const results = await User_1.default.aggregate([
                     {
@@ -86,7 +87,7 @@ const userResolvers = {
         },
     },
     Mutation: {
-        async follow(_parent, { id }, context) {
+        follow: async (_parent, { id }, context) => {
             const myID = context.payload.id;
             try {
                 await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(myID), { $addToSet: { "profile.followingIds": id } }, { useFindAndModify: false });
@@ -99,7 +100,7 @@ const userResolvers = {
                 throw new Error(error);
             }
         },
-        async unfollow(_parent, { id }, context) {
+        unfollow: async (_parent, { id }, context) => {
             const myID = context.payload.id;
             try {
                 await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(myID), { $pull: { "profile.followingIds": id } }, { useFindAndModify: false });
@@ -112,24 +113,55 @@ const userResolvers = {
                 throw new Error(error);
             }
         },
-        async login(_, { input, password }, context) {
+        updateProfile: async (_parent, { name, tag, description }, context) => {
+            let user = await User_1.default.findById(new mongodb_1.ObjectID(context.payload.id));
+            if (!user) {
+                throw new Error("account not found");
+            }
+            const newName = name === null ? user.account.username : name;
+            const newTag = tag === null ? user.account.tag : tag;
+            const newDes = description === null ? user.profile.description : description;
+            const newBanner = user.profile.bannerUrl;
+            const newPfp = user.profile.pictureUrl;
+            try {
+                await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(context.payload.id), {
+                    $set: {
+                        "account.username": newName,
+                        "account.tag": input_1.removeSpaces(newTag),
+                        "profile.description": newDes,
+                        "profile.bannerUrl": newBanner,
+                        "profile.pictureUrl": newPfp,
+                    },
+                }, { useFindAndModify: false });
+                user.account.username = newName;
+                user.account.tag = newTag;
+                user.profile.description = newDes;
+                user.profile.bannerUrl = newBanner;
+                user.profile.pictureUrl = newPfp;
+                return user;
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        },
+        login: async (_, { input, password }, context) => {
             const regEx = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
             const isEmail = input.match(regEx);
             if (isEmail) {
                 let { valid, errors } = validators_1.default(input, "email");
                 if (!valid) {
-                    throw new apollo_server_errors_1.UserInputError("Errors", { errors });
+                    throw new apollo_server_express_1.UserInputError("Errors", { errors });
                 }
             }
             else {
                 let { valid, errors } = validators_1.default(input, "username");
                 if (!valid) {
-                    throw new apollo_server_errors_1.UserInputError("Errors", { errors });
+                    throw new apollo_server_express_1.UserInputError("Errors", { errors });
                 }
             }
             let { valid, errors } = validators_1.default(password, "password");
             if (!valid) {
-                throw new apollo_server_errors_1.UserInputError("Errors", { errors });
+                throw new apollo_server_express_1.UserInputError("Errors", { errors });
             }
             let user;
             if (isEmail) {
@@ -140,14 +172,14 @@ const userResolvers = {
             }
             if (!user) {
                 if (isEmail) {
-                    throw new apollo_server_errors_1.UserInputError("User not found", {
+                    throw new apollo_server_express_1.UserInputError("User not found", {
                         errors: {
                             email: "no user is registered with this email",
                         },
                     });
                 }
                 else {
-                    throw new apollo_server_errors_1.UserInputError("User not found", {
+                    throw new apollo_server_express_1.UserInputError("User not found", {
                         errors: {
                             username: "no user is registered with this username",
                         },
@@ -156,7 +188,7 @@ const userResolvers = {
             }
             const match = await argon2_1.default.verify(user.account.password, password);
             if (!match) {
-                throw new apollo_server_errors_1.UserInputError("Wrong credentials", {
+                throw new apollo_server_express_1.UserInputError("Wrong credentials", {
                     errors: {
                         password: "incorrect password",
                     },
@@ -168,22 +200,22 @@ const userResolvers = {
                 user,
             };
         },
-        async register(_, { email, password }, context) {
+        register: async (_, { email, password }, context) => {
             email = String(email).trim();
             let { valid, errors } = validators_1.default(email, "email");
             if (!valid) {
-                throw new apollo_server_errors_1.UserInputError("Errors", { errors });
+                throw new apollo_server_express_1.UserInputError("Errors", { errors });
             }
             let emailSplit = String(email).split("@");
             let username = String(emailSplit[0].trim()).replaceAll("@", "");
             ({ valid, errors } = validators_1.default(username, "username"));
             if (!valid) {
-                throw new apollo_server_errors_1.UserInputError("Errors", { errors });
+                throw new apollo_server_express_1.UserInputError("Errors", { errors });
             }
             let tag = username;
             ({ valid, errors } = validators_1.default(password, "password"));
             if (!valid) {
-                throw new apollo_server_errors_1.UserInputError("Errors", { errors });
+                throw new apollo_server_express_1.UserInputError("Errors", { errors });
             }
             let max = 9;
             const CheckAndGenerateUsername = async (length, testTag, repeat, cycleNum) => {
@@ -206,7 +238,7 @@ const userResolvers = {
             await CheckAndGenerateUsername(max, tag, false, 0);
             const muser = await User_1.default.findOne({ "account.email": email });
             if (muser) {
-                throw new apollo_server_errors_1.UserInputError("email taken", {
+                throw new apollo_server_express_1.UserInputError("email taken", {
                     errors: {
                         email: "An account is already registered with email",
                     },
@@ -231,7 +263,7 @@ const userResolvers = {
                     pro: false,
                 },
                 profile: {
-                    bannerUrl: "default",
+                    bannerUrl: `/banners/image_${Math.floor(Math.random() * 4)}.webp`,
                     pictureUrl: `/user_content/p_pictures/cup${Math.floor(Math.random() * 18)}.jpg`,
                     description: "I'm new to Deveelo!",
                     followingIds: [],
@@ -265,7 +297,7 @@ const userResolvers = {
                 user,
             };
         },
-        async logout(_parent, _args, { res, payload }) {
+        logout: async (_parent, _args, { res, payload }) => {
             if (!payload) {
                 console.log(JSON.stringify(payload));
                 return false;

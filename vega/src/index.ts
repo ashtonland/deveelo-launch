@@ -1,7 +1,9 @@
 import "dotenv/config";
+import path from "path";
 import { ApolloServer } from "apollo-server-express";
-import { applyMiddleware as applyGqlMiddle } from "graphql-middleware";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+//@ts-ignore
+import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
 import { verify } from "jsonwebtoken";
 import mongoose from "mongoose";
 import express from "express";
@@ -9,8 +11,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { typeDefs } from "./graphql/typeDefs";
-import resolvers from "./graphql/resolvers";
-import { authMiddlewares } from "./graphql/middleware";
+import { composedResolvers } from "./graphql/middleware";
 import User, { UserType } from "./models/User";
 import { createAccessToken, createRefreshToken, sendRefreshToken } from "./util/auth";
 
@@ -79,7 +80,11 @@ const initServer = async () => {
 		callback(null, corsOptions); // callback expects two parameters: error and options
 	};
 
+	//apply miscellanious .use middleware
+	//allows for reading of browser cookie information, for auth
 	app.use(cookieParser());
+	//used to allow file uploads
+	app.use(graphqlUploadExpress());
 
 	//api routes
 	app.get("/", cors(corsDefault), (_req, res) => res.send("hello"));
@@ -246,16 +251,17 @@ const initServer = async () => {
 		return res.send({ ok: true, accessToken: createAccessToken(user) });
 	});
 
+	//send the images when route is loaded
+	app.use("/uploads/pfps", express.static(path.join(__dirname, "../public/uploads/pfps")));
+	app.use("/uploads/banners", express.static(path.join(__dirname, "../public/uploads/banners")));
+
 	const schema = makeExecutableSchema({
 		typeDefs,
-		resolvers,
+		resolvers: composedResolvers,
 	});
 
-	const middleware = [...authMiddlewares];
-	const schemaWithMiddleware = applyGqlMiddle(schema, ...middleware);
-
 	const server = new ApolloServer({
-		schema: schemaWithMiddleware,
+		schema: schema,
 		context: ({ req, res }) => ({ req, res }),
 	});
 

@@ -1,8 +1,8 @@
 import { verify } from "jsonwebtoken";
 import { sendRefreshToken } from "../../util/auth";
-import { NewIMiddlewareResolver } from "src/util/middlewareType";
+import { MyResolversComposition } from "src/util/middlewareType";
 
-const loggedInOnlyAuth: NewIMiddlewareResolver = async (resolve, _parent, _args, context, _info) => {
+export const loggedInOnlyAuth = (): MyResolversComposition => (next) => async (parent, args, context, info) => {
 	try {
 		//header looks like: bearer 1234abcd...
 		const authorization = context.req.headers["authorization"];
@@ -23,21 +23,13 @@ const loggedInOnlyAuth: NewIMiddlewareResolver = async (resolve, _parent, _args,
 			throw new Error("not authenticated [fail]");
 		}
 
-		const result = await resolve(_parent, _args, context, _info);
+		//after our check, we can run the actual resolver, we could modify the return
+		//before it is sent by catching the result (as we do with @param result), but
+		//I simply return the result as is, no need to change the return for this middleware
+		const result = await next(parent, args, context, info);
 
 		return result;
 	} catch (error) {
 		return null;
 	}
-};
-
-export const isAuth = {
-	Query: {
-		myAccount: loggedInOnlyAuth,
-	},
-	Mutation: {
-		logout: loggedInOnlyAuth,
-		follow: loggedInOnlyAuth,
-		unfollow: loggedInOnlyAuth,
-	},
 };
