@@ -22,11 +22,15 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 				<Searchbar />
 				<div className={navStyles.iconsPlacer}>
 					<div className={navStyles.iconsWrapper}>
-						<IconButton src="/resources/moon.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
-						<IconButton src="/resources/bell.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
+						<IconButton src="/resources/moon.svg" width="1.875em" height="1.875em" paddingTB={0.1875} paddingLR={0.1875} />
 					</div>
-					<div className={navStyles.buttonWrapper}>
-						<TextButton colorKey="gold" text="Login" action="/login" large={true} />
+					<div className={navStyles.profWrapper}>
+						<div className={navStyles.buttonWrapper}>
+							<TextButton colorKey="gold" text="Login" action="/login" outline={true} large={true} />
+						</div>
+						<div className={navStyles.buttonWrapper}>
+							<TextButton colorKey="gold" text="Sign up" action="/register" flat={true} large={true} />
+						</div>
 					</div>
 				</div>
 			</div>
@@ -52,14 +56,16 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 					<Searchbar />
 					<div className={navStyles.iconsPlacer}>
 						<div className={navStyles.iconsWrapper}>
-							<IconButton src="/resources/moon.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
-							<IconButton src="/resources/bell.svg" width="2.25em" height="2.25em" paddingTB={0.1875} paddingLR={0.1875} />
+							<IconButton src="/resources/moon.svg" width="1.875em" height="1.875em" paddingTB={0.1875} paddingLR={0.1875} />
+							<IconButton src="/resources/bellout.svg" width="1.875em" height="1.875em" paddingTB={0.1875} paddingLR={0.1875} />
 						</div>
 					</div>
-					<div className={navStyles.profile}>
-						<p className={navStyles.name}>{user.account.username}</p>
-						<div className={navStyles.pfpContainer}>
-							<ProfilePicture size="w40" source={user.profile.pictureUrl} />
+					<div className={navStyles.profWrapper}>
+						<div className={navStyles.profile}>
+							<p className={navStyles.name}>{user.account.username}</p>
+							<div className={navStyles.pfpContainer}>
+								<ProfilePicture size="w24" source={user.profile.pictureUrl} />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -72,7 +78,7 @@ const Nav = ({ sidebarSpacing, loggedIn }: navProps) => {
 			{/* the name & app version */}
 			<div className={navStyles.wrapper}>
 				<a href="/">
-					<img style={sizeStyle(3.187, 3.187)} src="/resources/greylogo.svg" alt="Deveelo" />
+					<img style={sizeStyle(2.813, 2.813)} src="/resources/greylogo.svg" alt="Deveelo" />
 				</a>
 			</div>
 			{profile}

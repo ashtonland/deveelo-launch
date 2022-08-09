@@ -73,7 +73,7 @@ const ProfilePicture = ({ size, source, status, editing, renderSeed }: profilePi
 			content = (
 				<div className={pictureStyles.w32}>
 					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
-					{status ? <div className={statusStyles.large}>{circle}</div> : null}
+					{status ? <div className={statusStyles.w32}>{circle}</div> : null}
 				</div>
 			);
 			break;
@@ -82,6 +82,14 @@ const ProfilePicture = ({ size, source, status, editing, renderSeed }: profilePi
 				<div className={pictureStyles.w28}>
 					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 					{status ? <div className={statusStyles.w28}>{circle}</div> : null}
+				</div>
+			);
+			break;
+		case "w24":
+			//this is only for the navbar profile picture, so no status support
+			content = (
+				<div className={pictureStyles.w24}>
+					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
 				</div>
 			);
 			break;

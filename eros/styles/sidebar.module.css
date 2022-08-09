@@ -102,115 +102,82 @@
     flex-grow: 0;
 }
 
-.p_chlayout15 {
-    /*auto layout*/
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-end;
-
-    width: 15.9375em;
-    height: 7.5em;
-}
-
-.p_stats {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    width: 3.2812em;
-    height: 2.9em;
-
-    /*auto layout */
-    flex: none;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-
-.p_stats_num {
-    /*width: 1.88rem;*/
-    width: inherit;
-    height: 1.2rem;
-
-    font-weight: bold;
-    font-size: 0.94rem;
-    line-height: 0.94rem;
-    color: var(--textNormalCol);
-    display: flexbox;
-    text-align: center;
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-
-.p_stats_label {
-    width: inherit;
-    height: 0.94rem;
-
-    font-weight: 500;
-    font-size: 0.75rem;
-    line-height: 0.94rem;
-    color: var(--midLightGray);
-    display: flexbox;
-    text-align: center;
-
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 0px 0px;
-}
-
 .p_tag {
     width: fit-content;
-    height: 1.19rem;
+    height: 1.593rem;
 
+    font-family: 'DM Sans';
     color: var(--midFadeGray);
-    font-size: 1.22rem;
+    font-size: 1.219em;
     font-weight: normal;
-    line-height: 1.19rem;
+    line-height: 1.593rem;
+    letter-spacing: -0.02em;
 
     flex: none;
     flex-grow: none;
-    margin-top: 0.31rem;
+    margin: 0;
 }
 
 .p_description {
-    width: 24.66rem;
+    width: inherit;
     height: fit-content;
 
     color: var(--textNormalCol);
+    font-family: "DM Sans";
     font-weight: normal;
-    font-size: 1.13rem;
-    line-height: 1.65rem;
+    font-size: 1.125em;
+    line-height: 1.5rem;
     text-align: center;
+    letter-spacing: -0.02em;
 
     /* auto layout item*/
     flex: none;
     flex-grow: 0;
-    margin: 1.6875em 0;
+    padding: 0 3rem;
+    margin: 1.5em 0;
 }
 
 .buttonContainer {
-    width: 24.4687em;
+    width: inherit;
     height: 2.8rem;
 
+    font-weight: bold;
+
+    padding: 0 3.562rem;
     display: flex;
     column-gap: 0.65625rem;
-}
-
-@media screen and (max-width : 1600px) {
-    .buttonContainer {
-        width: 24.4687em;
-        height: 3em;
-    
-        display: flex;
-        column-gap: 0.65625rem;
-    }
 }
 
 .buttonContainer>button {
     flex: 1;
     flex-direction: row;
+
+    font-weight: bold;
+}
+
+form>.buttonContainer {
+    padding: 0;
+}
+
+@media screen and (max-width : 1600px) {
+    .buttonContainer {
+        /* width: 24.4687rem; */
+        width: inherit;
+        height: 3em;
+
+        font-weight: 500;
+        
+        padding: 0 3.562rem;
+        display: flex;
+        column-gap: 0.65625rem;
+    }
+
+    /* fix button looking awkwardly sized + offcentered text  by */
+    /* overriding the button (the children) to change these values on smaller screens */
+    .buttonContainer>button {
+        flex: 1;
+        flex-direction: row;
+
+        border-radius: 0.85em;
+    }
 }

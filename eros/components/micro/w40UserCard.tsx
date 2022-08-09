@@ -26,13 +26,13 @@ const W40UserCard = ({ account, profile, status }: CardProps) => {
 		<div className={w40styles.cardwrapper} onClick={() => changeSidebar(account.tag)}>
 			<div className="fitfillcenter">
 				<div className={w40styles.namepicWrapper}>
-					<ProfilePicture size="w40" source={profile.pictureUrl} status={status} />
+					<ProfilePicture size="w32" source={profile.pictureUrl} status={status} />
 					<div className={w40styles.nameWrapper}>
 						<NameGroup username={account.username} size={4} badges={profile.badges} showBadges={true} />
 					</div>
 				</div>
 				<div className="fillfillcenterright">
-					<IconButton src="/resources/followbell.svg" width="2.625rem" height="2.625rem" paddingLR={0.375} paddingTB={0.375} />
+					<IconButton src="/resources/followbell.svg" width="2rem" height="2rem" paddingLR={0.375} paddingTB={0.375} />
 				</div>
 			</div>
 		</div>

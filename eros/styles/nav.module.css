@@ -3,7 +3,7 @@
   position: absolute;
   padding-left: 30.9375em;
   width: 100vw;
-  height: 7.125em;
+  height: 5.063em;
   color: #1E325A;
   display: flex;
   align-items: center;
@@ -23,7 +23,7 @@
   position: absolute;
   padding-left: 30.9375em;
   width: 100vw;
-  height: 7.125em;
+  height: 5.063em;
   color: #1E325A;
   display: flex;
   align-items: center;
@@ -42,7 +42,7 @@
 
 .navNoSpace {
   width: 100vw;
-  height: 7.125em;
+  height: 5.063em;
   color: #1E325A;
   display: flex;
   align-items: center;
@@ -59,7 +59,7 @@
 }
 .navNoSpace_full {
   width: 100vw;
-  height: 7.125em;
+  height: 5.063em;
   color: #1E325A;
   display: flex;
   align-items: center;
@@ -112,9 +112,17 @@
 
   margin-left: 3.75rem;
   padding-right: 2.141rem;
+}
 
-  /* border: 2px solid rgb(0, 140, 255); */
-  border-radius: 8px;
+.profWrapper {
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: flex-end;
+
+  height: inherit;
+  width: 17.5em;
 }
 
 .profile {
@@ -133,15 +141,18 @@
 .name {
   overflow: hidden;
   width: fit-content;
-  min-width: 10.5rem;
-  max-width: 12rem;
-  height: 2.344rem;
+  min-width: 1.875em;
+  max-width: 17.9em;
+  height: 1.313em;
 
-  font-family: Heebo;
+  font-family: "DM Sans";
   font-style: normal;
   font-weight: 500;
-  font-size: 1.312rem;
-  line-height: 1.968rem;
+  font-size: 1.031em;
+  line-height: 1.313em;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -158,11 +169,12 @@
 
 .buttonWrapper {
   display: flex;
-  margin-left: 5rem;
+  margin-left: .8rem;
   flex-shrink: 0;
 
-  width: 10rem;
-  height: 3rem;
+  width: 7em;
+  min-width: 1px;
+  height: 3.1em;
 }
 
 /* outerbounds of icon hover effect & button */

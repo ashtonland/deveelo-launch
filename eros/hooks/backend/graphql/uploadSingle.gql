@@ -16,6 +16,10 @@ mutation uploadSingle($file: Upload!, $type: String!) {
 				badges
 				linkedProfiles
 			}
+			social {
+				postIds
+				blogIds
+			}
 			status
 		}
 		file {

@@ -5,7 +5,7 @@
     width: inherit;
     flex-direction: column;
     align-items: center;
-    padding: 3.187rem 1.6rem 0 2rem;
+    padding: 3.187em 2.7em 0 2.6em;
 }
 
 .toggleContainer {
@@ -15,68 +15,49 @@
     justify-content: center;
     align-items: center;
     /* right padding counters != padding on list itself */
-    margin-right: 1.5rem; 
+    margin-right: 0.5em; 
     
     order: 0;
     align-self: stretch;
-
-    /* background-color: rgba(255, 0, 0, 0.233); */
+    gap: 2.625rem;
 }
 
 .on {
-    height: fit-content;
+    height: 1.593rem;
     width: fit-content;
     margin: 0;
 
-    font-family: Heebo;
+    font-family: "DM Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 1.406rem;
-    line-height: 2.063rem;
-    /* identical to box height */
+    font-size: 1.219em;
+    line-height: 1.593rem;
 
     display: flex;
     align-items: center;
+    letter-spacing: -0.02em;
 
     color: #2E3A59;
     cursor: pointer;
 }
 
 .off {
-    height: fit-content;
+    height: 1.593rem;
     width: fit-content;
     margin: 0;
 
-    font-family: Heebo;
+    font-family: "DM Sans";
     font-style: normal;
     font-weight: 500;
-    font-size: 1.406rem;
-    line-height: 2.063rem;
-    /* identical to box height */
+    font-size: 1.219em;
+    line-height: 1.593rem;
 
     display: flex;
     align-items: center;
+    letter-spacing: -0.02em;
 
     color: var(--midLightGray);
     cursor: pointer;
-}
-
-.divider {
-    height: fit-content;
-    width: fit-content;
-    margin: 0 1.125rem;
-
-    font-family: Heebo;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 1.406rem;
-    line-height: 2.063rem;
-    /* identical to box height */
-
-    display: flex;
-    align-items: center;
-    
-    color: #D7E0EF;
 }
 
 .list {

@@ -9,6 +9,8 @@ import TextButton from "./micro/TextButton";
 import ProfilePicture from "./micro/ProfilePicture";
 import SocialList from "./minor/SocialList";
 import ProfileEditForm from "./minor/ProfEditForm";
+//@ts-ignore ts wants to have this lowercase but it breaks vercel
+import ProfileStats from "./minor/ProfileStats";
 
 import { useFindMinProfileByTagQuery, useFollowMutation, useMyAccountMinProfileQuery, useRandomMinProfileQuery, useUnfollowMutation } from "../hooks/backend/generated/graphql";
 import { getPayload } from "../accessToken";
@@ -419,19 +421,8 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 				<div className={sidebarStyles.profileContainer}>
 					<div className={sidebarStyles.p_cvlayoutzero}>
 						{/*layout group with pfp & followers/ing*/}
-						<div className={sidebarStyles.p_chlayout15}>
-							<div className={sidebarStyles.p_stats}>
-								<p className={sidebarStyles.p_stats_num}>{user.profile.followingIds.length}</p>
-								<p className={sidebarStyles.p_stats_label}>Following</p>
-							</div>
-							<ProfilePicture size="large" source={user.profile.pictureUrl} status={user.status} editing={showEditForm} renderSeed={rerender} />
-							{/* FOLLOWER COUNT */}
-							<div className={sidebarStyles.p_stats}>
-								<p className={sidebarStyles.p_stats_num}>{user.profile.followerIds.length + fcountAddition}</p>
-								<p className={sidebarStyles.p_stats_label}>Followers</p>
-							</div>
-						</div>
-						{/*name & badges*/}
+						<ProfilePicture size="large" source={user.profile.pictureUrl} status={user.status} editing={showEditForm} renderSeed={rerender} />
+						{/*name, badges, tag & description*/}
 						{showEditForm ? null : (
 							<>
 								<NameGroup username={user.account.username} size={1} showBadges={true} badges={user.profile.badges} />
@@ -448,6 +439,13 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 							<div className={sidebarStyles.buttonContainer}>{buttons}</div>
 						</>
 					)}
+
+					{/* Profile Stats */}
+					<ProfileStats
+						following={user.profile.followingIds.length}
+						followers={user.profile.followerIds.length + fcountAddition}
+						posts={user.social.postIds.length + user.social.blogIds.length}
+					/>
 
 					{/* Following/Friend List */}
 					<SocialList followingIds={user.profile.followingIds} friendIds={user.profile.friendIds} />

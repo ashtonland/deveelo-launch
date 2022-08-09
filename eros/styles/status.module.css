@@ -2,15 +2,15 @@
 .large {
     position: relative;
     overflow: hidden;
-    left: 4.6875em;
-    top: 4.4062em;
+    left: 4.9688em;
+    top: 4.9688em;
 
     z-index: 10;
 
-    width: 1.875em;
-    height: 1.875em;
+    width: 1.3125em;
+    height: 1.3125em;
     border-radius: 50%;
-    border: 0.2812rem solid var(--sidebarBackground);
+    border: 0.2813rem solid var(--sidebarBackground);
 }
 
 .w40 {
@@ -27,16 +27,30 @@
     border: 0.188rem solid var(--sidebarBackground);
 }
 
-.w28 {
+.w32 {
     position: relative;
     overflow: hidden;
-    left: 1.6875em;
-    top: 1.6875em;
+    left: 2.203em;
+    top: 2.203em;
 
     z-index: 10;
 
-    width: 1.125em;
-    height: 1.125em;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: 50%;
+    border: 0.18rem solid var(--sidebarBackground);
+}
+
+.w28 {
+    position: relative;
+    overflow: hidden;
+    left: 1.94em;
+    top: 1.94em;
+
+    z-index: 10;
+
+    width: 0.67em;
+    height: 0.67em;
     border-radius: 50%;
     border: .1875rem solid var(--sidebarBackground);
 }
