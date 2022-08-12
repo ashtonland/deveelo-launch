@@ -1,0 +1,67 @@
+.largeWrapper {
+    width: inherit;
+    height: fit-content;
+    margin-top: 1.687em;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0.469em 0 0;
+    gap: 2.719em;
+}
+
+.item {
+    width: fit-content;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+}
+
+.statistic {
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+
+    font-family: 'DM Sans';
+    font-style: normal;
+    color: var(--textNormalCol);
+    font-weight: 700;
+    font-size: 1.125em;
+    line-height: 1.5rem;
+    /* identical to box height */
+
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+}
+
+.label {
+    width: 4.031em;
+    height: 1.219em;
+    margin: 0;
+
+    font-family: 'DM Sans';
+    font-style: normal;
+    color: #99AAC4;
+    font-weight: 400;
+    font-size: 0.9375em;
+    line-height: 126.88%;
+    text-align: center;
+    /* identical to box height, or 13px */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.divider {
+    width: 0.046875em;
+    min-width: 1px;
+    height: 1.968em;
+    background: #99AAC4;
+}

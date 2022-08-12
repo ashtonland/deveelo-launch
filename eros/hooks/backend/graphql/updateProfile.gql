@@ -15,6 +15,10 @@ mutation updateProfile($newname: String, $newtag: String, $newdes: String) {
 			badges
 			linkedProfiles
 		}
+		social {
+			postIds
+			blogIds
+		}
 		status
 	}
 }

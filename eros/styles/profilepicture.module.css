@@ -5,7 +5,7 @@
     height: 6.5625em;
     border-radius: 50%;
     
-    box-shadow: 0 0 0 0.8em var(--sidebarBackground);
+    box-shadow: 0 0 0 0.78rem var(--sidebarBackground);
 
     flex: none;
     flex-grow: 0;
@@ -56,6 +56,15 @@
     flex-shrink: 0;
 }
 
+/* pfp in navbar (to open the account/settings blah blah menu) */
+.w24 {
+    position: relative;
+    width: 2.25em;
+    height: 2.25em;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
 .p_picture {
     overflow: hidden;
     
@@ -85,7 +94,7 @@
     overflow: hidden;
     border-radius: 50%;
     
-    box-shadow: 0 0 0 0.8em var(--sidebarBackground);
+    box-shadow: 0 0 0 0.78rem var(--sidebarBackground);
 
     flex: none;
     flex-grow: 0;

@@ -8,6 +8,7 @@
 		"start": "nodemon dist/index.js",
 		"revoke": "node dist/hooks/revokeUserToken.js",
 		"upfield": "node dist/hooks/updateFieldAll.js",
+		"addstaff": "node dist/hooks/giveStaff.js",
 		"build": "echo 'azure pipelines test build script executed (this prevents failed tests)'"
 	},
 	"keywords": [],

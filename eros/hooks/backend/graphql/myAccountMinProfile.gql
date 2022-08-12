@@ -15,6 +15,10 @@ query myAccountMinProfile {
 			badges
 			linkedProfiles
 		}
+		social {
+			postIds
+			blogIds
+		}
 		status
 	}
 }

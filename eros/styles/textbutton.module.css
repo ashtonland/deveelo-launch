@@ -9,7 +9,7 @@
     border-radius: 0.9375em;
 
     font-size: 1rem;
-
+    
     background: linear-gradient(91.48deg, #FFC83A 0%, #FFA943 100%);
     box-shadow: 0 0.375em 1.875em rgba(255, 169, 67, 0.43);
     transition: 0.2s ease;
@@ -30,11 +30,11 @@
     transition: 0.2s ease;
 }
 
-.goldGrad::after, .goldGrad::before, .goldGradL::after, .goldGradL::before{
+.goldGrad::after, .goldGrad::before, .goldGradL::after, .goldGradL::before {
     background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
 }
 
-.goldGrad::after, .goldGrad::before, .goldGradL::after, .goldGradL::before, .greenGrad::after, .greenGrad::before, .redGrad::after, .redGrad::before{
+.goldGrad::after, .goldGrad::before, .goldGradL::after, .goldGradL::before, .goldFlatL::after, .goldFlatL::before, .goldGradLOut::after, .goldGradLOut::before, .greenGrad::after, .greenGrad::before, .redGrad::after, .redGrad::before{
     content: "";
     position: absolute;
     opacity: 0.3;
@@ -47,28 +47,37 @@
     transition: transform 0.2s ease;
 }
 
+/* custom hover for large flat outline button */
+.goldGradLOut:hover, .goldFlatL:hover {
+    color: #fff;
+
+    background: #FFA943;
+    transform: translate(-.6rem, -.6rem);
+}
+
 /* Raise while being hovered */
 .goldGrad:hover, .goldGradL:hover, .greenGrad:hover, .redGrad:hover {
     transform: translate(-.6rem, -.6rem);
 }
 
-.goldGrad:hover::after, .goldGradL:hover::after, .greenGrad:hover::after, .redGrad:hover::after {
+.goldGrad:hover::after, .goldGradL:hover::after, .goldFlatL:hover::after, .goldGradLOut:hover::after, .greenGrad:hover::after, .redGrad:hover::after {
     transform: translate(.3rem, .3rem);
 }
 
-.goldGrad:hover::before, .goldGradL:hover::before, .greenGrad:hover::before, .redGrad:hover::before {
+.goldGrad:hover::before, .goldGradL:hover::before, .goldFlatL:hover::before, .goldGradLOut:hover::before, .greenGrad:hover::before, .redGrad:hover::before {
     transform: translate(.6rem, .6rem);
 }
+
 /* Return no normal state on mouse down */
-.goldGrad:active, .goldGradL:active, .greenGrad:active, .redGrad:active {
+.goldGrad:active, .goldGradL:active, .goldFlatL:active, .goldGradLOut:active, .greenGrad:active, .redGrad:active {
     transform: translate(.3rem, .3rem);
 }
 
-.goldGrad:active::after, .goldGradL:active::after, .greenGrad:active::after, .redGrad:active::after {
+.goldGrad:active::after, .goldGradL:active::after, .goldFlatL:active::after, .goldGradLOut:active::after, .greenGrad:active::after, .redGrad:active::after {
     transform: translate(0rem, 0rem);
 }
 
-.goldGrad:active::before, .goldGradL:active::before, .greenGrad:active::before, .redGrad:active::before {
+.goldGrad:active::before, .goldGradL:active::before, .goldFlatL:active::before, .goldGradLOut:active::before, .greenGrad:active::before, .redGrad:active::before {
     transform: translate(-.05rem, -.05rem);
 }
 
@@ -83,6 +92,7 @@
     border-radius: 0.9375em;
 
     font-size: 1rem;
+    font-weight: bold;
 
     background: linear-gradient(91.48deg, #2ED9A6 0%, #2CCD9D 100%);
     box-shadow: 0 0.375em 1.875em rgba(44, 205, 157, 0.43);
@@ -104,6 +114,7 @@
     border-radius: 0.9375em;
 
     font-size: 1rem;
+    font-weight: bold;
 
     background: linear-gradient(91.48deg, #FF6F89 0%, #FF3873 100%);
     box-shadow: 0px 4px 20px rgba(255, 56, 115, 0.33);
@@ -112,4 +123,48 @@
 
 .redGrad::after, .redGrad::before{
     background: linear-gradient(91.48deg, #FF6F89 0%, #FF3873 100%);
+}
+
+/* OUTLINE BUTTONS */
+.goldGradLOut {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: top;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 0.9375em;
+    border: 0.1em solid #FFA943;
+
+    color: #FFA943;
+    font-weight: 500;
+
+    /* background: linear-gradient(91.48deg, #FFC83A 0%, #FFA943 100%); */
+    background: white;
+    /* box-shadow: 0 0.375em 1.875em rgba(255, 169, 67, 0.43); */
+    transition: 0.2s ease;
+}
+
+.goldFlatL {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: top;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 0.9375em;
+
+    color: white;
+    font-weight: 500;
+
+    /* background: linear-gradient(91.48deg, #FFC83A 0%, #FFA943 100%); */
+    background: #FFA943;
+    /* box-shadow: 0 0.375em 1.875em rgba(255, 169, 67, 0.43); */
+    transition: 0.2s ease;
+}
+
+.goldGradLOut::after, .goldGradLOut::before, .goldFlatL::after, .goldFlatL::before {
+    background: #FFA943;
 }

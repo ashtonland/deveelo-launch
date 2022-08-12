@@ -18,9 +18,12 @@
     width: fit-content;
 
     color: var(--textBlack);
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-family: "DM Sans";
+    font-weight: 700;
+    font-size: 1.5em;
+    font-style: normal;
     line-height: inherit;
+    letter-spacing: -0.02em;
 
     display: flex;
     align-items: flex-end;
@@ -29,17 +32,21 @@
 }
 
 .p_sociallistText {
-    height: inherit;
+    height: 1.688rem;
     width: fit-content;
 
+    font-family: 'DM Sans';
     color: var(--textNormalCol);
     font-weight: 400;
-    font-size: 1.5rem;
-    line-height: 2.156rem;
+    font-size: 1.312em;
+    line-height: 1.688rem;
+    letter-spacing: -0.02em;
 
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 
+    /* stops names with spaces becoming multiline */
+    white-space: nowrap;
     margin: 0 0;
 }
 
