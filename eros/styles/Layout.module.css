@@ -1,8 +1,9 @@
+/* sidebar/main/activty split, sidebar & activity bar are as margin */
 .container {
   margin-left: 30.9375em;
-  margin-right: 19.125em;
+  margin-right: 23.344em;
   min-height: 100vh;
-  padding: 0 0.5rem;
+  padding: 0 2.625em;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -11,6 +12,7 @@
   background-color: var(--sidebarBackground);
 }
 
+/* login/reg pages -- two col */
 .containerWide {
   position: absolute;
   left: 43.125em;
@@ -20,7 +22,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 1.875em 15px 15px 1.875em;
+  border-radius: 3.875em 15px 15px 3.875em;
 
   background-color: var(--sidebarBackground);
   z-index: 1;
@@ -34,7 +36,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 1.875em 0 0 1.875em;
+  border-radius: 3.875em 0 0 3.875em;
 
   background-color: var(--sidebarBackground);
   z-index: 1;
@@ -46,6 +48,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+  height: inherit;
 }
 
 

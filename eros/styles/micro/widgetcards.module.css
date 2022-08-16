@@ -1,0 +1,79 @@
+.card {
+    width: 100%;
+    height: fit-content;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 0.563em 0 0.563em 0.656em;
+    border-radius: 1.2em;
+    transition: .5s;
+}
+
+.card:hover {
+    background-color: var(--activitybarhover);
+}
+
+.linkgroup {
+    height: inherit;
+    width: 100%;
+    overflow: hidden;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.textgroup {
+    height: fit-content;
+    width: 100%;
+    overflow: hidden;
+    padding: 0 0 0.1875em 0.656em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .1em;
+    
+}
+
+.buttonContainer {
+    height: inherit;
+    width: 5.719rem;
+
+    flex-shrink: 0;
+}
+
+.detail {
+    width: fit-content;
+    height: 0.9375em;
+
+    color: #7D8CA9;
+    font-weight: 400;
+    font-size: 0.75em;
+    line-height: 0.9375em;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+
+    margin: 0;
+}
+
+.detailLarge {
+    width: fit-content;
+    height: 0.9375em;
+
+    color: #7D8CA9;
+    font-weight: 400;
+    font-size: 0.85em;
+    line-height: 0.9375em;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+
+    margin: 0;
+}

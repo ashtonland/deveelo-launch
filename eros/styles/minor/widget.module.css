@@ -1,0 +1,23 @@
+.peoplewidget {
+    width: 100%;
+    height: 17.906em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    /* ordering */
+    flex: none;
+    order: 5;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* used for the People & Betas widgets */
+.list {
+    width: inherit;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

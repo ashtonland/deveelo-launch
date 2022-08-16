@@ -122,7 +122,7 @@
   justify-content: flex-end;
 
   height: inherit;
-  width: 17.5em;
+  width: 21.203em;
 }
 
 .profile {
@@ -172,7 +172,7 @@
   margin-left: .8rem;
   flex-shrink: 0;
 
-  width: 7em;
+  width: 8em;
   min-width: 1px;
   height: 3.1em;
 }

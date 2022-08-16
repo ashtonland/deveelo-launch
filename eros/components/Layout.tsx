@@ -87,14 +87,12 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 					{showNav && (showSidebar ? <Nav sidebarSpacing={true} loggedIn={getAccessToken() !== ""} /> : <Nav sidebarSpacing={false} loggedIn={getAccessToken() !== ""} />)}
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
-					{showActivityBar ? <FullActivityBar hardEdge={full} /> : null}
+					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
 
 					{useWide && <SideImage route={route} hardEdge={full} />}
 					<div className={useWide ? (full ? styles.containerWide_full : styles.containerWide) : styles.container}>
 						<main className={styles.main}>
-							<a href="/register">register</a>
-							<a href="/settings/account">your account</a>
-							{getAccessToken() ? (
+							{getAccessToken() && !useWide ? (
 								<button
 									onClick={async () => {
 										const { data } = await logout();
@@ -135,28 +133,37 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
-					{showActivityBar ? <FullActivityBar hardEdge={full} /> : null}
+					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
 
 					{useWide && <SideImage route={route} hardEdge={full} />}
 
 					<div className={useWide ? (full ? styles.containerWide_full : styles.containerWide) : styles.container}>
 						<main className={styles.main}>
-							{/* <h2>half activity bar</h2>
-							<p>Logged in user: {error && !loading ? error : text}</p> */}
-							<a href="/register">register</a>
-							<a href="/settings/account">your account</a>
-							<button
-								onClick={async () => {
-									await logout();
-									setAccessToken("");
+							{getAccessToken() && !useWide ? (
+								<button
+									onClick={async () => {
+										const { data } = await logout();
 
-									await client!.resetStore();
-									if (router.pathname !== "/") {
-										router.push("/");
-									}
-								}}>
-								Logout
-							</button>
+										if (data) {
+											const ok = data.logout;
+
+											if (ok) {
+												//logout was successful
+												setAccessToken("");
+												console.log("access token cleared");
+
+												//clear the cache
+												await client!.resetStore();
+												await client.clearStore();
+
+												//rerender page
+												router.push("/");
+											}
+										}
+									}}>
+									Logout
+								</button>
+							) : null}
 							{children}
 						</main>
 					</div>
@@ -170,26 +177,36 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
-					{showActivityBar ? <FullActivityBar hardEdge={full} /> : null}
+					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
 
 					{useWide && <SideImage route={route} hardEdge={full} />}
 					<div className={useWide ? (full ? styles.containerWide_full : styles.containerWide) : styles.container}>
 						<main className={styles.main}>
-							<a href="/register">register</a>
-							<a href="/settings/account">your account</a>
-							<button
-								onClick={async () => {
-									await logout();
-									setAccessToken("");
-									await client!.resetStore();
-									if (router.pathname !== "/") {
-										router.push("/");
-									}
-								}}>
-								Logout
-							</button>
-							{/* <h2>tablet</h2>
-							<p>Logged in user: {error && !loading ? error : text}</p> */}
+							{getAccessToken() && !useWide ? (
+								<button
+									onClick={async () => {
+										const { data } = await logout();
+
+										if (data) {
+											const ok = data.logout;
+
+											if (ok) {
+												//logout was successful
+												setAccessToken("");
+												console.log("access token cleared");
+
+												//clear the cache
+												await client!.resetStore();
+												await client.clearStore();
+
+												//rerender page
+												router.push("/");
+											}
+										}
+									}}>
+									Logout
+								</button>
+							) : null}
 							{children}
 						</main>
 					</div>
@@ -203,7 +220,7 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
-					{showActivityBar ? <FullActivityBar hardEdge={full} /> : null}
+					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
 
 					{useWide && <SideImage route={route} hardEdge={full} />}
 					<div className={useWide ? (full ? styles.containerWide_full : styles.containerWide) : styles.container}>

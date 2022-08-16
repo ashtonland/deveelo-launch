@@ -9,7 +9,7 @@ import User, { UserType } from "../../models/User";
 import { EditProfInput } from "../resolverTypes";
 import Context from "../../context";
 import { Document } from "mongoose";
-import { getRandomUser, getRandomUsers } from "../../hooks/sampleUsers";
+import { getRandomUser, getRandomUsers, getRandomUsersBut } from "../../hooks/sampleUsers";
 
 const successfulLoginHandler = (user: UserType | Document<any, any, any>, { res }: Context): string => {
 	sendRefreshToken(res, createRefreshToken(user as UserType));
@@ -67,8 +67,16 @@ const userResolvers = {
 
 			return user as UserType;
 		},
-		randomUsers: async (_parent: any, { count }: { count: number }, _context: Context): Promise<UserType[]> => {
-			const users = await getRandomUsers(count);
+		randomUsers: async (_parent: any, { count }: { count: number }, { payload }: Context): Promise<UserType[]> => {
+			let users: UserType[];
+
+			if (payload) {
+				//logged in, sample nondefaults--EXCLUDING ourselves
+				users = await getRandomUsersBut(count, payload.id);
+			} else {
+				//logged out, sample all non default users
+				users = await getRandomUsers(count);
+			}
 
 			if (!users) {
 				throw new Error("Error sampling users");
@@ -106,6 +114,10 @@ const userResolvers = {
 		follow: async (_parent: any, { id }: { id: string }, context: Context) => {
 			const myID = context.payload!.id;
 
+			if (id === myID) {
+				throw new Error("You cannot follow yourself...");
+			}
+
 			try {
 				//add them to our following list
 				await User.findByIdAndUpdate(new ObjectID(myID), { $addToSet: { "profile.followingIds": id } }, { useFindAndModify: false });
@@ -122,6 +134,10 @@ const userResolvers = {
 		},
 		unfollow: async (_parent: any, { id }: { id: string }, context: Context) => {
 			const myID = context.payload!.id;
+
+			if (id === myID) {
+				throw new Error("You cannot unfollow yourself...");
+			}
 
 			try {
 				//remove them from our following list

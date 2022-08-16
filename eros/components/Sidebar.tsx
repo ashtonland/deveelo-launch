@@ -425,7 +425,7 @@ const Sidebar = ({ hardEdge }: sidebarProps) => {
 						{/*name, badges, tag & description*/}
 						{showEditForm ? null : (
 							<>
-								<NameGroup username={user.account.username} size={1} showBadges={true} badges={user.profile.badges} />
+								<NameGroup username={user.account.username} size={1} showBadges={true} badges={user.profile.badges} useh1={true} />
 								<p className={sidebarStyles.p_tag}>@{user.account.tag}</p>
 							</>
 						)}

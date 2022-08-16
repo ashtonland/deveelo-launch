@@ -19,23 +19,33 @@
 }
 
 .largeContainerOffset {
-    position: absolute;
-    left: 5.25em;
-    bottom: 1.96875em;
+    padding-top: 10em;
     width: 38.625em;
     height: fit-content;
+}
+
+.formPositoner {
+    height: inherit;
+    width: 100%;
+    padding-left: 5.625em;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .label {
     height: var(--label-height);
     width: 100%;
 
-    font-family: "Heebo";
+    font-family: "DM Sans";
     color: var(--form-text-col);
     font-style: normal;
     font-weight: normal;
     font-size: 1.3125rem;
     line-height: 1.96875rem;
+    letter-spacing: -0.02em;
 
     display: flex;
     align-items: flex-end;
@@ -100,15 +110,16 @@
 
     background: none;
 
-    height: 1.96875rem;
+    height: 1.5em;
     width: 100%;
 
-    font-family: "Heebo";
+    font-family: "DM Sans";
     color: var(--form-text-col);
     font-style: normal;
     font-weight: normal;
     font-size: var(--input-size);
-    line-height: 1.96875rem;
+    line-height: 1.5em;
+    letter-spacing: -0.02em;
 
     display: flex;
     align-items: flex-end;
@@ -141,14 +152,12 @@
     width: 100%;
     height: 2.81rem;
 
-    font-family: "Heebo";
+    font-family: "DM Sans";
     font-style: normal;
     font-weight: 500;
     font-size: 1.125rem;
     line-height: 2.81rem;
     /* identical to box height */
-
-    letter-spacing: 0.03em;
 
     color: #FFFFFF;
 
@@ -191,12 +200,13 @@
     top: 2.187rem;
     left: 0px;
 
-    font-family: "Heebo";
+    font-family: "DM Sans";
     color: var(--dnd);
     font-style: normal;
     font-weight: normal;
     font-size: 0.937rem;
     line-height: 1.406rem;
+    letter-spacing: -0.02em;
 
     display: flex;
     align-items: flex-end;
@@ -255,12 +265,13 @@
     height: 5.5rem;
     width: 100%;
 
-    font-family: "Heebo";
+    font-family: "DM Sans";
     color: var(--form-text-col);
     font-style: normal;
     font-weight: normal;
     font-size: var(--input-size);
-    line-height: 1.96875rem;
+    line-height: 1.5em;
+    letter-spacing: -0.02em;
 
     display: flex;
     align-items: flex-start;

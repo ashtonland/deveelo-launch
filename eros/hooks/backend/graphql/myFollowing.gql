@@ -1,0 +1,9 @@
+query myFollowing {
+	myAccount {
+		_id
+		profile {
+			followerIds
+			followingIds
+		}
+	}
+}

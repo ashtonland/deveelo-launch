@@ -99,7 +99,7 @@ const ProfileEditForm = ({ name, tag, description }: UserFormPresets) => {
 					}}
 				/>
 				<label htmlFor="editname" className={formStyles.label}>
-					Username
+					Display Name
 				</label>
 				{/* <p className={formStyles.error}>{emailErr}</p> */}
 			</div>
@@ -115,7 +115,7 @@ const ProfileEditForm = ({ name, tag, description }: UserFormPresets) => {
 					}}
 				/>
 				<label htmlFor="edittag" className={formStyles.label}>
-					@ handle
+					Username
 				</label>
 				{/* <p className={formStyles.error}>{emailErr}</p> */}
 			</div>

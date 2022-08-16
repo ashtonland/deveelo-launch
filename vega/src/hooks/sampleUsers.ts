@@ -1,3 +1,4 @@
+import { ObjectID } from "mongodb";
 import User, { UserType } from "../models/User";
 
 export const getRandomUser = async (onlyId: boolean): Promise<string | UserType> => {
@@ -21,5 +22,14 @@ export const getRandomUser = async (onlyId: boolean): Promise<string | UserType>
 
 export const getRandomUsers = async (amount: number): Promise<UserType[]> => {
 	let sampled: UserType[] = await User.aggregate([{ $match: { "profile.description": { $ne: "I'm new to Deveelo!" } } }, { $sample: { size: amount } }]);
+	return sampled;
+};
+
+export const getRandomUsersBut = async (amount: number, excludeId: string): Promise<UserType[]> => {
+	let sampled: UserType[] = await User.aggregate([
+		{ $match: { "profile.description": { $ne: "I'm new to Deveelo!" } } },
+		{ $match: { _id: { $ne: new ObjectID(excludeId) } } },
+		{ $sample: { size: amount } },
+	]);
 	return sampled;
 };

@@ -50,14 +50,32 @@
     margin: 0 0;
 }
 
+.p_widgetText {
+    height: 1.3125em;
+    width: fit-content;
+    max-width: 10.687em;
+
+    color: var(--textNormalCol);
+    font-weight: 500;
+    font-size: 1.031em;
+    line-height: 1.3125em;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.02em;
+
+    white-space: nowrap;
+
+    margin: 0;
+}
+
 .p_searchText {
     height: inherit;
     width: fit-content;
 
     color: var(--textNormalCol);
     font-weight: 500;
-    font-size: 1.125rem;
-    line-height: 1.653rem;
+    font-size: 1em;
+    line-height: 1.3rem;
 
     display: flex;
     align-items: flex-end;
@@ -68,12 +86,21 @@
 /* BADGES */
 
 .checkmark {
-    margin-top: .14em;
-    margin-right: 0.0625em;
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
 
-    background-image: url('../public/resources/Checkmark52.png');
+    background-image: url('../public/resources/verified.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.checkmarkout {
+    margin-right: 0.0625em;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('../public/resources/verifiedout.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -84,6 +111,7 @@
     justify-content: center;
     width: 1.5em;
     height: 1.5em;
+    padding: 0.15em;
 
     border-radius: 100%;
     background: linear-gradient(135deg, #FFD74A 0%, #FFB129 100%);
@@ -93,12 +121,21 @@
 }
 
 .shield {
-    margin-top: .14em;
-    margin-right: 0.0625em;
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
 
-    background-image: url('../public/resources/staff.png');
+    background-image: url('../public/resources/staff.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.shieldout {
+    margin-right: 0.0625em;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('../public/resources/staffout.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -109,6 +146,7 @@
     justify-content: center;
     width: 1.5em;
     height: 1.5em;
+    padding: 0.2439em 0.225em 0.2063em 0.225em;
 
     border-radius: 100%;
     background: linear-gradient(135deg, #00D1FF 0%, #0075FF 100%);
@@ -117,7 +155,29 @@
     margin-left: 0.5625em;
 }
 
+.colorlesslargeBadge {
+    display: flex;
+    justify-content: center;
+    width: 1.5em;
+    height: 1.5em;
+
+    border-radius: 100%;
+    margin-left: 0.5625em;
+}
+
 .largeSpacer {
     width: 1.5em;
     height: 1.5em;
+}
+
+/* BADGE SIZES */
+.smallBadge {
+    display: flex;
+    justify-content: center;
+
+    width: 1.3125em;
+    height: 1.3125em;
+    
+    border-radius: 100%;
+    margin-left: 0.5625em;
 }

@@ -4,7 +4,7 @@ import sideStyles from "../styles/sideImage.module.css";
 
 const images = [
 	{
-		source: "/banners/smowin3.jpg",
+		source: "/banners/pen.webp",
 		link: (
 			<a className={sideStyles.credit} href="https://unsplash.com/@sixteenmilesout?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">
 				Photo by Sixteen Miles Out on Unsplash
@@ -12,7 +12,7 @@ const images = [
 		),
 	},
 	{
-		source: "/banners/smowin2.jpg",
+		source: "/banners/candle.webp",
 		link: (
 			<a className={sideStyles.credit} href="https://unsplash.com/@sixteenmilesout?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank" rel="noopener noreferrer">
 				Photo by Sixteen Miles Out on Unsplash

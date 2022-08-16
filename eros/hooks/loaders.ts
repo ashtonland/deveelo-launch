@@ -18,3 +18,15 @@ export const bannerLoader: ImageLoader = ({ src, width, quality }: ImageLoaderPr
 		return `${getServerUrl("uploads")}${src}?` + new Date().getTime();
 	}
 };
+
+//used for compiling image source for link preview meta
+export const metaLoader = (src: string, path: string): string => {
+	//if using the default cups, this file will be on the frontend
+	const isDefault = src.startsWith("/user_content");
+
+	if (isDefault) {
+		return `${getWebUrl()}/${src}?q=${75}`;
+	} else {
+		return `${getServerUrl(path)}${src}?`;
+	}
+};

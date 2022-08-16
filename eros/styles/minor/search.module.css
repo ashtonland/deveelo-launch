@@ -160,8 +160,8 @@
 
     color: var(--midLightGray);
     font-weight: normal;
-    font-size: .938rem;
-    line-height: 1.406rem;
+    font-size: .9em;
+    line-height: 1.2em;
 
     margin: 0;
 }
@@ -183,7 +183,7 @@
 
     /* text */
     font-weight: 500;
-    font-size: .938rem;
+    font-size: .938em;
     line-height: 1.406rem;
     color: #FFFFFF;
 }
@@ -205,7 +205,7 @@
 
     /* text */
     font-weight: 500;
-    font-size: .938rem;
+    font-size: .938em;
     line-height: 1.406rem;
     color: #FFFFFF;
 }
@@ -227,7 +227,7 @@
 
     /* text */
     font-weight: 500;
-    font-size: .938rem;
+    font-size: .938em;
     line-height: 1.406rem;
     color: #FFFFFF;
 }
@@ -249,7 +249,7 @@
 
     /* text */
     font-weight: 500;
-    font-size: .938rem;
+    font-size: .938em;
     line-height: 1.406rem;
     color: #FFFFFF;
 }

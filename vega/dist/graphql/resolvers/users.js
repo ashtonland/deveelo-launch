@@ -52,8 +52,14 @@ const userResolvers = {
             }
             return user;
         },
-        randomUsers: async (_parent, { count }, _context) => {
-            const users = await sampleUsers_1.getRandomUsers(count);
+        randomUsers: async (_parent, { count }, { payload }) => {
+            let users;
+            if (payload) {
+                users = await sampleUsers_1.getRandomUsersBut(count, payload.id);
+            }
+            else {
+                users = await sampleUsers_1.getRandomUsers(count);
+            }
             if (!users) {
                 throw new Error("Error sampling users");
             }
@@ -89,6 +95,9 @@ const userResolvers = {
     Mutation: {
         follow: async (_parent, { id }, context) => {
             const myID = context.payload.id;
+            if (id === myID) {
+                throw new Error("You cannot follow yourself...");
+            }
             try {
                 await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(myID), { $addToSet: { "profile.followingIds": id } }, { useFindAndModify: false });
                 await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(id), { $addToSet: { "profile.followerIds": myID } }, { useFindAndModify: false });
@@ -102,6 +111,9 @@ const userResolvers = {
         },
         unfollow: async (_parent, { id }, context) => {
             const myID = context.payload.id;
+            if (id === myID) {
+                throw new Error("You cannot unfollow yourself...");
+            }
             try {
                 await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(myID), { $pull: { "profile.followingIds": id } }, { useFindAndModify: false });
                 await User_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(id), { $pull: { "profile.followerIds": myID } }, { useFindAndModify: false });
