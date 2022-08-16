@@ -2,7 +2,7 @@ import { composeResolvers } from "@graphql-tools/resolvers-composition";
 
 import resolvers from "../resolvers";
 import { MyResolversComposition } from "src/util/middlewareType";
-import { loggedInOnlyAuth } from "./isAuth";
+import { attachPayloadIfPossible, loggedInOnlyAuth } from "./isAuth";
 
 //where auth middleware is compiled
 
@@ -22,7 +22,7 @@ const resolversComposition = {
 	"Query.findUserByTag": metrics(),
 	"Query.findUsersById": metrics(),
 	"Query.randomUser": metrics(),
-	"Query.randomUsers": metrics(),
+	"Query.randomUsers": [metrics(), attachPayloadIfPossible()],
 	"Query.allUsers": metrics(),
 	//User Mutations
 	"Mutation.register": metrics(),

@@ -1,11 +1,13 @@
 query sampleUsers($amount: Int!) {
 	randomUsers(count: $amount) {
+		_id
 		account {
 			username
 			tag
 		}
 		profile {
 			pictureUrl
+			badges
 		}
 		status
 	}

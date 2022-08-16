@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { setSideBarByTag } from "../hooks/setSidebar";
 import Meta from "../components/micro/Meta";
+import { metaLoader } from "../hooks/loaders";
 
 interface propsType {
 	user: any;
@@ -40,7 +41,7 @@ const ProfilePage = (props: propsType) => {
 			title={`${user.account.username} | @${user.account.tag} on Deveelo`}
 			description={`${user.profile.description} — ${postCount} posts | ${blogCount} devlogs | ${followers} followers | ${following} following`}
 			url={`https://www.deveelo.com/${tag}`}
-			image={user.profile.pictureUrl}
+			image={metaLoader(user.profile.pictureUrl, "uploads")}
 		/>
 	);
 };

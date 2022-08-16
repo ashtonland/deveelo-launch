@@ -17,7 +17,7 @@ const resolversComposition = {
     "Query.findUserByTag": metrics(),
     "Query.findUsersById": metrics(),
     "Query.randomUser": metrics(),
-    "Query.randomUsers": metrics(),
+    "Query.randomUsers": [metrics(), isAuth_1.attachPayloadIfPossible()],
     "Query.allUsers": metrics(),
     "Mutation.register": metrics(),
     "Mutation.login": metrics(),

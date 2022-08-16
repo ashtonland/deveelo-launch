@@ -6,8 +6,13 @@
   --midFadeGray: #7688AB; /*profile tag*/
   --midLightGray: #99AAC3;
   --sidebarBackground: #F9F9F9; /*& main feed*/
+  --activitybarBackground: #F6F7F9; /* pfp status borders in activity bar*/
+  --activitybarhover: #eef0f5; /* background color during hover */
   --searchbarGray: #EDF1F8; /* navbar */
   --searchGray: #F8FAFC; /* background of searchbar */
+
+  /* theme colors */
+  --midtone: #FFC14A;
 
   /*status indicators*/
   --online: #2ED9A6;
@@ -23,7 +28,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Heebo";
+  font-family: "DM Sans";
   font-style: normal;
   font-size: .895rem;
 }
@@ -55,7 +60,7 @@ button {
   html, body {
     padding: 0;
    margin: 0;
-   font-family: "Heebo";
+   font-family: "DM Sans";
    font-style: normal;
     font-size: 0.82rem;
   }
@@ -172,33 +177,6 @@ button {
 
   height: fit-content;
   width: 100%;
-}
-
-/* SIMPLE BUTTON */
-
-.simpleButton {
-  height: fit-content;
-  width: fit-content;
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
-}
-
-.simpleButton::before {
-  content: "";
-  position: absolute;
-  height: 150%;
-  width: 150%;
-  background-color: rgba(4, 18, 51, 0);
-  border-radius: 50%;
-  transition: .25s ease-in-out;
-}
-
-.simpleButton:hover::before {
-  height: 100%;
-  width: 100%;
-  border-radius: 20%;
-  background-color: rgba(0, 23, 78, 0.082);;
 }
 
 /* Text Standards */

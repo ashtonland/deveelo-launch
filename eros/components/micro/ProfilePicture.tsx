@@ -11,9 +11,10 @@ interface profilePicParams {
 	status?: string;
 	editing?: boolean;
 	renderSeed?: number; //used to pas rerender events from sidebar down to pfp
+	isActivitybar?: boolean; //we need to use a darker outline to march background
 }
 
-const ProfilePicture = ({ size, source, status, editing, renderSeed }: profilePicParams) => {
+const ProfilePicture = ({ size, source, status, editing, renderSeed, isActivitybar }: profilePicParams) => {
 	let content = null;
 	let circle = null;
 
@@ -81,7 +82,7 @@ const ProfilePicture = ({ size, source, status, editing, renderSeed }: profilePi
 			content = (
 				<div className={pictureStyles.w28}>
 					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
-					{status ? <div className={statusStyles.w28}>{circle}</div> : null}
+					{status ? <div className={isActivitybar ? statusStyles.w28activitybar : statusStyles.w28}>{circle}</div> : null}
 				</div>
 			);
 			break;

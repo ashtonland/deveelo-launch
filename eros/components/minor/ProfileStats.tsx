@@ -7,8 +7,6 @@ interface StatsProps {
 }
 
 const ProfileStats = ({ following, followers, posts }: StatsProps) => {
-	console.log(posts);
-
 	return (
 		<div className={statStyles.largeWrapper}>
 			<div className={statStyles.item}>

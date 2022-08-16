@@ -4,13 +4,13 @@
     height: 4.78rem;
     width: fit-content;
 
-    font-family: "Heebo";
     font-style: normal;
     font-weight: 500;
     font-size: 3.28rem;
     line-height: 4.78rem;
     display: flex;
     align-items: flex-end;
+    letter-spacing: -0.02em;
 
     color: #121B2B;
 }
@@ -21,13 +21,13 @@
     height: 2.72rem;
     width: fit-content;
 
-    font-family: "Heebo";
     font-style: normal;
     font-weight: normal;
     font-size: 1.88rem;
     line-height: 2.72rem;
     display: flex;
     align-items: flex-end;
+    letter-spacing: -0.02em;
 
     color: #121B2B;
 }

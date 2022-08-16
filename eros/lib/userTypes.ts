@@ -41,6 +41,19 @@ export interface SearchUserIdType {
 	status: "online" | "idle" | "dnd" | "offline";
 }
 
+// only the fields that are used
+export interface SearchPureType {
+	account: {
+		tag: string;
+		username: string;
+	};
+	profile: {
+		pictureUrl: string;
+		badges: string[];
+	};
+	status: "online" | "idle" | "dnd" | "offline";
+}
+
 export interface SearchAccountType {
 	tag: string;
 	username: string;
@@ -79,4 +92,14 @@ export interface MinProfUserType {
 		blogIds: string[];
 	};
 	status: string;
+}
+
+//we just need the status for most sorting, but within each status...
+//we might choose to sort by id (for consistency) or more likely: badges
+export interface SortUserType {
+	_id: string;
+	profile: {
+		badges: string[];
+	};
+	status: "online" | "idle" | "dnd" | "offline";
 }

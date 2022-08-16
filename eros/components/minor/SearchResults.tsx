@@ -1,10 +1,10 @@
 import searchStyles from "../../styles/minor/search.module.css";
-import { SearchUserType } from "../../lib/userTypes";
+import { SearchPureType } from "../../lib/userTypes";
 import Result from "../micro/Result";
 import { useSampleUsersQuery } from "../../hooks/backend/generated/graphql";
 
 interface ResultProps {
-	users: SearchUserType[];
+	users: SearchPureType[];
 	devlogs: any[];
 	groups: any[];
 	betas: any[];
@@ -38,7 +38,7 @@ const SearchResults = ({ users, devlogs, groups, betas, fadeout }: ResultProps) 
 			return <div>Error occurred</div>;
 		}
 
-		usersDis = data.randomUsers as SearchUserType[];
+		usersDis = data.randomUsers as SearchPureType[];
 	}
 
 	// in progress

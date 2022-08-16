@@ -241,6 +241,11 @@ export type MyAccountMinProfileQueryVariables = Exact<{ [key: string]: never; }>
 
 export type MyAccountMinProfileQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } }> };
 
+export type MyFollowingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyFollowingQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', _id: string, profile: { __typename?: 'U_Profile', followerIds: Array<Maybe<string>>, followingIds: Array<Maybe<string>> } }> };
+
 export type MyNameAndPfpQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -264,7 +269,7 @@ export type SampleUsersQueryVariables = Exact<{
 }>;
 
 
-export type SampleUsersQuery = { __typename?: 'Query', randomUsers: Array<Maybe<{ __typename?: 'User', status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string } }>> };
+export type SampleUsersQuery = { __typename?: 'Query', randomUsers: Array<Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string, badges: Array<Maybe<string>> } }>> };
 
 export type UnfollowMutationVariables = Exact<{
   targetId: Scalars['String'];
@@ -636,6 +641,44 @@ export function useMyAccountMinProfileLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type MyAccountMinProfileQueryHookResult = ReturnType<typeof useMyAccountMinProfileQuery>;
 export type MyAccountMinProfileLazyQueryHookResult = ReturnType<typeof useMyAccountMinProfileLazyQuery>;
 export type MyAccountMinProfileQueryResult = Apollo.QueryResult<MyAccountMinProfileQuery, MyAccountMinProfileQueryVariables>;
+export const MyFollowingDocument = gql`
+    query myFollowing {
+  myAccount {
+    _id
+    profile {
+      followerIds
+      followingIds
+    }
+  }
+}
+    `;
+
+/**
+ * __useMyFollowingQuery__
+ *
+ * To run a query within a React component, call `useMyFollowingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyFollowingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyFollowingQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyFollowingQuery(baseOptions?: Apollo.QueryHookOptions<MyFollowingQuery, MyFollowingQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MyFollowingQuery, MyFollowingQueryVariables>(MyFollowingDocument, options);
+      }
+export function useMyFollowingLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyFollowingQuery, MyFollowingQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MyFollowingQuery, MyFollowingQueryVariables>(MyFollowingDocument, options);
+        }
+export type MyFollowingQueryHookResult = ReturnType<typeof useMyFollowingQuery>;
+export type MyFollowingLazyQueryHookResult = ReturnType<typeof useMyFollowingLazyQuery>;
+export type MyFollowingQueryResult = Apollo.QueryResult<MyFollowingQuery, MyFollowingQueryVariables>;
 export const MyNameAndPfpDocument = gql`
     query myNameAndPfp {
   myAccount {
@@ -791,12 +834,14 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const SampleUsersDocument = gql`
     query sampleUsers($amount: Int!) {
   randomUsers(count: $amount) {
+    _id
     account {
       username
       tag
     }
     profile {
       pictureUrl
+      badges
     }
     status
   }
