@@ -135,7 +135,7 @@ export const FileSelectArea = ({ type, text, maxSize }: FileAreaInput) => {
 			<div className={uploadStyles.content}>
 				{/* handles compensating for the uncentered icon + sign pushes it left) */}
 				<div className={uploadStyles.imageOffsetWrapper}>
-					<img src="resources/uploadAreaIcon.svg" className={isError ? uploadStyles.errorIcon : uploadStyles.icon} />
+					<img src="/resources/uploadAreaIcon.svg" className={isError ? uploadStyles.errorIcon : uploadStyles.icon} />
 				</div>
 				{showText ? <p className={isError ? uploadStyles.error : uploadStyles.subtitle}>{text}</p> : null}
 			</div>

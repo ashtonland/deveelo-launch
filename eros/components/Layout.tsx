@@ -15,6 +15,7 @@ import onConnectionError from "../hooks/popups/connectionError";
 import { getAccessToken, setAccessToken } from "../accessToken";
 import { useEffect, useState } from "react";
 import isLuna from "../hooks/isLuna";
+import SubNav from "./minor/SubNav";
 
 interface layoutProps {
 	children?: any;
@@ -85,6 +86,7 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 			content = (
 				<>
 					{showNav && (showSidebar ? <Nav sidebarSpacing={true} loggedIn={getAccessToken() !== ""} /> : <Nav sidebarSpacing={false} loggedIn={getAccessToken() !== ""} />)}
+					{showNav && <SubNav />}
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
 					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
@@ -130,7 +132,7 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 			content = (
 				<>
 					{showNav && (showSidebar ? <Nav sidebarSpacing={true} loggedIn={getAccessToken() !== ""} /> : <Nav sidebarSpacing={false} loggedIn={getAccessToken() !== ""} />)}
-
+					{showNav && <SubNav />}
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
 					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
@@ -174,7 +176,7 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 			content = (
 				<>
 					{showNav && (showSidebar ? <Nav sidebarSpacing={true} loggedIn={getAccessToken() !== ""} /> : <Nav sidebarSpacing={false} loggedIn={getAccessToken() !== ""} />)}
-
+					{showNav && <SubNav />}
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
 					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}
@@ -217,7 +219,7 @@ const Layout = ({ children, route, showSidebar, showActivityBar, showNav, useWid
 			content = (
 				<>
 					{showNav && (showSidebar ? <Nav sidebarSpacing={true} loggedIn={getAccessToken() !== ""} /> : <Nav sidebarSpacing={false} loggedIn={getAccessToken() !== ""} />)}
-
+					{showNav && <SubNav />}
 					{showSidebar && <DesktopSidebar hardEdge={full} />}
 
 					{showActivityBar ? <FullActivityBar hardEdge={full} widgetKeys={["people"]} /> : null}

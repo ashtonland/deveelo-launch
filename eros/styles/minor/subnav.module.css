@@ -1,0 +1,49 @@
+.fadeWrapper {
+    position: fixed;
+    top: 4.594em;
+    width: 100vw;
+    height: 9.656em;
+    padding: 0 23.344em 2.156em 30.9375em;
+
+    background: linear-gradient(180deg, #F9F9F9 9.69%, rgba(249, 249, 249, 0) 100%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.notch {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: fit-content;
+    height: 100%;
+    padding: 0 0.75em 0.75em 0.75em;
+    
+    background: var(--sidebarBackground);
+    border-radius: 0 0 2.06em 2.06em;
+}
+
+.buttonList {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 0.938em;
+    gap: 2.25em;
+
+    width: fit-content;
+    height: fit-content;
+
+    background: #EEF0F4;
+    box-shadow: inset 0.375em 0.375em 1.875em -1.03em rgba(30, 50, 90, 0.1);
+    border-radius: 1.406em;
+}
+
+/* BUTTONS */
+.button {
+    font-size: inherit;
+    height: 4.218em;
+    width: 4.218em;
+    border-radius: 1.313em;
+    padding: 0.8em;
+}
