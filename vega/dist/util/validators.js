@@ -68,7 +68,7 @@ const ValidateRegisterInput = (input, type) => {
 };
 const validateFileExtensions = (input, allowed) => {
     const errors = {};
-    if (!allowed.includes(input)) {
+    if (!allowed.includes(input.toLowerCase())) {
         errors.file = `Files of type ${input} are not supported`;
     }
     return {

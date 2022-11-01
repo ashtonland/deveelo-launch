@@ -16,6 +16,16 @@ export const typeDefs = gql`
 	type UploadResult {
 		user: User!
 		file: File!
+		doc: KeyFields
+	}
+	type KeyFields {
+		body: String!
+		text2: String
+	}
+	input ExtraData {
+		field1: String
+		field2: [String]
+		field3: String
 	}
 
 	#posting
@@ -118,6 +128,6 @@ export const typeDefs = gql`
 		follow(id: String!): BoolRes
 		unfollow(id: String!): BoolRes
 		updateProfile(name: String, tag: String, description: String): User!
-		singleUpload(file: Upload!, type: String!): UploadResult!
+		singleUpload(file: Upload!, type: String!, edata: ExtraData): UploadResult!
 	}
 `;

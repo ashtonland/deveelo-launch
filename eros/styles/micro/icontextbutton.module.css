@@ -1,0 +1,126 @@
+.inactive {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0.469em 0px;
+    gap: 0.469em;
+    color: var(--textNormalCol);
+
+    background: transparent;
+    border-width: 0.04688em;
+    border-style: solid;
+    border-radius: 2.156em;
+}
+
+.text {
+    width: fit-content;
+    max-width: 12em;
+    overflow: hidden;
+    height: 1.125em;
+
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 1.125em;
+    text-align: center;
+    letter-spacing: 0;
+
+    flex: none;
+    flex-grow: 0;
+    margin: 0;
+}
+
+.gold {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2em 0 1.52em;
+    gap: 0.469em;
+
+    width: fit-content;
+    height: 100%;
+    color: var(--textNormalCol);
+
+    background: linear-gradient(91.48deg, #FFC83A 0%, #FFA943 100%);
+    box-shadow: 0px 0.375em 1.875em rgba(255, 169, 67, 0.43);
+    border-radius: 2.156em;
+
+    flex: none;
+    flex-grow: 0;
+    transition: 0.2s ease;
+}
+
+.green {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1.24em 0 1.15em;
+    gap: 0.469em;
+
+    width: fit-content;
+    height: 100%;
+    color: #fff;
+
+    background: linear-gradient(91.48deg, #2ED9A6 0%, #17C6A6 100%);
+    box-shadow: 0px 0.375em 1.875em rgba(23, 198, 166, 0.43);
+    border-radius: 2.156em;
+
+    flex: none;
+    flex-grow: 0;
+    transition: 0.2s ease;
+}
+
+/* hoverFX GOLD & GREEN */
+.gold::after, .gold::before {
+    background: linear-gradient(91.48deg, #FFD74A 0%, #FFB129 100%);
+}
+
+.green::after, .green::before{
+    background: linear-gradient(91.48deg, #2ED9A6 0%, #2CCD9D 100%);
+}
+
+.gold::after, .gold::before, .green::after, .green::before {
+    content: "";
+    position: absolute;
+    opacity: 0.3;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: transform 0.2s ease;
+}
+
+/* Raise while being hovered */
+.gold:hover, .goldGradL:hover, .green:hover{
+    transform: translate(-.6rem, -.6rem);
+}
+
+.gold:hover::after, .green:hover::after {
+    transform: translate(.3rem, .3rem);
+}
+
+.gold:hover::before, .green:hover::before {
+    transform: translate(.6rem, .6rem);
+}
+
+/* Return no normal state on mouse down */
+.gold:active, .green:active {
+    transform: translate(.3rem, .3rem);
+}
+
+.gold:active::after, .green:active::after {
+    transform: translate(0rem, 0rem);
+}
+
+.gold:active::before, .green:active::before {
+    transform: translate(-.05rem, -.05rem);
+}

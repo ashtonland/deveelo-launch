@@ -16,6 +16,7 @@ import { getAccessToken, setAccessToken } from "../accessToken";
 import { useEffect, useState } from "react";
 import isLuna from "../hooks/isLuna";
 import SubNav from "./minor/SubNav";
+import PostArea from "./posts/PostArea";
 
 interface layoutProps {
 	children?: any;

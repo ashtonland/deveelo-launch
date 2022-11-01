@@ -15,7 +15,11 @@ interface FileAreaInput {
 
 export const FileSelectArea = ({ type, text, maxSize }: FileAreaInput) => {
 	const storage = window.localStorage;
+	/* No.1 */
 	//prevents sending multiple requests (happens automatically ¯\_(ツ)_/¯)
+	//this system is not needed for post uploads b/c those only upload once on
+	//form submit, this can happen multiple times due to the automatic and
+	//buttonless nature of uploading a new pfp or banner
 	if (storage.getItem(`${type}file`) === undefined) {
 		storage.setItem(`${type}file`, "");
 	}
@@ -37,11 +41,17 @@ export const FileSelectArea = ({ type, text, maxSize }: FileAreaInput) => {
 			return;
 		}
 
+		/* No.2 */
+		//in case they uploaded literally the same file, or the component rerenders
+		//for some reason & therefore attempts to reupload the same file. Compare the
+		//current upload to the last successful upload: if the same, cancel
 		const lastFileName = storage.getItem(`${type}file`);
 		if (newFile.name === lastFileName) {
 			return;
 		}
+		/* No.3 */
 		//set last file name to this one now
+		//(storing the last successful upload)
 		storage.setItem(`${type}file`, newFile.name);
 
 		const response = await uploadSingle({
@@ -55,6 +65,8 @@ export const FileSelectArea = ({ type, text, maxSize }: FileAreaInput) => {
 				}
 
 				//remember, the filename is: <payload.id>.webp
+				//therefore it does not change on upload after
+				//the first time which is default to custom
 				const saveName = data.singleUpload.file.filename;
 
 				store.writeQuery<MyNameAndPfpQuery>({
@@ -128,7 +140,7 @@ export const FileSelectArea = ({ type, text, maxSize }: FileAreaInput) => {
 						setNewFile(file);
 						setError("");
 					} else {
-						setError("Over the 2mb upload limit");
+						setError(`Over the ${maxSize} upload limit`);
 					}
 				}}
 			/>

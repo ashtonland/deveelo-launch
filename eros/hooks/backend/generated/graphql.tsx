@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -20,11 +21,23 @@ export type BoolRes = {
   success: Scalars['Boolean'];
 };
 
+export type ExtraData = {
+  field1?: InputMaybe<Scalars['String']>;
+  field2?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  field3?: InputMaybe<Scalars['String']>;
+};
+
 export type File = {
   __typename?: 'File';
   encoding: Scalars['String'];
   filename: Scalars['String'];
   mimetype: Scalars['String'];
+};
+
+export type KeyFields = {
+  __typename?: 'KeyFields';
+  body: Scalars['String'];
+  text2?: Maybe<Scalars['String']>;
 };
 
 export type LoginResponse = {
@@ -63,6 +76,7 @@ export type MutationRegisterArgs = {
 
 
 export type MutationSingleUploadArgs = {
+  edata?: InputMaybe<ExtraData>;
   file: Scalars['Upload'];
   type: Scalars['String'];
 };
@@ -74,9 +88,9 @@ export type MutationUnfollowArgs = {
 
 
 export type MutationUpdateProfileArgs = {
-  description?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  tag?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  tag?: InputMaybe<Scalars['String']>;
 };
 
 export type PAccount = {
@@ -176,9 +190,9 @@ export type U_Social = {
   postIds: Array<Maybe<Scalars['String']>>;
 };
 
-
 export type UploadResult = {
   __typename?: 'UploadResult';
+  doc?: Maybe<KeyFields>;
   file: File;
   user: User;
 };
@@ -195,33 +209,33 @@ export type User = {
 export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = { __typename?: 'Query', getPosts: Array<Maybe<{ __typename?: 'Post', _id: string, body: string, createdAt: string, username: string }>> };
+export type GetPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', _id: string, body: string, createdAt: string, username: string } | null> };
 
 export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllTagsQuery = { __typename?: 'Query', allUsers: Array<Maybe<{ __typename?: 'User', account: { __typename?: 'U_Account', tag: string } }>> };
+export type AllTagsQuery = { __typename?: 'Query', allUsers: Array<{ __typename?: 'User', account: { __typename?: 'U_Account', tag: string } } | null> };
 
 export type FindCardUsersByIdsQueryVariables = Exact<{
   idList: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 
-export type FindCardUsersByIdsQuery = { __typename?: 'Query', findUsersById: Array<Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string, badges: Array<Maybe<string>> } }>> };
+export type FindCardUsersByIdsQuery = { __typename?: 'Query', findUsersById: Array<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string, badges: Array<string | null> } } | null> };
 
 export type FindMinProfileByTagQueryVariables = Exact<{
   tagInput: Scalars['String'];
 }>;
 
 
-export type FindMinProfileByTagQuery = { __typename?: 'Query', findUserByTag: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } } };
+export type FindMinProfileByTagQuery = { __typename?: 'Query', findUserByTag: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } };
 
 export type FollowMutationVariables = Exact<{
   targetId: Scalars['String'];
 }>;
 
 
-export type FollowMutation = { __typename?: 'Mutation', follow?: Maybe<{ __typename?: 'BoolRes', success: boolean }> };
+export type FollowMutation = { __typename?: 'Mutation', follow?: { __typename?: 'BoolRes', success: boolean } | null };
 
 export type LoginMutationVariables = Exact<{
   loginInput: Scalars['String'];
@@ -229,7 +243,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, email: string, private: boolean, pro: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, email: string, private: boolean, pro: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -239,22 +253,27 @@ export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 export type MyAccountMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyAccountMinProfileQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } }> };
+export type MyAccountMinProfileQuery = { __typename?: 'Query', myAccount?: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } | null };
 
 export type MyFollowingQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyFollowingQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', _id: string, profile: { __typename?: 'U_Profile', followerIds: Array<Maybe<string>>, followingIds: Array<Maybe<string>> } }> };
+export type MyFollowingQuery = { __typename?: 'Query', myAccount?: { __typename?: 'User', _id: string, profile: { __typename?: 'U_Profile', followerIds: Array<string | null>, followingIds: Array<string | null> } } | null };
 
 export type MyNameAndPfpQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyNameAndPfpQuery = { __typename?: 'Query', myAccount?: Maybe<{ __typename?: 'User', _id: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string } }> };
+export type MyNameAndPfpQuery = { __typename?: 'Query', myAccount?: { __typename?: 'User', _id: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string } } | null };
+
+export type MyPfpAndStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyPfpAndStatusQuery = { __typename?: 'Query', myAccount?: { __typename?: 'User', _id: string, status: string, profile: { __typename?: 'U_Profile', pictureUrl: string } } | null };
 
 export type RandomMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RandomMinProfileQuery = { __typename?: 'Query', randomUser: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } } };
+export type RandomMinProfileQuery = { __typename?: 'Query', randomUser: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } };
 
 export type RegisterMutationVariables = Exact<{
   registerEmail: Scalars['String'];
@@ -262,38 +281,39 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, email: string, private: boolean, pro: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } } } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, email: string, private: boolean, pro: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } } };
 
 export type SampleUsersQueryVariables = Exact<{
   amount: Scalars['Int'];
 }>;
 
 
-export type SampleUsersQuery = { __typename?: 'Query', randomUsers: Array<Maybe<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string, badges: Array<Maybe<string>> } }>> };
+export type SampleUsersQuery = { __typename?: 'Query', randomUsers: Array<{ __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string }, profile: { __typename?: 'U_Profile', pictureUrl: string, badges: Array<string | null> } } | null> };
 
 export type UnfollowMutationVariables = Exact<{
   targetId: Scalars['String'];
 }>;
 
 
-export type UnfollowMutation = { __typename?: 'Mutation', unfollow?: Maybe<{ __typename?: 'BoolRes', success: boolean }> };
+export type UnfollowMutation = { __typename?: 'Mutation', unfollow?: { __typename?: 'BoolRes', success: boolean } | null };
 
 export type UpdateProfileMutationVariables = Exact<{
-  newname?: Maybe<Scalars['String']>;
-  newtag?: Maybe<Scalars['String']>;
-  newdes?: Maybe<Scalars['String']>;
+  newname?: InputMaybe<Scalars['String']>;
+  newtag?: InputMaybe<Scalars['String']>;
+  newdes?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } } };
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } };
 
 export type UploadSingleMutationVariables = Exact<{
   file: Scalars['Upload'];
   type: Scalars['String'];
+  edata?: InputMaybe<ExtraData>;
 }>;
 
 
-export type UploadSingleMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadResult', user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<Maybe<string>>, followerIds: Array<Maybe<string>>, badges: Array<Maybe<string>>, linkedProfiles: Array<Maybe<string>> }, social: { __typename?: 'U_Social', postIds: Array<Maybe<string>>, blogIds: Array<Maybe<string>> } }, file: { __typename?: 'File', filename: string } } };
+export type UploadSingleMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadResult', user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } }, file: { __typename?: 'File', filename: string }, doc?: { __typename?: 'KeyFields', body: string, text2?: string | null } | null } };
 
 
 export const GetPostsDocument = gql`
@@ -720,6 +740,44 @@ export function useMyNameAndPfpLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type MyNameAndPfpQueryHookResult = ReturnType<typeof useMyNameAndPfpQuery>;
 export type MyNameAndPfpLazyQueryHookResult = ReturnType<typeof useMyNameAndPfpLazyQuery>;
 export type MyNameAndPfpQueryResult = Apollo.QueryResult<MyNameAndPfpQuery, MyNameAndPfpQueryVariables>;
+export const MyPfpAndStatusDocument = gql`
+    query myPfpAndStatus {
+  myAccount {
+    _id
+    profile {
+      pictureUrl
+    }
+    status
+  }
+}
+    `;
+
+/**
+ * __useMyPfpAndStatusQuery__
+ *
+ * To run a query within a React component, call `useMyPfpAndStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyPfpAndStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyPfpAndStatusQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyPfpAndStatusQuery(baseOptions?: Apollo.QueryHookOptions<MyPfpAndStatusQuery, MyPfpAndStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MyPfpAndStatusQuery, MyPfpAndStatusQueryVariables>(MyPfpAndStatusDocument, options);
+      }
+export function useMyPfpAndStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyPfpAndStatusQuery, MyPfpAndStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MyPfpAndStatusQuery, MyPfpAndStatusQueryVariables>(MyPfpAndStatusDocument, options);
+        }
+export type MyPfpAndStatusQueryHookResult = ReturnType<typeof useMyPfpAndStatusQuery>;
+export type MyPfpAndStatusLazyQueryHookResult = ReturnType<typeof useMyPfpAndStatusLazyQuery>;
+export type MyPfpAndStatusQueryResult = Apollo.QueryResult<MyPfpAndStatusQuery, MyPfpAndStatusQueryVariables>;
 export const RandomMinProfileDocument = gql`
     query randomMinProfile {
   randomUser {
@@ -963,8 +1021,8 @@ export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfile
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const UploadSingleDocument = gql`
-    mutation uploadSingle($file: Upload!, $type: String!) {
-  singleUpload(file: $file, type: $type) {
+    mutation uploadSingle($file: Upload!, $type: String!, $edata: ExtraData) {
+  singleUpload(file: $file, type: $type, edata: $edata) {
     user {
       _id
       account {
@@ -990,6 +1048,10 @@ export const UploadSingleDocument = gql`
     file {
       filename
     }
+    doc {
+      body
+      text2
+    }
   }
 }
     `;
@@ -1010,6 +1072,7 @@ export type UploadSingleMutationFn = Apollo.MutationFunction<UploadSingleMutatio
  *   variables: {
  *      file: // value for 'file'
  *      type: // value for 'type'
+ *      edata: // value for 'edata'
  *   },
  * });
  */

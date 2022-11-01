@@ -205,6 +205,7 @@ const initServer = async () => {
     });
     app.use("/uploads/pfps", express_1.default.static(path_1.default.join(__dirname, "../public/uploads/pfps")));
     app.use("/uploads/banners", express_1.default.static(path_1.default.join(__dirname, "../public/uploads/banners")));
+    app.use("/uploads/posts", express_1.default.static(path_1.default.join(__dirname, "../public/uploads/posts")));
     const schema = schema_1.makeExecutableSchema({
         typeDefs: typeDefs_1.typeDefs,
         resolvers: middleware_1.composedResolvers,
@@ -212,6 +213,7 @@ const initServer = async () => {
     const server = new apollo_server_express_1.ApolloServer({
         schema: schema,
         context: ({ req, res }) => ({ req, res }),
+        cache: "bounded",
     });
     await server.start();
     server.applyMiddleware({

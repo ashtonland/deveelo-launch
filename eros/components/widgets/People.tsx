@@ -11,7 +11,7 @@ const PeopleWidget = ({ key, count }: { key: string; count: number }) => {
 	const loggedIn = isLoggedIn();
 
 	//fetch our follower & following id lists + a sample of users
-	const { data: myData, loading: myLoading, error: myError } = loggedIn ? useMyFollowingQuery() : { data: undefined, loading: undefined, error: undefined };
+	const { data: myData, loading: myLoading, error: myError } = useMyFollowingQuery();
 	const { data, loading, error } = useSampleUsersQuery({
 		variables: {
 			amount: count,

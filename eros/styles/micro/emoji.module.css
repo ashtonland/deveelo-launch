@@ -1,0 +1,28 @@
+.picker {
+    position: relative;
+}
+  
+.pickerWrapper {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 2;
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      margin-top: 1em;
+    }
+
+    50% {
+        opacity: 0;
+        margin-top: 1em;
+      }
+  
+    100% {
+      opacity: 1;
+      margin-top: 0em;
+    }
+  }
