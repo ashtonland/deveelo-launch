@@ -1,6 +1,10 @@
 import Meta from "../components/micro/Meta";
+import MiddleBar from "../components/MiddleBar";
 import PostArea from "../components/posts/PostArea";
+import { PostFeed } from "../components/posts/PostFeed";
+
 import { isLoggedIn } from "../hooks/userChecks";
+import feedStyles from "../styles/posts/feed.module.css";
 
 let notifEmojis = new Map<string, string>([
 	["gift", "🎁"],
@@ -25,7 +29,12 @@ export default function Home() {
 				showBanner={true}
 				color="#f54278"
 			/>
-			{loggedIn && <PostArea />}
+			<MiddleBar padded={true}>
+				<div className={feedStyles.nogapwrapper}>
+					{loggedIn && <PostArea />}
+					<PostFeed amount={10} />
+				</div>
+			</MiddleBar>
 		</>
 	);
 }

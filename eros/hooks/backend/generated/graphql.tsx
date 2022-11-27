@@ -21,6 +21,20 @@ export type BoolRes = {
   success: Scalars['Boolean'];
 };
 
+export type CUser = {
+  __typename?: 'CUser';
+  pictureUrl: Scalars['String'];
+  tag: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type Comment = {
+  __typename?: 'Comment';
+  body: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
+  user: CUser;
+};
+
 export type ExtraData = {
   field1?: InputMaybe<Scalars['String']>;
   field2?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -38,6 +52,12 @@ export type KeyFields = {
   __typename?: 'KeyFields';
   body: Scalars['String'];
   text2?: Maybe<Scalars['String']>;
+};
+
+export type Like = {
+  __typename?: 'Like';
+  createdAt: Scalars['String'];
+  user: CUser;
 };
 
 export type LoginResponse = {
@@ -116,9 +136,13 @@ export type PUser = {
 export type Post = {
   __typename?: 'Post';
   _id: Scalars['ID'];
-  body: Scalars['String'];
+  body?: Maybe<Scalars['String']>;
+  comments: Array<Maybe<Comment>>;
   createdAt: Scalars['String'];
-  username: Scalars['String'];
+  imageUrls: Array<Scalars['String']>;
+  likes: Array<Maybe<Like>>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
+  user_id: Scalars['ID'];
 };
 
 export type Query = {
@@ -127,6 +151,7 @@ export type Query = {
   findUserByTag: User;
   findUsersById: Array<Maybe<User>>;
   getPosts: Array<Maybe<Post>>;
+  getPostsByTag: Array<Maybe<Post>>;
   myAccount?: Maybe<User>;
   randomUser: User;
   randomUsers: Array<Maybe<User>>;
@@ -140,6 +165,17 @@ export type QueryFindUserByTagArgs = {
 
 export type QueryFindUsersByIdArgs = {
   ids: Array<Scalars['String']>;
+};
+
+
+export type QueryGetPostsArgs = {
+  number: Scalars['Int'];
+};
+
+
+export type QueryGetPostsByTagArgs = {
+  number: Scalars['Int'];
+  tag: Scalars['String'];
 };
 
 
@@ -206,11 +242,6 @@ export type User = {
   status: Scalars['String'];
 };
 
-export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', _id: string, body: string, createdAt: string, username: string } | null> };
-
 export type AllTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -270,10 +301,25 @@ export type MyPfpAndStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MyPfpAndStatusQuery = { __typename?: 'Query', myAccount?: { __typename?: 'User', _id: string, status: string, profile: { __typename?: 'U_Profile', pictureUrl: string } } | null };
 
+export type PostsByTagQueryVariables = Exact<{
+  tag: Scalars['String'];
+  number: Scalars['Int'];
+}>;
+
+
+export type PostsByTagQuery = { __typename?: 'Query', getPostsByTag: Array<{ __typename?: 'Post', _id: string, imageUrls: Array<string>, body?: string | null, tags?: Array<string | null> | null, createdAt: string, user_id: string, comments: Array<{ __typename?: 'Comment', body: string, imageUrl?: string | null, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null>, likes: Array<{ __typename?: 'Like', createdAt: string, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null> } | null> };
+
 export type RandomMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RandomMinProfileQuery = { __typename?: 'Query', randomUser: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } } };
+
+export type NewPostsQueryVariables = Exact<{
+  number: Scalars['Int'];
+}>;
+
+
+export type NewPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', _id: string, imageUrls: Array<string>, body?: string | null, tags?: Array<string | null> | null, createdAt: string, user_id: string, comments: Array<{ __typename?: 'Comment', body: string, imageUrl?: string | null, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null>, likes: Array<{ __typename?: 'Like', createdAt: string, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null> } | null> };
 
 export type RegisterMutationVariables = Exact<{
   registerEmail: Scalars['String'];
@@ -316,43 +362,6 @@ export type UploadSingleMutationVariables = Exact<{
 export type UploadSingleMutation = { __typename?: 'Mutation', singleUpload: { __typename?: 'UploadResult', user: { __typename?: 'User', _id: string, status: string, account: { __typename?: 'U_Account', username: string, tag: string, private: boolean }, profile: { __typename?: 'U_Profile', bannerUrl: string, pictureUrl: string, description: string, followingIds: Array<string | null>, followerIds: Array<string | null>, badges: Array<string | null>, linkedProfiles: Array<string | null> }, social: { __typename?: 'U_Social', postIds: Array<string | null>, blogIds: Array<string | null> } }, file: { __typename?: 'File', filename: string }, doc?: { __typename?: 'KeyFields', body: string, text2?: string | null } | null } };
 
 
-export const GetPostsDocument = gql`
-    query GetPosts {
-  getPosts {
-    _id
-    body
-    createdAt
-    username
-  }
-}
-    `;
-
-/**
- * __useGetPostsQuery__
- *
- * To run a query within a React component, call `useGetPostsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetPostsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetPostsQuery(baseOptions?: Apollo.QueryHookOptions<GetPostsQuery, GetPostsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetPostsQuery, GetPostsQueryVariables>(GetPostsDocument, options);
-      }
-export function useGetPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostsQuery, GetPostsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetPostsQuery, GetPostsQueryVariables>(GetPostsDocument, options);
-        }
-export type GetPostsQueryHookResult = ReturnType<typeof useGetPostsQuery>;
-export type GetPostsLazyQueryHookResult = ReturnType<typeof useGetPostsLazyQuery>;
-export type GetPostsQueryResult = Apollo.QueryResult<GetPostsQuery, GetPostsQueryVariables>;
 export const AllTagsDocument = gql`
     query AllTags {
   allUsers {
@@ -778,6 +787,64 @@ export function useMyPfpAndStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type MyPfpAndStatusQueryHookResult = ReturnType<typeof useMyPfpAndStatusQuery>;
 export type MyPfpAndStatusLazyQueryHookResult = ReturnType<typeof useMyPfpAndStatusLazyQuery>;
 export type MyPfpAndStatusQueryResult = Apollo.QueryResult<MyPfpAndStatusQuery, MyPfpAndStatusQueryVariables>;
+export const PostsByTagDocument = gql`
+    query postsByTag($tag: String!, $number: Int!) {
+  getPostsByTag(tag: $tag, number: $number) {
+    _id
+    imageUrls
+    body
+    tags
+    createdAt
+    user_id
+    comments {
+      body
+      imageUrl
+      user {
+        username
+        tag
+        pictureUrl
+      }
+    }
+    likes {
+      createdAt
+      user {
+        username
+        tag
+        pictureUrl
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePostsByTagQuery__
+ *
+ * To run a query within a React component, call `usePostsByTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsByTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsByTagQuery({
+ *   variables: {
+ *      tag: // value for 'tag'
+ *      number: // value for 'number'
+ *   },
+ * });
+ */
+export function usePostsByTagQuery(baseOptions: Apollo.QueryHookOptions<PostsByTagQuery, PostsByTagQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostsByTagQuery, PostsByTagQueryVariables>(PostsByTagDocument, options);
+      }
+export function usePostsByTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsByTagQuery, PostsByTagQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostsByTagQuery, PostsByTagQueryVariables>(PostsByTagDocument, options);
+        }
+export type PostsByTagQueryHookResult = ReturnType<typeof usePostsByTagQuery>;
+export type PostsByTagLazyQueryHookResult = ReturnType<typeof usePostsByTagLazyQuery>;
+export type PostsByTagQueryResult = Apollo.QueryResult<PostsByTagQuery, PostsByTagQueryVariables>;
 export const RandomMinProfileDocument = gql`
     query randomMinProfile {
   randomUser {
@@ -831,6 +898,63 @@ export function useRandomMinProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type RandomMinProfileQueryHookResult = ReturnType<typeof useRandomMinProfileQuery>;
 export type RandomMinProfileLazyQueryHookResult = ReturnType<typeof useRandomMinProfileLazyQuery>;
 export type RandomMinProfileQueryResult = Apollo.QueryResult<RandomMinProfileQuery, RandomMinProfileQueryVariables>;
+export const NewPostsDocument = gql`
+    query newPosts($number: Int!) {
+  getPosts(number: $number) {
+    _id
+    imageUrls
+    body
+    tags
+    createdAt
+    user_id
+    comments {
+      body
+      imageUrl
+      user {
+        username
+        tag
+        pictureUrl
+      }
+    }
+    likes {
+      createdAt
+      user {
+        username
+        tag
+        pictureUrl
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useNewPostsQuery__
+ *
+ * To run a query within a React component, call `useNewPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewPostsQuery({
+ *   variables: {
+ *      number: // value for 'number'
+ *   },
+ * });
+ */
+export function useNewPostsQuery(baseOptions: Apollo.QueryHookOptions<NewPostsQuery, NewPostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NewPostsQuery, NewPostsQueryVariables>(NewPostsDocument, options);
+      }
+export function useNewPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewPostsQuery, NewPostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NewPostsQuery, NewPostsQueryVariables>(NewPostsDocument, options);
+        }
+export type NewPostsQueryHookResult = ReturnType<typeof useNewPostsQuery>;
+export type NewPostsLazyQueryHookResult = ReturnType<typeof useNewPostsLazyQuery>;
+export type NewPostsQueryResult = Apollo.QueryResult<NewPostsQuery, NewPostsQueryVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerEmail: String!, $registerPassword: String!) {
   register(email: $registerEmail, password: $registerPassword) {

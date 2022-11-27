@@ -13,8 +13,7 @@ const postSchema = new Schema({
 			user: {
 				username: String,
 				tag: String,
-				picutreUrl: String,
-				status: String,
+				pictureUrl: String,
 			},
 		},
 	],
@@ -23,8 +22,7 @@ const postSchema = new Schema({
 			user: {
 				username: String,
 				tag: String,
-				picutreUrl: String,
-				status: String,
+				pictureUrl: String,
 			},
 			createdAt: String,
 		},
@@ -44,8 +42,7 @@ export interface PostType {
 			user: {
 				username: string;
 				tag: string;
-				picutreUrl: string;
-				status: string;
+				pictureUrl: string;
 			};
 		}
 	];
@@ -54,8 +51,7 @@ export interface PostType {
 			user: {
 				username: string;
 				tag: string;
-				picutreUrl: string;
-				status: string;
+				pictureUrl: string;
 			};
 			createdAt: string;
 		}

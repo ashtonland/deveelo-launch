@@ -1,0 +1,27 @@
+query postsByTag($tag: String!, $number: Int!) {
+	getPostsByTag(tag: $tag, number: $number) {
+		_id
+		imageUrls
+		body
+		tags
+		createdAt
+		user_id
+		comments {
+			body
+			imageUrl
+			user {
+				username
+				tag
+				pictureUrl
+			}
+		}
+		likes {
+			createdAt
+			user {
+				username
+				tag
+				pictureUrl
+			}
+		}
+	}
+}

@@ -17,6 +17,7 @@ const metrics = (): MyResolversComposition => (next) => async (parent, args, con
 const resolversComposition = {
 	//Post Queries
 	"Query.getPosts": metrics(),
+	"Query.getPostsByTag": metrics(),
 	//User Queries
 	"Query.myAccount": [metrics(), loggedInOnlyAuth()],
 	"Query.findUserByTag": metrics(),

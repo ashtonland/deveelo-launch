@@ -1,8 +1,13 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { setSideBarByTag } from "../hooks/setSidebar";
+
 import Meta from "../components/micro/Meta";
+import MiddleBar from "../components/MiddleBar";
+import { ProfileFeed } from "../components/posts/PostFeed";
+
+import { setSideBarByTag } from "../hooks/setSidebar";
 import { metaLoader } from "../hooks/loaders";
+import feedStyles from "../styles/posts/feed.module.css";
 
 interface propsType {
 	user: any;
@@ -12,21 +17,10 @@ const ProfilePage = (props: propsType) => {
 	const router = useRouter();
 	const { tag } = router.query;
 
-	// const { data, loading, error } = useFindMinProfileByTagQuery({
-	// 	variables: {
-	// 		tagInput: tag as string,
-	// 	},
-	// });
-
 	useEffect(() => {
 		setSideBarByTag(tag as string);
 	}, []);
 
-	// if (loading && !data) {
-	// 	return null;
-	// } else if (error) {
-	// 	return null;
-	// }
 	const user = props.user; //data.findUserByTag;
 	if (!user) {
 		return null;
@@ -37,12 +31,20 @@ const ProfilePage = (props: propsType) => {
 	const following = user.profile.followingIds.length;
 
 	return (
-		<Meta
-			title={`${user.account.username} | @${user.account.tag} on Deveelo`}
-			description={`${user.profile.description} — ${postCount} posts | ${blogCount} devlogs | ${followers} followers | ${following} following`}
-			url={`https://www.deveelo.com/${tag}`}
-			image={metaLoader(user.profile.pictureUrl, "uploads")}
-		/>
+		<>
+			<Meta
+				title={`${user.account.username} | @${user.account.tag} on Deveelo`}
+				description={`${user.profile.description} — ${postCount} posts | ${blogCount} devlogs | ${followers} followers | ${following} following`}
+				url={`https://www.deveelo.com/${tag}`}
+				image={metaLoader(user.profile.pictureUrl, "uploads")}
+			/>
+
+			<MiddleBar padded={true}>
+				<div className={feedStyles.nogapwrapper}>
+					<ProfileFeed tag={tag as string} amount={10} />
+				</div>
+			</MiddleBar>
+		</>
 	);
 };
 

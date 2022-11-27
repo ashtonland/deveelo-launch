@@ -31,8 +31,6 @@ const PostArea = () => {
 	localStorage.setItem("postbody", postText);
 
 	const textInput = useRef<HTMLTextAreaElement>();
-	/* states for loading the share & preview area */
-	const [previewFile, setPreviewFile] = useState<string>(); //the img file name
 
 	//EVERYTHING ELSE
 	//emoji picker styling
@@ -49,8 +47,8 @@ const PostArea = () => {
 				const pickers = document.getElementsByClassName("EmojiPickerReact epr-main");
 				if (pickers === undefined) return;
 
-				wrapper.style.top = offsets.y + "px";
-				wrapper.style.left = postarea.offsetWidth + 100 + "px";
+				wrapper.style.top = offsets.y + offsets.height + "px";
+				wrapper.style.left = offsets.x + offsets.height + "px";
 
 				const picker = pickers[0] as HTMLElement;
 				picker.style.setProperty("--epr-emoji-size", "1.2em");

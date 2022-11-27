@@ -1,14 +1,25 @@
 .fadeWrapper {
-    position: fixed;
+    position: absolute;
     top: 4.594em;
     width: 100vw;
     height: 9.656em;
-    padding: 0 23.344em 2.156em 30.9375em;
+    padding: 0 23.344em 0 30.9375em;
+}
+
+.fadebox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0 0 2.156em 0;
 
     background: linear-gradient(180deg, #F9F9F9 9.69%, rgba(249, 249, 249, 0) 100%);
     display: flex;
     flex-direction: row;
     justify-content: center;
+    /* status icons are 3, so just above that */
+    z-index: 4;
+    /* allow scrollbar to be used under the fade area */
+    pointer-events: none;
 }
 
 .notch {
@@ -21,6 +32,9 @@
     
     background: var(--sidebarBackground);
     border-radius: 0 0 2.06em 2.06em;
+    /* re-enable clicking on buttons after fade area (overarching parent)
+    disabled clicking bc the notch buttons inherit click-able-ity :^] */
+    pointer-events: all;
 }
 
 .buttonList {

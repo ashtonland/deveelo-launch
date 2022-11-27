@@ -23,7 +23,66 @@
     background-color: rgba(0, 23, 78, 0.082);;
 }
 
-  /* DANGEROUS BUTTONS - RED */
+/* SPIN ON CLICK BUTTONS */
+.spinable {
+    transition: none;
+}
+
+.spin {
+    /* transform: translateY(-.1em); */
+    /* transition: .6s cubic-bezier(.47,-1.12,.53,1.94); */
+    transition: .4s cubic-bezier(.12,.12,.35,1.36);
+    filter: brightness(0) saturate(100%) invert(47%) sepia(100%) saturate(1690%) hue-rotate(311deg) brightness(101%) contrast(99%);
+    animation: likeFX .5s 0s ease-in-out forwards;
+}
+
+@keyframes likeFX {
+    0% {
+      scale: 100%;
+      rotate: 0deg;
+    }
+
+    25% {
+        scale: 50%;
+    }
+
+    75% {
+        scale: 110%;
+    }
+  
+    100% {
+        scale: 100%;
+        rotate: 360deg;
+    }
+  }
+
+/* literally duplicates of .simplebutton but w/ pink hover fx */
+.spinButton {
+    height: fit-content;
+    width: fit-content;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+  
+.spinButton::before {
+    content: "";
+    position: absolute;
+    height: 150%;
+    width: 150%;
+    background-color: #fd588a00;
+    border-radius: 50%;
+    transition: .25s ease-in-out;
+}
+  
+.spinButton:hover::before {
+    height: 100%;
+    width: 100%;
+    border-radius: 20%;
+    background-color: #fd588a31;
+}
+
+/* DANGEROUS BUTTONS - RED */
 
 .simpleWarn {
     height: fit-content;

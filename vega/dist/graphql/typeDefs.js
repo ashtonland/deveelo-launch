@@ -36,9 +36,27 @@ exports.typeDefs = graphql_tag_1.default `
 	#posting
 	type Post {
 		_id: ID!
-		body: String!
+		imageUrls: [String!]!
+		body: String
+		tags: [String]
 		createdAt: String!
+		user_id: ID!
+		comments: [Comment]!
+		likes: [Like]!
+	}
+	type Comment {
+		body: String!
+		imageUrl: String
+		user: CUser!
+	}
+	type CUser {
 		username: String!
+		tag: String!
+		pictureUrl: String!
+	}
+	type Like {
+		user: CUser!
+		createdAt: String!
 	}
 
 	#general
@@ -116,7 +134,8 @@ exports.typeDefs = graphql_tag_1.default `
 
 	# note  Queries (searches)
 	type Query {
-		getPosts: [Post]!
+		getPosts(number: Int!): [Post]!
+		getPostsByTag(tag: String!, number: Int!): [Post]!
 		myAccount: User
 		findUserByTag(tag: String!): User!
 		findUsersById(ids: [String!]!): [User]!

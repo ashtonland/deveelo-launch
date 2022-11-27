@@ -27,6 +27,10 @@ const NameGroup = ({ username, size, showBadges, disableSpacer, badges, outline,
 			//Profile name on sidebar
 			fontStyle = nameStyles.p_largeText;
 			break;
+		case 3:
+			//post card authors
+			fontStyle = nameStyles.p_postText;
+			break;
 		case 4:
 			//sidebar follow/friend list
 			fontStyle = nameStyles.p_sociallistText;

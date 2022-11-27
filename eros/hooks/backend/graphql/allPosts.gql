@@ -1,8 +1,0 @@
-query GetPosts {
-	getPosts {
-		_id
-		body
-		createdAt
-		username
-	}
-}

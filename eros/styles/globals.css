@@ -11,6 +11,10 @@
   --searchbarGray: #EDF1F8; /* navbar */
   --searchGray: #F8FAFC; /* background of searchbar */
 
+  /* social colors */
+  --activePink: #FD5889; /* active like & comment button & count text */
+  --postGray: #222D49; /* post hover-blur area text */
+
   /* theme colors */
   --midtone: #FFC14A;
 

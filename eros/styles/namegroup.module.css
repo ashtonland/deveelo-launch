@@ -31,6 +31,22 @@
     margin: 0 0;
 }
 
+.p_postText {
+    width: fit-content;
+    height: 1.969rem;
+
+    font-family: 'DM Sans';
+    color: var(--textBlack);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.5em;
+    line-height: 1.969rem;
+    letter-spacing: -0.02em;
+
+    white-space: nowrap;
+    margin: 0 0;
+}
+
 .p_sociallistText {
     height: 1.688rem;
     width: fit-content;
