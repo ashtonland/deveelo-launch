@@ -7,6 +7,7 @@ require("dotenv/config");
 const path_1 = __importDefault(require("path"));
 const apollo_server_express_1 = require("apollo-server-express");
 const schema_1 = require("@graphql-tools/schema");
+var archiver = require("archiver");
 const graphqlUploadExpress_js_1 = __importDefault(require("graphql-upload/graphqlUploadExpress.js"));
 const jsonwebtoken_1 = require("jsonwebtoken");
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -206,6 +207,18 @@ const initServer = async () => {
     app.use("/uploads/pfps", express_1.default.static(path_1.default.join(__dirname, "../public/uploads/pfps")));
     app.use("/uploads/banners", express_1.default.static(path_1.default.join(__dirname, "../public/uploads/banners")));
     app.use("/uploads/posts", express_1.default.static(path_1.default.join(__dirname, "../public/uploads/posts")));
+    app.get("/media", cors_1.default(corsAllowUndefined), async (_req, res) => {
+        var archive = archiver("zip");
+        archive.on("error", function (err) {
+            res.status(500).send({ error: err.message });
+        });
+        res.attachment("vega-uploads-backup.zip");
+        archive.pipe(res);
+        archive.directory(path_1.default.join(__dirname, "../public/uploads/pfps"), "pfps");
+        archive.directory(path_1.default.join(__dirname, "../public/uploads/banners"), "banners");
+        archive.directory(path_1.default.join(__dirname, "../public/uploads/posts"), "posts");
+        archive.finalize();
+    });
     const schema = schema_1.makeExecutableSchema({
         typeDefs: typeDefs_1.typeDefs,
         resolvers: middleware_1.composedResolvers,

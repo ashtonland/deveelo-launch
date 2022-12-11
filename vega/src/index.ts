@@ -2,6 +2,7 @@ import "dotenv/config";
 import path from "path";
 import { ApolloServer } from "apollo-server-express";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+var archiver = require("archiver");
 //@ts-ignore
 import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
 import { verify } from "jsonwebtoken";
@@ -255,6 +256,25 @@ const initServer = async () => {
 	app.use("/uploads/pfps", express.static(path.join(__dirname, "../public/uploads/pfps")));
 	app.use("/uploads/banners", express.static(path.join(__dirname, "../public/uploads/banners")));
 	app.use("/uploads/posts", express.static(path.join(__dirname, "../public/uploads/posts")));
+	//zip & prompt download of live uploads folder to allow for backups before server restart
+	app.get("/media", cors(corsAllowUndefined), async (_req, res) => {
+		var archive = archiver("zip");
+
+		archive.on("error", function (err: any) {
+			res.status(500).send({ error: err.message });
+		});
+
+		//set the archive name
+		res.attachment("vega-uploads-backup.zip");
+
+		archive.pipe(res);
+
+		archive.directory(path.join(__dirname, "../public/uploads/pfps"), "pfps");
+		archive.directory(path.join(__dirname, "../public/uploads/banners"), "banners");
+		archive.directory(path.join(__dirname, "../public/uploads/posts"), "posts");
+
+		archive.finalize();
+	});
 
 	const schema = makeExecutableSchema({
 		typeDefs,
