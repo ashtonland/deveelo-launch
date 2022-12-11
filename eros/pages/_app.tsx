@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	//get the access token from the server (server will return it)
 	useEffect(() => {
-		fetch(process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/refresh_token" : "http://localhost:4000/refresh_token", {
+		fetch(process.env.NODE_ENV === "production" ? "https://vega.deveelo.com/refresh_token" : "http://localhost:4000/refresh_token", {
 			method: "POST",
 			credentials: "include",
 			mode: "cors",

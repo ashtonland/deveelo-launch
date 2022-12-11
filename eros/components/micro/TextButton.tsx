@@ -50,7 +50,13 @@ const TextButton = ({ colorKey, text, submit, action, disabled, large, outline, 
 			} else {
 				//follow button has smaller text
 				content = (
-					<button className={buttonStyles.goldGrad} type={submit ? "submit" : undefined} onClick={(e) => handlePress()}>
+					<button
+						className={buttonStyles.goldGrad}
+						type={submit ? "submit" : undefined}
+						onClick={(e) => {
+							e.preventDefault();
+							handlePress();
+						}}>
 						{text}
 					</button>
 				);

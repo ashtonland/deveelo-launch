@@ -1,5 +1,5 @@
 /* VEGA */
-export const prodServerUrl = "https://vega-deployment.herokuapp.com/";
+export const prodServerUrl = "https://vega.deveelo.com/";
 export const devServerUrl = "http://localhost:4000/";
 
 //get the current vega url, and allow navigation to sub path

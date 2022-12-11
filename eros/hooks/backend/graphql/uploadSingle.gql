@@ -1,5 +1,5 @@
-mutation uploadSingle($file: Upload!, $type: String!) {
-	singleUpload(file: $file, type: $type) {
+mutation uploadSingle($file: Upload!, $type: String!, $edata: ExtraData) {
+	singleUpload(file: $file, type: $type, edata: $edata) {
 		user {
 			_id
 			account {
@@ -24,6 +24,10 @@ mutation uploadSingle($file: Upload!, $type: String!) {
 		}
 		file {
 			filename
+		}
+		doc {
+			body
+			text2
 		}
 	}
 }

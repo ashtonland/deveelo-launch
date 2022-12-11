@@ -1,0 +1,9 @@
+query myPfpAndStatus {
+	myAccount {
+		_id
+		profile {
+			pictureUrl
+		}
+		status
+	}
+}

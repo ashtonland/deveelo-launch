@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getServerUrl = exports.devServerUrl = exports.prodServerUrl = void 0;
-exports.prodServerUrl = "https://vega-deployment.herokuapp.com/";
+exports.prodServerUrl = "https://vega.deveelo.com/";
 exports.devServerUrl = "http://localhost:4000/";
 const getServerUrl = (path) => {
     const route = path ? path : "";

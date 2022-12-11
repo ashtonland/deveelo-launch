@@ -6,32 +6,28 @@ const postSchema = new mongoose_1.Schema({
     body: String,
     tags: [String],
     createdAt: String,
-    username: String,
-    user: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'users',
-    },
+    user_id: mongoose_1.Schema.Types.ObjectId,
     comments: [
         {
             body: String,
             imageUrl: String,
             user: {
                 username: String,
-                picutreUrl: String,
-                status: String
-            }
-        }
+                tag: String,
+                pictureUrl: String,
+            },
+        },
     ],
     likes: [
         {
             user: {
                 username: String,
-                picutreUrl: String,
-                status: String
+                tag: String,
+                pictureUrl: String,
             },
-            createdAt: String
-        }
-    ]
+            createdAt: String,
+        },
+    ],
 });
-exports.default = mongoose_1.model('Post', postSchema);
+exports.default = mongoose_1.model("Post", postSchema);
 //# sourceMappingURL=Post.js.map

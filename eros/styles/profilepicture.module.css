@@ -20,6 +20,7 @@
     width: 4.688em;
     height: 4.688em;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 /* navbar pfp & sidebar following list pfps */
@@ -37,6 +38,7 @@
     width: 3.395em;
     height: 3.395em;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 /* Everywhere, profiles, activity bar, stories... */
@@ -45,6 +47,7 @@
     width: 3em;
     height: 3em;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 /* pfp next to chat bubble */

@@ -7,6 +7,7 @@ import Context from "../../context";
 import { validateFileExtensions } from "../../util/validators";
 import { UserInputError } from "apollo-server-express";
 import User, { UserType } from "../../models/User";
+import Post, { PostType } from "../../models/Post";
 
 const contentDir = "public/uploads/";
 let uploadedPfps: string[];
@@ -34,19 +35,48 @@ fs.readdir(contentDir + "banners/", (err, files) => {
 	}
 });
 
+const generateName = (type: string, id: string | undefined, fileExtention: string) => {
+	const idonly = type === "pfp" || type === "banner";
+
+	if (idonly) {
+		return `${id}.webp`;
+	} else {
+		//take the id + milliseconds since epoch .extension
+		//= completely unique url for all nonpfp nonbanner uploads
+		const time = Date.now();
+		return `${id}${time}.${fileExtention}`;
+	}
+};
+
+interface ExtraData {
+	field1: string;
+	field2: string;
+	field3: string;
+	field4: string;
+}
+
 const uploadsResolvers = {
 	Mutation: {
-		singleUpload: async (_parent: any, { file, type }: { file: any; type: string }, { payload }: Context) => {
+		singleUpload: async (_parent: any, { file, type, edata }: { file: any; type: string; edata?: ExtraData }, { payload }: Context) => {
 			//variables which control the different behaviors of the types of uploads
 			//let existingUploads: string[];
 			let savePath: string;
-			let imageOptimization: any;
+			let imageOptimization: any = null;
+			let allowedExtensions: string[];
+
+			//ACTUAL STUFF
+			const { createReadStream, filename, mimetype, encoding } = await file;
+
+			//split the name at the . and take the file extention
+			const name = filename as string;
+			let extension = name.split(".")[1];
 
 			switch (type) {
 				case "pfp":
 					//existingUploads = uploadedPfps;
 					//copy of image opts convertToWebpPfp;
 					savePath = contentDir + "pfps";
+					allowedExtensions = ["png", "jpg", "jpeg", "webp", "jfif", "avif"];
 					imageOptimization = sharp()
 						.resize({
 							width: 400,
@@ -58,6 +88,7 @@ const uploadsResolvers = {
 				case "banner":
 					//existingUploads = uploadedBanners;
 					savePath = contentDir + "banners";
+					allowedExtensions = ["png", "jpg", "jpeg", "webp", "jfif", "avif"];
 					imageOptimization = sharp()
 						.resize({
 							width: 990,
@@ -66,25 +97,38 @@ const uploadsResolvers = {
 						})
 						.webp({ quality: 75 });
 					break;
+				case "post":
+					savePath = contentDir + "posts";
+					allowedExtensions = ["png", "jpg", "jpeg", "webp", "jfif", "avif", "mov", "mp4"];
+
+					//if this is a picture, optimize it. Would like to do the same for videos
+					//but I do not want to mess w/ ffmpeg for the next week lol
+					const pictureExtsns = ["png", "jpg", "jpeg", "webp", "jfif", "avif"];
+					if (pictureExtsns.includes(extension.toLowerCase())) {
+						//convert format to webp & change savepath extension to match
+						extension = "webp";
+						imageOptimization = sharp()
+							.resize({
+								width: 1920,
+								height: 1080,
+								fit: "cover",
+							})
+							.webp({ quality: 75 });
+					}
+					break;
 				default:
 					throw new Error("No valid type --banner, pfp, etc-- passed in as a prop with this upload");
 			}
 
-			const { createReadStream, filename, mimetype, encoding } = await file;
-
-			//split the name at the . and take the file extention
-			const name = filename as string;
-			const extension = name.split(".")[1];
-
 			//check if we recieved a supported image format, this is a secondary check
 			//since the frontend only allows these in the file exporter, but if a direct req is sent?
-			const { errors, valid } = validateFileExtensions(extension, ["png", "jpg", "jpeg", "webp", "jfif", "avif"]);
+			const { errors, valid } = validateFileExtensions(extension, allowedExtensions);
 			if (!valid) {
 				throw new UserInputError(errors.file);
 			}
 
-			//use the user id as the name
-			const saveName = `${payload?.id}.webp`;
+			//use the user id and/or time as the name
+			const saveName = generateName(type, payload?.id, extension);
 
 			//change the user's profile data if pfp or banner
 			try {
@@ -100,12 +144,20 @@ const uploadsResolvers = {
 			}
 
 			//upload the file
-			await new Promise((res) =>
-				createReadStream()
-					.pipe(imageOptimization)
-					.pipe(fs.createWriteStream(path.join(savePath, saveName)))
-					.on("close", res)
-			);
+			if (imageOptimization) {
+				await new Promise((res) =>
+					createReadStream()
+						.pipe(imageOptimization)
+						.pipe(fs.createWriteStream(path.join(savePath, saveName)))
+						.on("close", res)
+				);
+			} else {
+				await new Promise((res) =>
+					createReadStream()
+						.pipe(fs.createWriteStream(path.join(savePath, saveName)))
+						.on("close", res)
+				);
+			}
 
 			//store the filename in the array of uploads
 			switch (type) {
@@ -124,7 +176,7 @@ const uploadsResolvers = {
 					}
 					break;
 				default:
-					throw new Error("Error when saving new file name to variable array storage of uploaded files");
+					break;
 			}
 
 			//fetch the user AFTER we have changed their pfp or banner, nor before
@@ -133,14 +185,55 @@ const uploadsResolvers = {
 				throw new Error("account not found");
 			}
 
-			return {
-				user: user,
-				file: {
-					filename: saveName,
-					mimetype: mimetype,
-					encoding: encoding,
-				},
-			};
+			if (type === "post") {
+				if (edata === undefined) {
+					throw new Error("No extra data (body, tags, etc) provided alongside the file upload. Cancelled.");
+				}
+				//create the post
+				await Post.init();
+
+				const newPost = new Post({
+					imageUrls: [`/posts/${saveName}`],
+					body: edata.field1,
+					tags: edata.field2,
+					createdAt: new Date().toISOString(),
+					user_id: new ObjectID(payload?.id),
+					comments: [],
+					likes: [],
+				});
+
+				try {
+					await newPost.save();
+				} catch (error) {
+					throw new Error("Unable to save post to database");
+				}
+
+				const post: PostType = newPost as any;
+
+				// note  return for posts
+				return {
+					user,
+					file: {
+						filename: saveName,
+						mimetype: mimetype,
+						encoding: encoding,
+					},
+					doc: {
+						body: post.body,
+						text2: post.imageUrls[0],
+					},
+				};
+			} else {
+				// note  return for all but post uploads
+				return {
+					user,
+					file: {
+						filename: saveName,
+						mimetype: mimetype,
+						encoding: encoding,
+					},
+				};
+			}
 		},
 	},
 };

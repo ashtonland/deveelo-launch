@@ -1,0 +1,42 @@
+.buttonWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.375em 0 0.656em;
+
+    /* Inside auto layout */
+    flex: none;
+}
+
+.label {
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+
+    font-family: 'DM Sans';
+    color: var(--midLightGray);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.3125em;
+    line-height: 1.6875em;
+    display: flex;
+    align-items: center;
+    text-align: right;
+}
+
+.labelActive {
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+
+    font-family: 'DM Sans';
+    color: var(--activePink);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.3125em;
+    line-height: 1.6875em;
+    display: flex;
+    align-items: center;
+    text-align: right;
+}

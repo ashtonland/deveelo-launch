@@ -19,7 +19,7 @@ const CardList = ({ size, list }: CardListProps) => {
 	const payload: any = getPayload();
 
 	//fetch our follower & following id lists + a sample of users
-	const { data: myData, loading: myLoading, error: myError } = loggedIn ? useMyFollowingQuery() : { data: undefined, loading: undefined, error: undefined };
+	const { data: myData, loading: myLoading, error: myError } = useMyFollowingQuery();
 	//fetch follow/friend user data to display
 	const { data, loading, error } = useFindCardUsersByIdsQuery({ variables: { idList: list } });
 

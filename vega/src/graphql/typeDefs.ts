@@ -16,14 +16,42 @@ export const typeDefs = gql`
 	type UploadResult {
 		user: User!
 		file: File!
+		doc: KeyFields
+	}
+	type KeyFields {
+		body: String!
+		text2: String
+	}
+	input ExtraData {
+		field1: String
+		field2: [String]
+		field3: String
 	}
 
 	#posting
 	type Post {
 		_id: ID!
-		body: String!
+		imageUrls: [String!]!
+		body: String
+		tags: [String]
 		createdAt: String!
+		user_id: ID!
+		comments: [Comment]!
+		likes: [Like]!
+	}
+	type Comment {
+		body: String!
+		imageUrl: String
+		user: CUser!
+	}
+	type CUser {
 		username: String!
+		tag: String!
+		pictureUrl: String!
+	}
+	type Like {
+		user: CUser!
+		createdAt: String!
 	}
 
 	#general
@@ -101,7 +129,8 @@ export const typeDefs = gql`
 
 	# note  Queries (searches)
 	type Query {
-		getPosts: [Post]!
+		getPosts(number: Int!): [Post]!
+		getPostsByTag(tag: String!, number: Int!): [Post]!
 		myAccount: User
 		findUserByTag(tag: String!): User!
 		findUsersById(ids: [String!]!): [User]!
@@ -118,6 +147,6 @@ export const typeDefs = gql`
 		follow(id: String!): BoolRes
 		unfollow(id: String!): BoolRes
 		updateProfile(name: String, tag: String, description: String): User!
-		singleUpload(file: Upload!, type: String!): UploadResult!
+		singleUpload(file: Upload!, type: String!, edata: ExtraData): UploadResult!
 	}
 `;

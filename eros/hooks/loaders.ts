@@ -19,6 +19,12 @@ export const bannerLoader: ImageLoader = ({ src, width, quality }: ImageLoaderPr
 	}
 };
 
+//banner loader but stripped of the extra multifunctional parts. This only needs to load
+//images from the server and does not need a cache breaker, thus improving performance
+export const postLoader: ImageLoader = ({ src, width, quality }: ImageLoaderProps) => {
+	return `${getServerUrl("uploads")}${src}`;
+};
+
 //used for compiling image source for link preview meta
 export const metaLoader = (src: string, path: string): string => {
 	//if using the default cups, this file will be on the frontend

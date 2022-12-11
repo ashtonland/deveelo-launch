@@ -1,9 +1,11 @@
 /* sidebar/main/activty split, sidebar & activity bar are as margin */
 .container {
+  height: 100vh;
+  overflow: hidden;
   margin-left: 30.9375em;
   margin-right: 23.344em;
   min-height: 100vh;
-  padding: 0 2.625em;
+  padding: 0 0 0 2.625em;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -46,7 +48,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
   width: 100%;

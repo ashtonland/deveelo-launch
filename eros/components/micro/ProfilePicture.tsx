@@ -62,11 +62,11 @@ const ProfilePicture = ({ size, source, status, editing, renderSeed, isActivityb
 				</div>
 			);
 			break;
-		case "w36":
+		case "w36c":
 			content = (
 				<div className={pictureStyles.w36}>
 					<Image loader={bannerLoader} className={pictureStyles.p_picture} alt="profile picture" src={source} layout="fill" objectFit="cover" />
-					{status ? <div className={statusStyles.large}>{circle}</div> : null}
+					{status ? <img src={`/resources/status/${status}.svg`} className={statusStyles.w36circle} /> : null}
 				</div>
 			);
 			break;

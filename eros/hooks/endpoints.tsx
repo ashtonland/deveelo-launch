@@ -4,7 +4,7 @@ export const searchUsers = async (str: string): Promise<any> => {
 	}
 
 	try {
-		const url = process.env.NODE_ENV === "production" ? "https://vega-deployment.herokuapp.com/search?name=" : "http://localhost:4000/search?name=";
+		const url = process.env.NODE_ENV === "production" ? "https://vega.deveelo.com/search?name=" : "http://localhost:4000/search?name=";
 		const searchUrl = url + str;
 		const request = await fetch(searchUrl, { method: "GET", credentials: "omit", mode: "cors" });
 		const users = await request.json();

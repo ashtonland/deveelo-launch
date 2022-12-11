@@ -1,5 +1,5 @@
 import router from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import buttonStyles from "../../styles/micro/iconbutton.module.css";
 
 interface IB_Props {
@@ -19,13 +19,17 @@ interface IB_Props {
 		};
 	};
 	startActive?: boolean;
+	spinOnClick?: boolean; //like button click effect (warn hover spinFX but now on click)
+	hoverFxOff?: boolean;
 	submit?: boolean;
 	disabled?: boolean;
+	prevent?: boolean; //e.preventdefault
 }
 
-const IconButton = ({ src, activesrc, width, height, paddingTB, paddingLR, action, startActive, submit, disabled }: IB_Props) => {
+const IconButton = ({ src, activesrc, prevent, width, height, paddingTB, paddingLR, action, startActive, submit, disabled, hoverFxOff, spinOnClick }: IB_Props) => {
 	const tb = paddingTB ? paddingTB : 0;
 	const lr = paddingLR ? paddingLR : 0;
+	const forcedPrevent = prevent ? prevent : false;
 
 	const buttonStyle = () => ({
 		width: width,
@@ -33,10 +37,13 @@ const IconButton = ({ src, activesrc, width, height, paddingTB, paddingLR, actio
 		padding: `${tb}em ${lr}em`,
 	});
 
+	//set stype to NoHover or SimpleButton... regardless, this is later overriden by warn type later if prop is true
+	const regularStyle = hoverFxOff ? buttonStyles.hoverlessButton : buttonStyles.simpleButton;
+
 	// we are not logged in
 	if (disabled) {
 		return (
-			<button className={buttonStyles.simpleButton}>
+			<button className={regularStyle}>
 				<img style={buttonStyle()} src={src} />
 			</button>
 		);
@@ -44,6 +51,9 @@ const IconButton = ({ src, activesrc, width, height, paddingTB, paddingLR, actio
 
 	const [active, setActive] = useState(startActive);
 	let useRed: boolean;
+
+	//set class of image to spinable one or static nothingness
+	const imageStyle = spinOnClick ? (active ? buttonStyles.spin : buttonStyles.spinable) : undefined;
 
 	if (action) {
 		if (action.options) {
@@ -74,9 +84,26 @@ const IconButton = ({ src, activesrc, width, height, paddingTB, paddingLR, actio
 		}
 	};
 
+	let hoverStyle = regularStyle;
+	if (active) {
+		if (useRed) {
+			hoverStyle = buttonStyles.simpleWarn;
+		} else if (spinOnClick) {
+			hoverStyle = buttonStyles.spinButton;
+		}
+	}
+
 	return (
-		<button className={useRed && active ? buttonStyles.simpleWarn : buttonStyles.simpleButton} type={submit ? "submit" : undefined} onClick={() => handlePress()}>
-			<img style={buttonStyle()} className={useRed && active ? buttonStyles.warnColor : undefined} src={active ? activesrc : src} />
+		<button
+			className={hoverStyle}
+			type={submit ? "submit" : undefined}
+			onClick={(e) => {
+				if (forcedPrevent) {
+					e.preventDefault();
+				}
+				handlePress();
+			}}>
+			<img style={buttonStyle()} className={useRed && active ? buttonStyles.warnColor : imageStyle} src={active ? activesrc : src} />
 		</button>
 	);
 };
