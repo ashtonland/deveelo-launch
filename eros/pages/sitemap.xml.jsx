@@ -1,4 +1,4 @@
-const EXTERNAL_DATA_URL = "https://vega-deployment.herokuapp.com/users";
+const EXTERNAL_DATA_URL = "https://vega.deveelo.com/users";
 
 function generateSiteMap(users) {
 	return `<?xml version="1.0" encoding="UTF-8"?>
