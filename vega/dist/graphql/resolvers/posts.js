@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongodb_1 = require("mongodb");
 const User_1 = __importDefault(require("../../models/User"));
 const Post_1 = __importDefault(require("../../models/Post"));
 const postsResolvers = {
@@ -27,6 +28,32 @@ const postsResolvers = {
             }
             catch (err) {
                 throw new Error(err);
+            }
+        },
+    },
+    Mutation: {
+        like: async (_parent, { id }, context) => {
+            const myID = context.payload.id;
+            try {
+                await Post_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(id), { $addToSet: { likes: myID } }, { useFindAndModify: false });
+                return {
+                    success: true,
+                };
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        },
+        unlike: async (_parent, { id }, context) => {
+            const myID = context.payload.id;
+            try {
+                await Post_1.default.findByIdAndUpdate(new mongodb_1.ObjectID(id), { $pull: { likes: myID } }, { useFindAndModify: false });
+                return {
+                    success: true,
+                };
+            }
+            catch (error) {
+                throw new Error(error);
             }
         },
     },

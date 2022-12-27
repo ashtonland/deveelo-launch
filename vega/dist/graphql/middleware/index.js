@@ -27,6 +27,8 @@ const resolversComposition = {
     "Mutation.unfollow": [metrics(), isAuth_1.loggedInOnlyAuth()],
     "Mutation.updateProfile": [metrics(), isAuth_1.loggedInOnlyAuth()],
     "Mutation.singleUpload": [metrics(), isAuth_1.loggedInOnlyAuth()],
+    "Mutation.like": [metrics(), isAuth_1.loggedInOnlyAuth()],
+    "Mutation.unlike": [metrics(), isAuth_1.loggedInOnlyAuth()],
 };
 exports.composedResolvers = resolvers_composition_1.composeResolvers(resolvers_1.default, resolversComposition);
 //# sourceMappingURL=index.js.map

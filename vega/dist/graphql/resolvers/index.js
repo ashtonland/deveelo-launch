@@ -10,7 +10,7 @@ const uploads_1 = __importDefault(require("./uploads"));
 const resolvers = {
     Upload: GraphQLUpload_js_1.default,
     Query: Object.assign(Object.assign({}, users_1.default.Query), posts_1.default.Query),
-    Mutation: Object.assign(Object.assign({}, users_1.default.Mutation), uploads_1.default.Mutation),
+    Mutation: Object.assign(Object.assign(Object.assign({}, users_1.default.Mutation), uploads_1.default.Mutation), posts_1.default.Mutation),
 };
 exports.default = resolvers;
 //# sourceMappingURL=index.js.map

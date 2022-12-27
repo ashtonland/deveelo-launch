@@ -15,13 +15,6 @@ query newPosts($number: Int!) {
 				pictureUrl
 			}
 		}
-		likes {
-			createdAt
-			user {
-				username
-				tag
-				pictureUrl
-			}
-		}
+		likes
 	}
 }

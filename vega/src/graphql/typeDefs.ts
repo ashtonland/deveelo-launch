@@ -37,7 +37,7 @@ export const typeDefs = gql`
 		createdAt: String!
 		user_id: ID!
 		comments: [Comment]!
-		likes: [Like]!
+		likes: [String]!
 	}
 	type Comment {
 		body: String!
@@ -48,10 +48,6 @@ export const typeDefs = gql`
 		username: String!
 		tag: String!
 		pictureUrl: String!
-	}
-	type Like {
-		user: CUser!
-		createdAt: String!
 	}
 
 	#general
@@ -127,7 +123,7 @@ export const typeDefs = gql`
 		success: Boolean!
 	}
 
-	# note  Queries (searches)
+	# note  Queries (read)
 	type Query {
 		getPosts(number: Int!): [Post]!
 		getPostsByTag(tag: String!, number: Int!): [Post]!
@@ -139,7 +135,7 @@ export const typeDefs = gql`
 		allUsers: [User]!
 	}
 
-	# note  Mutations (read/write/updates)
+	# note  Mutations (write)
 	type Mutation {
 		register(email: String!, password: String!): LoginResponse!
 		login(input: String!, password: String!): LoginResponse!
@@ -148,5 +144,7 @@ export const typeDefs = gql`
 		unfollow(id: String!): BoolRes
 		updateProfile(name: String, tag: String, description: String): User!
 		singleUpload(file: Upload!, type: String!, edata: ExtraData): UploadResult!
+		like(id: String!): BoolRes
+		unlike(id: String!): BoolRes
 	}
 `;

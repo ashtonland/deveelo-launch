@@ -15,13 +15,6 @@ query postsByTag($tag: String!, $number: Int!) {
 				pictureUrl
 			}
 		}
-		likes {
-			createdAt
-			user {
-				username
-				tag
-				pictureUrl
-			}
-		}
+		likes
 	}
 }

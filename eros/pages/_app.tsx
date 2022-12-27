@@ -1,6 +1,7 @@
 import { AppProps } from "next/app";
 import { useApollo } from "../lib/apolloClient";
 import { ApolloProvider } from "@apollo/client";
+import { Analytics } from "@vercel/analytics/react";
 import { useRouter } from "next/router";
 
 import Layout from "../components/Layout";
@@ -51,6 +52,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				{dynamicRoutes.includes(currPage) ? null : (
 					<ApolloProvider client={apolloClient}>
 						<Component {...pageProps} />
+						<Analytics />
 					</ApolloProvider>
 				)}
 			</>
@@ -66,6 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				showActivityBar={OnActivityBlacklist(currPage)}
 				useWide={MatchName(currPage, twoColRoutes)}>
 				<Component {...pageProps} />
+				<Analytics />
 			</Layout>
 		</ApolloProvider>
 	);

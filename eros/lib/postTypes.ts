@@ -16,14 +16,5 @@ export interface PostType {
 			};
 		}
 	];
-	likes: [
-		{
-			user: {
-				username: string;
-				tag: string;
-				pictureUrl: string;
-			};
-			createdAt: string;
-		}
-	];
+	likes: string[];
 }
