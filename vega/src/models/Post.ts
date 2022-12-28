@@ -17,16 +17,7 @@ const postSchema = new Schema({
 			},
 		},
 	],
-	likes: [
-		{
-			user: {
-				username: String,
-				tag: String,
-				pictureUrl: String,
-			},
-			createdAt: String,
-		},
-	],
+	likes: [String],
 });
 
 export interface PostType {
@@ -46,16 +37,7 @@ export interface PostType {
 			};
 		}
 	];
-	likes: [
-		{
-			user: {
-				username: string;
-				tag: string;
-				pictureUrl: string;
-			};
-			createdAt: string;
-		}
-	];
+	likes: [string];
 }
 
 export default model("Post", postSchema);

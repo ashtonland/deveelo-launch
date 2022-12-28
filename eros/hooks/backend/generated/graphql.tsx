@@ -54,12 +54,6 @@ export type KeyFields = {
   text2?: Maybe<Scalars['String']>;
 };
 
-export type Like = {
-  __typename?: 'Like';
-  createdAt: Scalars['String'];
-  user: CUser;
-};
-
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   accessToken: Scalars['String'];
@@ -69,16 +63,23 @@ export type LoginResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   follow?: Maybe<BoolRes>;
+  like?: Maybe<BoolRes>;
   login: LoginResponse;
   logout: Scalars['Boolean'];
   register: LoginResponse;
   singleUpload: UploadResult;
   unfollow?: Maybe<BoolRes>;
+  unlike?: Maybe<BoolRes>;
   updateProfile: User;
 };
 
 
 export type MutationFollowArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationLikeArgs = {
   id: Scalars['String'];
 };
 
@@ -103,6 +104,11 @@ export type MutationSingleUploadArgs = {
 
 
 export type MutationUnfollowArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationUnlikeArgs = {
   id: Scalars['String'];
 };
 
@@ -140,7 +146,7 @@ export type Post = {
   comments: Array<Maybe<Comment>>;
   createdAt: Scalars['String'];
   imageUrls: Array<Scalars['String']>;
-  likes: Array<Maybe<Like>>;
+  likes: Array<Maybe<Scalars['String']>>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   user_id: Scalars['ID'];
 };
@@ -268,6 +274,13 @@ export type FollowMutationVariables = Exact<{
 
 export type FollowMutation = { __typename?: 'Mutation', follow?: { __typename?: 'BoolRes', success: boolean } | null };
 
+export type LikePostMutationVariables = Exact<{
+  postId: Scalars['String'];
+}>;
+
+
+export type LikePostMutation = { __typename?: 'Mutation', like?: { __typename?: 'BoolRes', success: boolean } | null };
+
 export type LoginMutationVariables = Exact<{
   loginInput: Scalars['String'];
   loginPassword: Scalars['String'];
@@ -307,7 +320,7 @@ export type PostsByTagQueryVariables = Exact<{
 }>;
 
 
-export type PostsByTagQuery = { __typename?: 'Query', getPostsByTag: Array<{ __typename?: 'Post', _id: string, imageUrls: Array<string>, body?: string | null, tags?: Array<string | null> | null, createdAt: string, user_id: string, comments: Array<{ __typename?: 'Comment', body: string, imageUrl?: string | null, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null>, likes: Array<{ __typename?: 'Like', createdAt: string, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null> } | null> };
+export type PostsByTagQuery = { __typename?: 'Query', getPostsByTag: Array<{ __typename?: 'Post', _id: string, imageUrls: Array<string>, body?: string | null, tags?: Array<string | null> | null, createdAt: string, user_id: string, likes: Array<string | null>, comments: Array<{ __typename?: 'Comment', body: string, imageUrl?: string | null, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null> } | null> };
 
 export type RandomMinProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -319,7 +332,7 @@ export type NewPostsQueryVariables = Exact<{
 }>;
 
 
-export type NewPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', _id: string, imageUrls: Array<string>, body?: string | null, tags?: Array<string | null> | null, createdAt: string, user_id: string, comments: Array<{ __typename?: 'Comment', body: string, imageUrl?: string | null, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null>, likes: Array<{ __typename?: 'Like', createdAt: string, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null> } | null> };
+export type NewPostsQuery = { __typename?: 'Query', getPosts: Array<{ __typename?: 'Post', _id: string, imageUrls: Array<string>, body?: string | null, tags?: Array<string | null> | null, createdAt: string, user_id: string, likes: Array<string | null>, comments: Array<{ __typename?: 'Comment', body: string, imageUrl?: string | null, user: { __typename?: 'CUser', username: string, tag: string, pictureUrl: string } } | null> } | null> };
 
 export type RegisterMutationVariables = Exact<{
   registerEmail: Scalars['String'];
@@ -342,6 +355,13 @@ export type UnfollowMutationVariables = Exact<{
 
 
 export type UnfollowMutation = { __typename?: 'Mutation', unfollow?: { __typename?: 'BoolRes', success: boolean } | null };
+
+export type UnlikePostMutationVariables = Exact<{
+  postId: Scalars['String'];
+}>;
+
+
+export type UnlikePostMutation = { __typename?: 'Mutation', unlike?: { __typename?: 'BoolRes', success: boolean } | null };
 
 export type UpdateProfileMutationVariables = Exact<{
   newname?: InputMaybe<Scalars['String']>;
@@ -529,6 +549,39 @@ export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<Follo
 export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
 export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
 export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
+export const LikePostDocument = gql`
+    mutation likePost($postId: String!) {
+  like(id: $postId) {
+    success
+  }
+}
+    `;
+export type LikePostMutationFn = Apollo.MutationFunction<LikePostMutation, LikePostMutationVariables>;
+
+/**
+ * __useLikePostMutation__
+ *
+ * To run a mutation, you first call `useLikePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likePostMutation, { data, loading, error }] = useLikePostMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useLikePostMutation(baseOptions?: Apollo.MutationHookOptions<LikePostMutation, LikePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikePostMutation, LikePostMutationVariables>(LikePostDocument, options);
+      }
+export type LikePostMutationHookResult = ReturnType<typeof useLikePostMutation>;
+export type LikePostMutationResult = Apollo.MutationResult<LikePostMutation>;
+export type LikePostMutationOptions = Apollo.BaseMutationOptions<LikePostMutation, LikePostMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($loginInput: String!, $loginPassword: String!) {
   login(input: $loginInput, password: $loginPassword) {
@@ -805,14 +858,7 @@ export const PostsByTagDocument = gql`
         pictureUrl
       }
     }
-    likes {
-      createdAt
-      user {
-        username
-        tag
-        pictureUrl
-      }
-    }
+    likes
   }
 }
     `;
@@ -916,14 +962,7 @@ export const NewPostsDocument = gql`
         pictureUrl
       }
     }
-    likes {
-      createdAt
-      user {
-        username
-        tag
-        pictureUrl
-      }
-    }
+    likes
   }
 }
     `;
@@ -1090,6 +1129,39 @@ export function useUnfollowMutation(baseOptions?: Apollo.MutationHookOptions<Unf
 export type UnfollowMutationHookResult = ReturnType<typeof useUnfollowMutation>;
 export type UnfollowMutationResult = Apollo.MutationResult<UnfollowMutation>;
 export type UnfollowMutationOptions = Apollo.BaseMutationOptions<UnfollowMutation, UnfollowMutationVariables>;
+export const UnlikePostDocument = gql`
+    mutation unlikePost($postId: String!) {
+  unlike(id: $postId) {
+    success
+  }
+}
+    `;
+export type UnlikePostMutationFn = Apollo.MutationFunction<UnlikePostMutation, UnlikePostMutationVariables>;
+
+/**
+ * __useUnlikePostMutation__
+ *
+ * To run a mutation, you first call `useUnlikePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnlikePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unlikePostMutation, { data, loading, error }] = useUnlikePostMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useUnlikePostMutation(baseOptions?: Apollo.MutationHookOptions<UnlikePostMutation, UnlikePostMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UnlikePostMutation, UnlikePostMutationVariables>(UnlikePostDocument, options);
+      }
+export type UnlikePostMutationHookResult = ReturnType<typeof useUnlikePostMutation>;
+export type UnlikePostMutationResult = Apollo.MutationResult<UnlikePostMutation>;
+export type UnlikePostMutationOptions = Apollo.BaseMutationOptions<UnlikePostMutation, UnlikePostMutationVariables>;
 export const UpdateProfileDocument = gql`
     mutation updateProfile($newname: String, $newtag: String, $newdes: String) {
   updateProfile(name: $newname, tag: $newtag, description: $newdes) {

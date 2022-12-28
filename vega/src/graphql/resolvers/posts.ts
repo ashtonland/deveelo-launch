@@ -1,3 +1,5 @@
+import { ObjectID } from "mongodb";
+
 import Context from "src/context";
 import User, { UserType } from "../../models/User";
 import Post from "../../models/Post";
@@ -24,6 +26,36 @@ const postsResolvers = {
 				return posts;
 			} catch (err) {
 				throw new Error(err);
+			}
+		},
+	},
+	Mutation: {
+		like: async (_parent: any, { id }: { id: string }, context: Context) => {
+			const myID = context.payload!.id;
+
+			try {
+				//add our id to the post's list of like(rs)
+				await Post.findByIdAndUpdate(new ObjectID(id), { $addToSet: { likes: myID } }, { useFindAndModify: false });
+
+				return {
+					success: true,
+				};
+			} catch (error) {
+				throw new Error(error);
+			}
+		},
+		unlike: async (_parent: any, { id }: { id: string }, context: Context) => {
+			const myID = context.payload!.id;
+
+			try {
+				//add our id to the post's list of like(rs)
+				await Post.findByIdAndUpdate(new ObjectID(id), { $pull: { likes: myID } }, { useFindAndModify: false });
+
+				return {
+					success: true,
+				};
+			} catch (error) {
+				throw new Error(error);
 			}
 		},
 	},

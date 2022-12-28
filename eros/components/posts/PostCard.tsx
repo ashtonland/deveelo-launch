@@ -12,6 +12,8 @@ import { timeAgo } from "../../lib/time";
 import { PostType } from "../../lib/postTypes";
 import { SearchUserIdType } from "../../lib/userTypes";
 import { updateSidebar } from "../../hooks/socialhooks";
+import { isLoggedIn } from "../../hooks/userChecks";
+import { getPayload } from "../../accessToken";
 
 interface PC_Props {
 	key: string;
@@ -22,10 +24,17 @@ const PostCard = ({ key, post }: PC_Props) => {
 	const [showContent, setShowContent] = useState(false);
 	const [fade, setFade] = useState(false);
 
-	const { body, imageUrls, user_id, createdAt, likes, comments, tags } = post;
+	const { _id, body, imageUrls, user_id, createdAt, likes, comments, tags } = post;
 
 	const hashtags = tags;
 	const showHashtags = hashtags !== null;
+
+	//check if we have already liked this post, so we can initialize
+	//the post with the like button active (pink & filled)
+	const payload: any = getPayload();
+	const myId = payload?.id;
+
+	const alreadyLiked = isLoggedIn() ? likes.includes(myId) : false;
 
 	const { data, loading, error } = useFindCardUsersByIdsQuery({
 		variables: {
@@ -42,6 +51,7 @@ const PostCard = ({ key, post }: PC_Props) => {
 
 	const user = data.findUsersById[0] as SearchUserIdType;
 
+	//switch sidebar to show post author's profile when name is clicked
 	const changeSidebar = (tag: string) => {
 		if (!tag) {
 			return;
@@ -52,6 +62,8 @@ const PostCard = ({ key, post }: PC_Props) => {
 		updateSidebar(tag);
 	};
 
+	//toggle the blur area with whatever content may
+	//be shown: either the text body or comments
 	const toggleContent = () => {
 		if (showContent) {
 			//user is trying to hide the content
@@ -75,7 +87,7 @@ const PostCard = ({ key, post }: PC_Props) => {
 					<div className={fade ? styles.blurOut : styles.blurArea}>
 						{/* swap out content at this level */}
 						<div className={styles.contentWrapper}>
-							<p className={styles.postBody}>{post?.body}</p>
+							<p className={styles.postBody}>{body}</p>
 							{showHashtags ? (
 								<div className={styles.tagList}>
 									{hashtags.map((tag) => (
@@ -87,6 +99,7 @@ const PostCard = ({ key, post }: PC_Props) => {
 					</div>
 				) : null}
 			</div>
+			{/* Under-image section */}
 			<div className={styles.header}>
 				<div className={styles.profile} onClick={() => changeSidebar(user.account.tag)}>
 					<ProfilePicture source={user.profile.pictureUrl} status={user.status} size="w36c" />
@@ -98,8 +111,8 @@ const PostCard = ({ key, post }: PC_Props) => {
 					</div>
 				</div>
 				<div className={styles.buttonGroup}>
-					<Like count={likes.length} startActive={false} cardType="post" />
-					<Comment count={comments.length} startActive={false} cardType="post" />
+					<Like count={likes.length} id={_id} startActive={alreadyLiked} cardType="post" />
+					<Comment count={comments.length} id={_id} startActive={false} cardType="post" />
 				</div>
 			</div>
 		</div>

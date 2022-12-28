@@ -42,7 +42,7 @@ exports.typeDefs = graphql_tag_1.default `
 		createdAt: String!
 		user_id: ID!
 		comments: [Comment]!
-		likes: [Like]!
+		likes: [String]!
 	}
 	type Comment {
 		body: String!
@@ -53,10 +53,6 @@ exports.typeDefs = graphql_tag_1.default `
 		username: String!
 		tag: String!
 		pictureUrl: String!
-	}
-	type Like {
-		user: CUser!
-		createdAt: String!
 	}
 
 	#general
@@ -132,7 +128,7 @@ exports.typeDefs = graphql_tag_1.default `
 		success: Boolean!
 	}
 
-	# note  Queries (searches)
+	# note  Queries (read)
 	type Query {
 		getPosts(number: Int!): [Post]!
 		getPostsByTag(tag: String!, number: Int!): [Post]!
@@ -144,7 +140,7 @@ exports.typeDefs = graphql_tag_1.default `
 		allUsers: [User]!
 	}
 
-	# note  Mutations (read/write/updates)
+	# note  Mutations (write)
 	type Mutation {
 		register(email: String!, password: String!): LoginResponse!
 		login(input: String!, password: String!): LoginResponse!
@@ -153,6 +149,8 @@ exports.typeDefs = graphql_tag_1.default `
 		unfollow(id: String!): BoolRes
 		updateProfile(name: String, tag: String, description: String): User!
 		singleUpload(file: Upload!, type: String!, edata: ExtraData): UploadResult!
+		like(id: String!): BoolRes
+		unlike(id: String!): BoolRes
 	}
 `;
 //# sourceMappingURL=typeDefs.js.map

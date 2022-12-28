@@ -18,6 +18,7 @@ const resolvers = {
 	Mutation: {
 		...userResolvers.Mutation,
 		...uploadsResolvers.Mutation,
+		...postsResolvers.Mutation,
 	},
 };
 

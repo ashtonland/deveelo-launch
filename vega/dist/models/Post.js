@@ -18,16 +18,7 @@ const postSchema = new mongoose_1.Schema({
             },
         },
     ],
-    likes: [
-        {
-            user: {
-                username: String,
-                tag: String,
-                pictureUrl: String,
-            },
-            createdAt: String,
-        },
-    ],
+    likes: [String],
 });
 exports.default = mongoose_1.model("Post", postSchema);
 //# sourceMappingURL=Post.js.map

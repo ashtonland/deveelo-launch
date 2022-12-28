@@ -34,6 +34,9 @@ const resolversComposition = {
 	"Mutation.updateProfile": [metrics(), loggedInOnlyAuth()],
 	//Upload Mutations
 	"Mutation.singleUpload": [metrics(), loggedInOnlyAuth()],
+	//Post Mutations
+	"Mutation.like": [metrics(), loggedInOnlyAuth()],
+	"Mutation.unlike": [metrics(), loggedInOnlyAuth()],
 };
 
 //compose the resolver map, send to index.ts, use in schema
